@@ -5,13 +5,13 @@ public class AstProgram extends AstNode
 	/****************/
 	/* DATA MEMBERS */
 	/****************/
-	public AstDec head;
-	public AstProgram tail;
+	public AstDec dec;
+	public AstProgram next;
 
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstProgram(AstDec head, AstProgram tail)
+	public AstProgram(AstDec dec, AstProgram next)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
@@ -21,14 +21,14 @@ public class AstProgram extends AstNode
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-		if (tail != null) System.out.print("====================== program -> dec program\n");
-		if (tail == null) System.out.print("====================== program -> dec      \n");
+		if (next != null) System.out.print("====================== program -> dec program \n"); // dec {dec}
+		if (next == null) System.out.print("====================== program -> dec     \n");
 
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
-		this.head = head;
-		this.tail = tail;
+		this.dec = dec;
+		this.next = next;
 	}
 
 	/******************************************************/
@@ -42,10 +42,10 @@ public class AstProgram extends AstNode
 		System.out.print("AST NODE PROGRAM\n");
 
 		/*************************************/
-		/* RECURSIVELY PRINT HEAD + TAIL ... */
+		/* RECURSIVELY PRINT DEC + NEXT ... */
 		/*************************************/
-		if (head != null) head.printMe();
-		if (tail != null) tail.printMe();
+		dec.printMe();
+		if (next != null) next.printMe();  // Note: we print the whole list of decs - not sure if needed
 
 		/**********************************/
 		/* PRINT to AST GRAPHVIZ DOT file */
@@ -57,7 +57,7 @@ public class AstProgram extends AstNode
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (head != null) AstGraphviz.getInstance().logEdge(serialNumber,head.serialNumber);
-		if (tail != null) AstGraphviz.getInstance().logEdge(serialNumber,tail.serialNumber);
+		AstGraphviz.getInstance().logEdge(serialNumber,dec.serialNumber);
+		if (next != null) AstGraphviz.getInstance().logEdge(serialNumber,next.serialNumber);
     }
 }
