@@ -122,11 +122,11 @@ non terminal AstExpList expList;
 /***********************/
 /* OPERATOR PRECEDENCE */
 /***********************/
-precedence ASSIGN;         		// :=
+precedence nonassoc ASSIGN;     // :=
 precedence left EQ;        		// =
-precedence left LT GT;     		// <, >
-precedence left PLUS MINUS;		// +, -
-precedence left TIMES DIVIDE;	// *, /
+precedence left LT, GT;     		// <, >
+precedence left PLUS, MINUS;		// +, -
+precedence left TIMES, DIVIDE;	// *, /
 precedence nonassoc LBRACK; 	// [
 precedence nonassoc LPAREN; 	// (
 precedence left DOT;        	// .
@@ -141,16 +141,16 @@ start with program;
 /********************/
 
 
-program		::= 	dec:d				{: RESULT = new AstProgram(d, null) :}
-          			| dec:d program:p	{: RESULT = new AstProgram(d, p)	:}
+program		::= 	dec:d				{: RESULT = new AstProgram(d, null); :}
+          			| dec:d program:p	{: RESULT = new AstProgram(d, p);	:}
           			;
 
 
 
-dec 		::= 	varDec:d				{: RESULT = new AstDecVar(d) 	:}
-					| funcDec:d				{: RESULT = new AstDecFunc(d)	:}
-					| classDec:d			{: RESULT = new AstDecClass(d) 	:}
-					| arrayTypedef:d		{: RESULT = new AstDecArray(d) 	:}
+dec 		::= 	varDec:d				{: RESULT = new AstDecVar(d); 	:}
+					| funcDec:d				{: RESULT = new AstDecFunc(d);	:}
+					| classDec:d			{: RESULT = new AstDecClass(d); :}
+					| arrayTypedef:d		{: RESULT = new AstDecArray(d); :}
 					;
 
 
@@ -168,6 +168,7 @@ varDec 		::= 	type:t ID:name SEMICOLON 					{: RESULT = new AstVarDeclaration(t,
 
 
 arg 		::= 	type:t ID:name				{: RESULT = new AstArg(t, name);	:}
+                    ;
 
 argsList	::=		arg:a						{: RESULT = new AstArgsList(a, null);	:}
 					| arg:a COMMA argsList:l	{: RESULT = new AstArgsList(a, l);		:}
@@ -200,7 +201,7 @@ arrayTypedef ::=	ARRAY ID:name EQ type:t LBRACK RBRACK SEMICOLON		{: RESULT = ne
 
 exp			::=		INT:i								{: RESULT = new AstExpInt(i);			:}
 					| MINUS INT:i 						{: RESULT = new AstExpNegInt(i);		:}
-					| STRING:s 							{: RESULT = new AstExpString(s)			:}
+					| STRING:s 							{: RESULT = new AstExpString(s);		:}
 					| NIL								{: RESULT = new AstExpNil();			:}
 					| var:v								{: RESULT = new AstExpVar(v);          	:}
 					| exp:e1 PLUS  exp:e2				{: RESULT = new AstExpBinop(e1, e2, 0);	:}
