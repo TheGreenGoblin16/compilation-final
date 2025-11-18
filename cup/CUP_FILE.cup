@@ -147,10 +147,10 @@ program		::= 	dec:d				{: RESULT = new AstProgram(d, null); :}
 
 
 
-dec 		::= 	varDec:d				{: RESULT = new AstDecVar(d); 	:}
-					| funcDec:d				{: RESULT = new AstDecFunc(d);	:}
-					| classDec:d			{: RESULT = new AstDecClass(d); :}
-					| arrayTypedef:d		{: RESULT = new AstDecArray(d); :}
+dec 		::= 	varDec:vd				{: RESULT = new AstDecVar(vd); 	:}
+					| funcDec:fd			{: RESULT = new AstDecFunc(fd);	:}
+					| classDec:cd			{: RESULT = new AstDecClass(cd); :}
+					| arrayTypedef:ad		{: RESULT = new AstDecArray(ad); :}
 					;
 
 
@@ -171,7 +171,7 @@ arg 		::= 	type:t ID:name				{: RESULT = new AstArg(t, name);	:}
                     ;
 
 argList		::=		arg:a						{: RESULT = new AstArgList(a, null);	:}
-					| arg:a COMMA argList:l	{: RESULT = new AstArgList(a, l);		:}
+					| arg:a COMMA argList:l		{: RESULT = new AstArgList(a, l);		:}
 					;
 
 
@@ -180,8 +180,8 @@ funcDec 	::= 	type:t ID:name LPAREN RPAREN LBRACE stmtList:body RBRACE					{: RE
 					;
 
 
-cField		::= 	varDec:d		{: RESULT = new AstCFieldVar(d);	:}
-					| funcDec:d		{: RESULT = new AstCFieldFunc(d);	:}
+cField		::= 	varDec:vd			{: RESULT = new AstCFieldVar(vd);	:}
+					| funcDec:fd		{: RESULT = new AstCFieldFunc(fd);	:}
 					;
 
 cFieldList 	::= 	cField:f						{: RESULT = new AstCFieldList(f, null);	:}
@@ -189,12 +189,12 @@ cFieldList 	::= 	cField:f						{: RESULT = new AstCFieldList(f, null);	:}
 					;
 
 
-classDec 	::= 	CLASS ID:name LBRACE cFieldList:l RBRACE						{: RESULT = new AstClassDec(name, null, l);		:}
-					| CLASS ID:name EXTENDS ID:parent LBRACE cFieldList:l RBRACE	{: RESULT = new AstClassDec(name, parent, l);	:}
+classDec 	::= 	CLASS ID:name LBRACE cFieldList:body RBRACE						{: RESULT = new AstClassDec(name, null, body);		:}
+					| CLASS ID:name EXTENDS ID:parent LBRACE cFieldList:body RBRACE	{: RESULT = new AstClassDec(name, parent, body);	:}
 					;
 
 
-arrayTypedef ::=	ARRAY ID:name EQ type:t LBRACK RBRACK SEMICOLON		{: RESULT = new AstArrayTypedef(name, t);	:}
+arrayTypedef ::=	ARRAY ID:name EQ type:t LBRACK RBRACK SEMICOLON		{: RESULT = new AstArrayTypedef(t, name);	:}
 					;
 
 
@@ -242,7 +242,7 @@ stmt		::=		var:v ASSIGN exp:e SEMICOLON								{: RESULT = new AstStmtAssign(v, 
 					| IF LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE		{: RESULT = new AstStmtIf(cond,body);	:}
 					| IF LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE ELSE LBRACE stmtList:elsebody RBRACE	{: RESULT = new AstStmtIfElse(cond,body, elsebody);:}
 					| WHILE LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AstStmtWhile(cond,body);:}
-					| varDec:d													{: RESULT = new AstStmtDec(d);			:}
+					| varDec:vd													{: RESULT = new AstStmtDec(vd);			:}
 					| RETURN exp:e SEMICOLON									{: RESULT = new AstStmtReturn(e);		:}
 					| RETURN SEMICOLON											{: RESULT = new AstStmtReturn(null);	:}
 					| callExp:e SEMICOLON										{: RESULT = new AstStmtCall(e);			:}

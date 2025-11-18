@@ -1,6 +1,6 @@
 package ast;
 
-public class AstExpList extends AstExp
+public class AstExpList extends AstNode
 {
 	public AstExp exp;
     public AstExpList next;

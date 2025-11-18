@@ -5,13 +5,13 @@ public class AstProgram extends AstNode
 	/****************/
 	/* DATA MEMBERS */
 	/****************/
-	public AstDec dec;
+	public AstCField dec;
 	public AstProgram next;
 
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstProgram(AstDec dec, AstProgram next)
+	public AstProgram(AstCField dec, AstProgram next)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
