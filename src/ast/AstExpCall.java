@@ -2,12 +2,12 @@ package ast;
 
 public class AstExpCall extends AstExp
 {
-	public AstCallExpression callexp;
+	public AstCallExp callexp;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstExpCall(AstCallExpression callexp)
+	public AstExpCall(AstCallExp callexp)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */

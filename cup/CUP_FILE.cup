@@ -161,22 +161,22 @@ type 		::=		TYPE_INT		{: RESULT = new AstType(null, 0);		:}
 					;
 
 
-varDec 		::= 	type:t ID:name SEMICOLON 					{: RESULT = new AstVarDeclaration(t, name, null);	:}
-					| type:t ID:name ASSIGN exp:e SEMICOLON		{: RESULT = new AstVarDeclaration(t, name, e);		:}
-					| type:t ID:name ASSIGN newExp:e SEMICOLON	{: RESULT = new AstVarDeclaration(t, name, e);		:}
+varDec 		::= 	type:t ID:name SEMICOLON 					{: RESULT = new AstVarDec(t, name, null);	:}
+					| type:t ID:name ASSIGN exp:e SEMICOLON		{: RESULT = new AstVarDec(t, name, e);		:}
+					| type:t ID:name ASSIGN newExp:e SEMICOLON	{: RESULT = new AstVarDec(t, name, e);		:}
 					;
 
 
 arg 		::= 	type:t ID:name				{: RESULT = new AstArg(t, name);	:}
                     ;
 
-argsList	::=		arg:a						{: RESULT = new AstArgsList(a, null);	:}
-					| arg:a COMMA argsList:l	{: RESULT = new AstArgsList(a, l);		:}
+argList		::=		arg:a						{: RESULT = new AstArgList(a, null);	:}
+					| arg:a COMMA argList:l	{: RESULT = new AstArgList(a, l);		:}
 					;
 
 
-funcDec 	::= 	type:t ID:name LPAREN RPAREN LBRACE stmtList:body RBRACE					{: RESULT = new AstFuncDeclaration(t, name, null, body);	:}
-					| type:t ID:name LPAREN argsList:l RPAREN LBRACE stmtList:body RBRACE		{: RESULT = new AstFuncDeclaration(t, name, l, body);		:}
+funcDec 	::= 	type:t ID:name LPAREN RPAREN LBRACE stmtList:body RBRACE					{: RESULT = new AstFuncDec(t, name, null, body);	:}
+					| type:t ID:name LPAREN argList:l RPAREN LBRACE stmtList:body RBRACE		{: RESULT = new AstFuncDec(t, name, l, body);		:}
 					;
 
 
@@ -189,14 +189,13 @@ cFieldList 	::= 	cField:f						{: RESULT = new AstCFieldList(f, null);	:}
 					;
 
 
-classDec 	::= 	CLASS ID:name LBRACE cFieldList:l RBRACE						{: RESULT = new AstClassDeclaration(name, null, l);		:}
-					| CLASS ID:name EXTENDS ID:parent LBRACE cFieldList:l RBRACE	{: RESULT = new AstClassDeclaration(name, parent, l);	:}
+classDec 	::= 	CLASS ID:name LBRACE cFieldList:l RBRACE						{: RESULT = new AstClassDec(name, null, l);		:}
+					| CLASS ID:name EXTENDS ID:parent LBRACE cFieldList:l RBRACE	{: RESULT = new AstClassDec(name, parent, l);	:}
 					;
 
 
 arrayTypedef ::=	ARRAY ID:name EQ type:t LBRACK RBRACK SEMICOLON		{: RESULT = new AstArrayTypedef(name, t);	:}
 					;
-// Waiting for answer in forum
 
 
 exp			::=		INT:i								{: RESULT = new AstExpInt(i);			:}
@@ -216,8 +215,8 @@ exp			::=		INT:i								{: RESULT = new AstExpInt(i);			:}
 					;
 
 
-newExp		::= 	NEW type:name						{: RESULT = new AstNewExpression(name, null);	:}
-					| NEW type:name LBRACE exp:e RBRACE	{: RESULT = new AstNewExpression(name, e);		:}
+newExp		::= 	NEW type:t							{: RESULT = new AstNewExp(t, null);	:}
+					| NEW type:t LBRACK exp:e RBRACK	{: RESULT = new AstNewExp(t, e);		:}
 					;
 
 
@@ -225,27 +224,27 @@ expList		::=		exp:e						{: RESULT = new AstExpList(e, null);	:}
 					| exp:e COMMA expList:l		{: RESULT = new AstExpList(e, l);		:}
 					;
 
-callExp 	::= 	var:v DOT ID:name LPAREN expList:l RPAREN		{: RESULT = new AstCallExpression(v, name, l);			:}
-					| var:v DOT ID:name LPAREN RPAREN				{: RESULT = new AstCallExpression(v, name, null);		:}
-					| ID:name LPAREN expList:l RPAREN				{: RESULT = new AstCallExpression(null, name, l);		:}
-					| ID:name LPAREN RPAREN							{: RESULT = new AstCallExpression(null, name, null);	:}
+callExp 	::= 	var:v DOT ID:name LPAREN expList:l RPAREN		{: RESULT = new AstCallExp(v, name, l);			:}
+					| var:v DOT ID:name LPAREN RPAREN				{: RESULT = new AstCallExp(v, name, null);		:}
+					| ID:name LPAREN expList:l RPAREN				{: RESULT = new AstCallExp(null, name, l);		:}
+					| ID:name LPAREN RPAREN							{: RESULT = new AstCallExp(null, name, null);	:}
 					;
 
 
 var			::=		ID:name								{: RESULT = new AstVarSimple(name);       :}
 					| var:v DOT ID:fieldName			{: RESULT = new AstVarField(v,fieldName); :}
-					| var:v LBRACE exp:e RBRACE			{: RESULT = new AstVarSubscript(v,e);     :}
+					| var:v LBRACK exp:e RBRACK			{: RESULT = new AstVarSubscript(v,e);     :}
 					;
 
 
-stmt		::=		var:v ASSIGN exp:e SEMICOLON								{: RESULT = new AstStmtAssign(v,e); 	:}
-					| IF    LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AstStmtIf(cond,body);	:}
+stmt		::=		var:v ASSIGN exp:e SEMICOLON								{: RESULT = new AstStmtAssign(v, e); 	:}
+					| var:v ASSIGN newExp:e SEMICOLON							{: RESULT = new AstStmtAssign(v, e); 	:}
+					| IF LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE		{: RESULT = new AstStmtIf(cond,body);	:}
 					| IF LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE ELSE LBRACE stmtList:elsebody RBRACE	{: RESULT = new AstStmtIfElse(cond,body, elsebody);:}
 					| WHILE LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AstStmtWhile(cond,body);:}
 					| varDec:d													{: RESULT = new AstStmtDec(d);			:}
 					| RETURN exp:e SEMICOLON									{: RESULT = new AstStmtReturn(e);		:}
 					| RETURN SEMICOLON											{: RESULT = new AstStmtReturn(null);	:}
-					| var:v ASSIGN newExp:e SEMICOLON							{: RESULT = new AstStmtAssign(v,e); 	:}
 					| callExp:e SEMICOLON										{: RESULT = new AstStmtCall(e);			:}
 					;
 

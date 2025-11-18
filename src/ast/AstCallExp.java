@@ -1,14 +1,15 @@
 package ast;
 
-public class AstNewExpression extends AstExp
+public class AstCallExp extends AstNode
 {
+	public AstVar var;
 	public String name;
-    public AstExp exp;
+	public AstExpList l;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstNewExpression(String name, AstExp exp)
+	public AstCallExp(AstVar var, String name, AstExpList l)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
@@ -18,14 +19,17 @@ public class AstNewExpression extends AstExp
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-        if (exp == null) System.out.format("====================== exp -> NEW %s ( )\n", name);
-        else System.out.format("====================== exp -> NEW %s ( %s )\n", name, exp);
+		if (l != null && var != null) System.out.format("====================== Callexp -> var ( %s ).ID( %s ) [ expList ](%s) \n", var, name, l);
+		if (l == null && var != null) System.out.format("====================== Callexp -> var ( %s ).ID( %s ) ( ) \n", var, name);
+		if (l != null && var == null) System.out.format("====================== Callexp -> ID( %s ) [ expList ](%s) \n", name, l);
+		if (l == null && var == null) System.out.format("====================== Callexp -> ID( %s ) ( ) \n", name);
 
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
+		this.var = var;
 		this.name = name;
-		this.exp = exp;
+		this.l = l;
 	}
 
 	/************************************************/
@@ -34,21 +38,15 @@ public class AstNewExpression extends AstExp
 	public void printMe()
 	{
 		/*******************************/
-		/* AST NODE TYPE = AST NEW EXPRESSION */
+		/* AST NODE TYPE = AST CALL EXP */
 		/*******************************/
-		System.out.format("AST NODE NEW EXPRESSION\n");
+		System.out.format("AST NODE CALL EXP\n");
 
 		/*********************************/
 		/* Print to AST GRAPHVIZ DOT file */
 		/*********************************/
 		AstGraphviz.getInstance().logNode(
 				serialNumber,
-			String.format("NEW %s", name));
-
-        
-		/****************************************/
-		/* PRINT Edges to AST GRAPHVIZ DOT file */
-		/****************************************/
-		AstGraphviz.getInstance().logEdge(serialNumber,exp.serialNumber);  // have no idea if this is correct
+			String.format("CALL EXP"));
 	}
 }
