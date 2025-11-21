@@ -18,8 +18,8 @@ public class AstNewExp extends AstExp
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-        if (exp == null) System.out.format("====================== exp -> NEW %s ( )\n", name);
-        else System.out.format("====================== exp -> NEW %s ( %s )\n", name, exp);
+        if (exp == null) System.out.println("====================== exp -> NEW type\n");
+        else System.out.println("====================== NEW type LBRACK exp RBRACK\n");
 
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
@@ -42,13 +42,14 @@ public class AstNewExp extends AstExp
 		/* Print to AST GRAPHVIZ DOT file */
 		/*********************************/
 		AstGraphviz.getInstance().logNode(
-				serialNumber,
-			String.format("NEW %s", t));
-
+			serialNumber,
+			"NEW\nEXPRESSION\n"
+		);
         
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		AstGraphviz.getInstance().logEdge(serialNumber,exp.serialNumber);  // have no idea if this is correct
+		if (t != null) AstGraphviz.getInstance().logEdge(serialNumber,t.serialNumber);  // have no idea if this is correct
+		if (exp != null) AstGraphviz.getInstance().logEdge(serialNumber,exp.serialNumber);  // have no idea if this is correct
 	}
 }
