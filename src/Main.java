@@ -3,7 +3,6 @@ import java.io.PrintWriter;
 import java_cup.runtime.Symbol;
 import ast.*;
 
-//import java_cup.Lexer;
 
 public class Main
 {
@@ -16,9 +15,7 @@ public class Main
 		FileReader fileReader;
 		PrintWriter fileWriter = null;
 		String inputFileName = argv[0];
-		//String outputFileName = argv[1];
-		//String inputFileName = "input/TEST_01_Print_Primes.txt";
-		String outputFileName = "output/ParseStatus.txt";
+		String outputFileName = argv[1];
 		
 		try
 		{
