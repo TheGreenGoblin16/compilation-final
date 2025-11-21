@@ -1,13 +1,13 @@
 package ast;
 
-public class ActCFieldFunc extends AstCField
+public class AstCFieldFunc extends AstCField
 {
     public AstFuncDec funcdec;
 
     /******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-    public ActCFieldFunc(AstFuncDec funcdec) {
+    public AstCFieldFunc(AstFuncDec funcdec) {
         /******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -46,9 +46,9 @@ public class ActCFieldFunc extends AstCField
 			serialNumber,
 			"CFIELD\nFUNC\n");
 
-		/****************************************/
+		/****************************************/ 
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
-		/****************************************/
+		/****************************************/ 
 		if (funcdec != null) AstGraphviz.getInstance().logEdge(serialNumber, funcdec.serialNumber);
 	}
 }

@@ -5,7 +5,7 @@ public class AstProgram extends AstNode
 	/****************/
 	/* DATA MEMBERS */
 	/****************/
-	public AstCField dec;
+	public AstCField dec; // excuse me?
 	public AstProgram next;
 
 	/******************/

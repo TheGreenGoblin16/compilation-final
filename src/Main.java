@@ -3,7 +3,7 @@ import java.io.PrintWriter;
 import java_cup.runtime.Symbol;
 import ast.*;
 
-import java_cup.Lexer;
+//import java_cup.Lexer;
 
 public class Main
 {
@@ -45,7 +45,7 @@ public class Main
 			/***********************************/
 			/* [5] 3 ... 2 ... 1 ... Parse !!! */
 			/***********************************/
-			ast = (AstStmtList) p.parse().value;
+			ast = (AstProgram) p.parse().value;
 
 			fileWriter.print("OK");
 			
