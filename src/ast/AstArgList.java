@@ -3,12 +3,12 @@ package ast;
 public class AstArgList extends AstNode
 {
 	public AstArg arg;
-    public AstCFieldList next;
+    public AstArgList next;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstArgList(AstArg arg, AstCFieldList next)
+	public AstArgList(AstArg arg, AstArgList next)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */

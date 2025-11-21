@@ -15,9 +15,9 @@ public class Main
 		AstProgram ast;
 		FileReader fileReader;
 		PrintWriter fileWriter = null;
-		//String inputFileName = argv[0];
+		String inputFileName = argv[0];
 		//String outputFileName = argv[1];
-		String inputFileName = "input/input.txt";
+		//String inputFileName = "input/TEST_01_Print_Primes.txt";
 		String outputFileName = "output/ParseStatus.txt";
 		
 		try
@@ -61,7 +61,7 @@ public class Main
 			AstGraphviz.getInstance().finalizeFile();
     	}
 			     
-		catch (Exception e)
+		catch (Throwable e)
 		{
 			if (e.getMessage() != null && e.getMessage().startsWith("SYNTAX_ERROR"))
 			{

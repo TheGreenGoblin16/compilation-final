@@ -2,12 +2,12 @@ package ast;
 
 public class AstStmtDec extends AstStmt
 {
-    public AstClassDec d;
+    public AstVarDec d;
 
     /*******************/
     /* CONSTRUCTOR(S) */
     /*******************/
-    public AstStmtDec(AstClassDec d)
+    public AstStmtDec(AstVarDec d)
     {
         /******************************/
         /* SET A UNIQUE SERIAL NUMBER */

@@ -4,13 +4,13 @@ public class AstFuncDec extends AstNode
 {
     AstType type;
     String name;
-	AstCFieldList arglist;
+	AstArgList arglist;
 	AstStmtList body;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstFuncDec(AstType type, String name, AstCFieldList arglist, AstStmtList body)
+	public AstFuncDec(AstType type, String name, AstArgList arglist, AstStmtList body)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */

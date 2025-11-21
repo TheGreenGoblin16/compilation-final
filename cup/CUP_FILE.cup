@@ -108,7 +108,7 @@ non terminal AstClassDec classDec;
 non terminal AstCField cField;
 non terminal AstArrayTypedef arrayTypedef;
 non terminal AstExp exp;
-non terminal AstNewExpression newExp;
+non terminal AstNewExp newExp;
 non terminal AstCallExp callExp;
 non terminal AstVar var;
 non terminal AstStmt stmt;
