@@ -6,23 +6,27 @@ import ast.*;
 
 parser code 
 {:
-	public Lexer lexer;
+   public Lexer lexer;
 
-	public Parser(Lexer lexer)
-	{
-		super(lexer);
-		this.lexer = lexer;
-	}
-	public void report_error(String message, Object info)
-	{
-		System.out.print("ERROR >> ");		
-		System.out.print("[");
-		System.out.print(lexer.getLine());
-		System.out.print(":");
-		System.out.print(lexer.getTokenStartPosition());
-		System.out.print("] ");		
-		System.exit(0);
-	}
+   public Parser(Lexer lexer)
+   {
+      super(lexer);
+      this.lexer = lexer;
+   }
+
+   // Override report_error to throw an exception instead of printing/exiting
+   public void report_error(String message, Object info)
+   {
+      // We throw a RuntimeException with a specific prefix to identify it in Main
+      // We use lexer.getLine() as the location
+      throw new RuntimeException("SYNTAX_ERROR(" + lexer.getLine() + ")");
+   }
+
+   // Override report_fatal_error to ensure the same behavior
+   public void report_fatal_error(String message, Object info)
+   {
+      report_error(message, info);
+   }
 :}
 
 /************************/

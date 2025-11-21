@@ -10,9 +10,9 @@ public class Main
 		Lexer l;
 		Parser p;
 		Symbol s;
-		AstStmtList ast;
+		AstProgram ast;
 		FileReader fileReader;
-		PrintWriter fileWriter;
+		PrintWriter fileWriter = null;
 		String inputFileName = argv[0];
 		String outputFileName = argv[1];
 		
@@ -42,16 +42,14 @@ public class Main
 			/* [5] 3 ... 2 ... 1 ... Parse !!! */
 			/***********************************/
 			ast = (AstStmtList) p.parse().value;
+
+			fileWriter.print("OK");
 			
 			/*************************/
 			/* [6] Print the AST ... */
 			/*************************/
 			ast.printMe();
-			
-			/*************************/
-			/* [7] Close output file */
-			/*************************/
-			fileWriter.close();
+
 			
 			/*************************************/
 			/* [8] Finalize AST GRAPHIZ DOT file */
@@ -61,7 +59,26 @@ public class Main
 			     
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (e.getMessage() != null && e.getMessage().startsWith("SYNTAX_ERROR"))
+			{
+				// Extract "SYNTAX_ERROR(5)" -> "ERROR(5)"
+				String msg = e.getMessage().replace("SYNTAX_", "");
+				fileWriter.print(msg);
+			}
+			else
+			{
+				fileWriter.print("ERROR");
+			}
+		}
+		finally
+		{
+			/*************************/
+			/* [8] Close output file */
+			/*************************/
+			if (fileWriter != null)
+			{
+				fileWriter.close();
+			}
 		}
 	}
 }
