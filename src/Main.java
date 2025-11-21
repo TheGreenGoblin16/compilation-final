@@ -16,6 +16,7 @@ public class Main
 		PrintWriter fileWriter = null;
 		String inputFileName = argv[0];
 		String outputFileName = argv[1];
+		boolean parsingSuccessful = false;
 		
 		try
 		{
@@ -43,6 +44,7 @@ public class Main
 			/* [5] 3 ... 2 ... 1 ... Parse !!! */
 			/***********************************/
 			ast = (AstProgram) p.parse().value;
+			parsingSuccessful = true;
 
 			fileWriter.print("OK");
 			
@@ -66,7 +68,7 @@ public class Main
 				String msg = e.getMessage().replace("SYNTAX_", "");
 				fileWriter.print(msg);
 			}
-			else
+			else if (parsingSuccessful == false)
 			{
 				fileWriter.print("ERROR");
 			}
