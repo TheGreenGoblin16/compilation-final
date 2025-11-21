@@ -8,7 +8,7 @@ public class AstNewExp extends AstExp
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstNewExp(String t, AstExp exp)
+	public AstNewExp(AstType t, AstExp exp)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */

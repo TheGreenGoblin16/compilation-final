@@ -3,6 +3,8 @@ import java.io.PrintWriter;
 import java_cup.runtime.Symbol;
 import ast.*;
 
+import java_cup.Lexer;
+
 public class Main
 {
 	static public void main(String argv[])
@@ -13,8 +15,10 @@ public class Main
 		AstProgram ast;
 		FileReader fileReader;
 		PrintWriter fileWriter = null;
-		String inputFileName = argv[0];
-		String outputFileName = argv[1];
+		//String inputFileName = argv[0];
+		//String outputFileName = argv[1];
+		String inputFileName = "input/input.txt";
+		String outputFileName = "output/ParseStatus.txt";
 		
 		try
 		{

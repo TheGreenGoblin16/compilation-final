@@ -4,12 +4,12 @@ public class AstCallExp extends AstNode
 {
 	public AstVar var;
 	public String name;
-	public AstArglist l;
+	public AstArgList l;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstCallExp(AstVar var, String name, AstArglist l)
+	public AstCallExp(AstVar var, String name, AstArgList l)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
