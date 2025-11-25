@@ -73,19 +73,19 @@ import java_cup.runtime.*;
 /***********************/
 /* MACRO DECLARATIONS */
 /***********************/
-LETTER			= [a-zA-Z]
-DIGIT			= [0-9]
+Letter			= [a-zA-Z]
+Digit			= [0-9]
 LineTerminator	= \r|\n|\r\n
 
 WhiteSpace		= {LineTerminator} | [ \t\f]
 WhiteSpaceNoLineTerminator = [ \t\f]
-CommentType1Allowed = ({WhiteSpaceNoLineTerminator}|{LETTER}|{DIGIT}|\(|\)|\[|\]|\{|\}|\?|\!|\+|-|\*|\/|\.|;)
+CommentType1Allowed = ({WhiteSpaceNoLineTerminator}|{Letter}|{Digit}|\(|\)|\[|\]|\{|\}|\?|\!|\+|-|\*|\/|\.|;)
 CommentType2Allowed = ({CommentType1Allowed}|{LineTerminator})
 
-INTEGER			= 0 | [1-9]{DIGIT}*
-LEADING_ZERO_NUM = 0{DIGIT}+
-ID				= {LETTER}({LETTER}|{DIGIT})*
-STRING			= \"{LETTER}*\"
+INTEGER			= 0 | [1-9]{Digit}*
+LEADING_ZERO 	= 0{Digit}+
+ID				= {Letter}({Letter}|{Digit})*
+STRING			= \"{Letter}*\"
 COMMENT_TYPE1	= \/\/{CommentType1Allowed}*{LineTerminator}
 
 
@@ -133,7 +133,7 @@ COMMENT_TYPE1	= \/\/{CommentType1Allowed}*{LineTerminator}
 "extends"			{ return symbol(TokenNames.EXTENDS);}
 "nil"				{ return symbol(TokenNames.NIL);}
 {INTEGER}			{ if (Integer.valueOf(yytext()) > 32767) throw new Error(); else return symbol(TokenNames.INT, Integer.valueOf(yytext()));}
-{LEADING_ZERO_NUM} { throw new Error("Numbers cannot have leading zeros."); }
+{LEADING_ZERO} 		{ throw new Error("Numbers cannot have leading zeros."); }
 {STRING}			{ return symbol(TokenNames.STRING, yytext().substring(1, yylength() - 1));}
 {ID}				{ return symbol(TokenNames.ID,     yytext());}
 {WhiteSpace}		{ /* just skip what was found, do nothing */ }
