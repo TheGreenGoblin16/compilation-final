@@ -115,7 +115,7 @@ non terminal AstStmt stmt;
 
 
 
-/*we added these non terminals: */
+/* We added these non terminals: */
 
 non terminal AstArg arg;
 non terminal AstArgList argList;
