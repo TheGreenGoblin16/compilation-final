@@ -220,7 +220,7 @@ exp			::=		INT:i								{: RESULT = new AstExpInt(i);			:}
 
 
 newExp		::= 	NEW type:t							{: RESULT = new AstNewExp(t, null);	:}
-					| NEW type:t LBRACK exp:e RBRACK	{: RESULT = new AstNewExp(t, e);		:}
+					| NEW type:t LBRACK exp:e RBRACK	{: RESULT = new AstNewExp(t, e);	:}
 					;
 
 
