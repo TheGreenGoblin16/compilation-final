@@ -5,7 +5,7 @@ public class TypeClass extends Type
 	/*********************************************************************/
 	/* If this class does not extend a father class this should be null  */
 	/*********************************************************************/
-	public TypeClass father;
+	public TypeClass parent;
 
 	/**************************************************/
 	/* Gather up all data members in one place        */
@@ -17,10 +17,10 @@ public class TypeClass extends Type
 	/****************/
 	/* CTROR(S) ... */
 	/****************/
-	public TypeClass(TypeClass father, String name, TypeList dataMembers)
+	public TypeClass(TypeClass parent, String name, TypeList dataMembers)
 	{
 		this.name = name;
-		this.father = father;
+		this.parent = parent;
 		this.dataMembers = dataMembers;
 	}
 }

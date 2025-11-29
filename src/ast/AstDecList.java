@@ -1,28 +1,28 @@
 package ast;
 
-public class AstExpNegInt extends AstExp
+import types.*;
+import symboltable.*;
+
+public class AstDecList extends AstNode
 {
-	public int value;
+	public AstDec head;
+    public AstDecList tail;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstExpNegInt(int value)
+	public AstDecList(AstDec head, AstDecList tail)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
 		serialNumber = AstNodeSerialNumber.getFresh();
 
-		/***************************************/
-		/* PRINT CORRESPONDING DERIVATION RULE */
-		/***************************************/
-		System.out.format("====================== exp -> INT( -%d )\n", value);
-
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
-		this.value = value;
+		this.head = head;
+        this.tail = tail;
 	}
 
 	/************************************************/
@@ -31,15 +31,21 @@ public class AstExpNegInt extends AstExp
 	public void printMe()
 	{
 		/*******************************/
-		/* AST NODE TYPE = AST NEGATIVE INT EXP */
+		/* AST NODE TYPE = AST EXP LIST */
 		/*******************************/
-		System.out.format("AST NODE INT( -%d )\n",value);
+		System.out.format("AST NODE CFIELD LIST\n");
 
 		/*********************************/
 		/* Print to AST GRAPHVIZ DOT file */
 		/*********************************/
 		AstGraphviz.getInstance().logNode(
-				serialNumber,
-			String.format("INT(-%d)",value));
+			serialNumber,
+			String.format("DEC\nLIST\n"));
+
+		/****************************************/
+		/* PRINT Edges to AST GRAPHVIZ DOT file */
+		/****************************************/
+		if (head != null) AstGraphviz.getInstance().logEdge(serialNumber,head.serialNumber);
+        if (tail != null) AstGraphviz.getInstance().logEdge(serialNumber,tail.serialNumber);
 	}
 }

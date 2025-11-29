@@ -1,26 +1,23 @@
 package ast;
 
-public class AstClassDec extends AstNode
+import types.*;
+import symboltable.*;
+
+public class AstClassDec extends AstDec
 {
     String name;
     String parent;
-	AstCFieldList body;
+	AstDecList body;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstClassDec(String name, String parent, AstCFieldList body)
+	public AstClassDec(String name, String parent, AstDecList body)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
 		serialNumber = AstNodeSerialNumber.getFresh();
-
-		/***************************************/
-		/* PRINT CORRESPONDING DERIVATION RULE */
-		/***************************************/
-		if (parent != null) System.out.print("====================== classDec -> CLASS ID EXTENDS ID LBRACE cFieldList RBRACE\n");
-		if (parent == null) System.out.print("====================== classDec -> CLASS ID LBRACE cFieldList RBRACE\n");
 
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
@@ -38,7 +35,7 @@ public class AstClassDec extends AstNode
 		/*************************************/
 		/* AST NODE TYPE = AST BINOP EXP */
 		/*************************************/
-		System.out.print("AST NODE CLASS DECLARATION\n");
+		System.out.format("CLASS DEC = %s\n",name);
 
 		/**************************************/
 		/* RECURSIVELY PRINT left + right ... */
@@ -50,11 +47,38 @@ public class AstClassDec extends AstNode
 		/***************************************/
 		if (name != null) AstGraphviz.getInstance().logNode(
 			serialNumber,
-			String.format("CLASS\nDECLARATION\n(%s)\n", name));
+			String.format("CLASS\n%s",name));
 		
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
 		if (body != null) AstGraphviz.getInstance().logEdge(serialNumber,body.serialNumber);
+	}
+	public Type semantMe()
+	{	
+		/*************************/
+		/* [1] Begin Class Scope */
+		/*************************/
+		SymbolTable.getInstance().beginScope();
+
+		/***************************/
+		/* [2] Semant Data Members */
+		/***************************/
+		TypeClass t = new TypeClass(parent, name, body.semantMe());
+
+		/*****************/
+		/* [3] End Scope */
+		/*****************/
+		SymbolTable.getInstance().endScope();
+
+		/************************************************/
+		/* [4] Enter the Class Type to the Symbol Table */
+		/************************************************/
+		SymbolTable.getInstance().enter(name,t);
+
+		/*********************************************************/
+		/* [5] Return value is irrelevant for class declarations */
+		/*********************************************************/
+		return null;		
 	}
 }

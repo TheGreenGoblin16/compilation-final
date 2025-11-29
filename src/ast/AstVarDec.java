@@ -1,10 +1,13 @@
 package ast;
 
-public class AstVarDec extends AstNode
+import types.*;
+import symboltable.*;
+
+public class AstVarDec extends AstDec
 {
-    AstType type;
-    String name;
-	AstExp exp;
+    public AstType type;
+    public String name;
+	public AstExp exp;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -15,12 +18,6 @@ public class AstVarDec extends AstNode
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
 		serialNumber = AstNodeSerialNumber.getFresh();
-
-		/***************************************/
-		/* PRINT CORRESPONDING DERIVATION RULE */
-		/***************************************/
-		if (exp != null) System.out.print("====================== varDec -> type ID ASSIGN exp SEMICOLON\n");
-		if (exp != null) System.out.print("====================== varDec -> type ID SEMICOLON\n");
 
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
@@ -38,7 +35,9 @@ public class AstVarDec extends AstNode
 		/*************************************/
 		/* AST NODE TYPE = AST BINOP EXP */
 		/*************************************/
-		System.out.print("AST NODE VAR DECLARATION\n");
+		if (exp != null) System.out.format("VAR-DEC(%s):%s := initialValue\n",name,type.toString());
+		if (exp == null) System.out.format("VAR-DEC(%s):%s                \n",name,type.toString());
+
 
 		/**************************************/
 		/* RECURSIVELY PRINT left + right ... */
@@ -51,12 +50,52 @@ public class AstVarDec extends AstNode
 		/***************************************/
 		if (name != null) AstGraphviz.getInstance().logNode(
 			serialNumber,
-			String.format("VAR\nDECLARATION\n(%s)\n", name));
+			String.format("VAR\nDEC(%s)\n:%s",name,type.typeName));
 		
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
 		if (type != null) AstGraphviz.getInstance().logEdge(serialNumber,type.serialNumber);
 		if (exp != null) AstGraphviz.getInstance().logEdge(serialNumber,exp.serialNumber);
+	}
+	public Type semantMe()
+	{
+		Type t, e;
+	
+		/****************************/
+		/* [1] Check If Type exists */
+		/****************************/
+		t = SymbolTable.getInstance().find(type.typeName);
+		if (t == null)
+		{
+			System.out.format(">> ERROR [%d:%d] non existing type %s\n",2,2,type.typeName);
+			System.exit(0);
+		}
+		
+		/**************************************/
+		/* [2] Check That Name does NOT exist */
+		/**************************************/
+		if (SymbolTable.getInstance().find(name) != null)
+		{
+			System.out.format(">> ERROR [%d:%d] variable %s already exists in scope\n",2,2,name);				
+		}
+
+		/************************************************/
+		/* [3] Enter the Identifier to the Symbol Table */
+		/************************************************/
+
+		e = SymbolTable.getInstance().find(exp.type.typeName);
+		if (t != e || e == null)
+		{
+			System.out.format(">> ERROR [%d:%d] expretion type %s does not match variable type%s\n",2,2,exp.type.typeName);
+			System.exit(0);
+		}
+
+		SymbolTable.getInstance().enter(name,t);
+
+		/************************************************************/
+		/* [4] Return value is irrelevant for variable declarations */
+		/************************************************************/
+		return null;
 	}
 }

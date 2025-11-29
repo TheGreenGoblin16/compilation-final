@@ -119,7 +119,7 @@ non terminal AstStmt stmt;
 
 non terminal AstArg arg;
 non terminal AstArgList argList;
-non terminal AstCFieldList cFieldList;
+non terminal AstDecList cFieldList;
 non terminal AstExpList expList;
 
 
@@ -145,23 +145,25 @@ start with program;
 /********************/
 
 
-program		::= 	dec:d				{: RESULT = new AstProgram(d, null); :}
-          			| dec:d program:p	{: RESULT = new AstProgram(d, p);	:}
+program		::= 	dec:d				{: RESULT = new AstDecList(d, null); :}
+          			| dec:d program:l	{: RESULT = new AstDecList(d, l);	:}
           			;
 
 
 
-dec 		::= 	varDec:vd				{: RESULT = new AstDecVar(vd); 	:}
-					| funcDec:fd			{: RESULT = new AstDecFunc(fd);	:}
-					| classDec:cd			{: RESULT = new AstDecClass(cd); :}
-					| arrayTypedef:ad		{: RESULT = new AstDecArray(ad); :}
+dec 		::= 	varDec:d				{: RESULT = d; 	:}
+					| funcDec:d				{: RESULT = d;	:}
+					| classDec:d			{: RESULT = d; 	:}
+					| arrayTypedef:d		{: RESULT = d; 	:}
 					;
 
+/* VarDec - V, FuncDec - V, ClassDec - V, ArrayTypedef - (I think DELETE) inherit Dec */
 
-type 		::=		TYPE_INT		{: RESULT = new AstType(null, 0);		:}
-					| TYPE_STRING	{: RESULT = new AstType(null, 1);		:}
-					| TYPE_VOID		{: RESULT = new AstType(null, 2);		:}
-					| ID:typeName	{: RESULT = new AstType(typeName, 3);	:}
+
+type 		::=		TYPE_INT		{: RESULT = new AstType("int");		:}
+					| TYPE_STRING	{: RESULT = new AstType("string");	:}
+					| TYPE_VOID		{: RESULT = new AstType("void);		:}
+					| ID:typeName	{: RESULT = new AstType(typeName);	:}
 					;
 
 
@@ -184,12 +186,12 @@ funcDec 	::= 	type:t ID:name LPAREN RPAREN LBRACE stmtList:body RBRACE					{: RE
 					;
 
 
-cField		::= 	varDec:vd			{: RESULT = new AstCFieldVar(vd);	:}
-					| funcDec:fd		{: RESULT = new AstCFieldFunc(fd);	:}
+cField		::= 	varDec:d			{: RESULT = d;	:}
+					| funcDec:d			{: RESULT = d;	:}
 					;
 
-cFieldList 	::= 	cField:f						{: RESULT = new AstCFieldList(f, null);	:}
-					| cField:f cFieldList:l			{: RESULT = new AstCFieldList(f, l);	:}
+cFieldList 	::= 	cField:d						{: RESULT = new AstDecList(d, null);	:}
+					| cField:d cFieldList:l			{: RESULT = new AstDecList(d, l);	:}
 					;
 
 
@@ -198,12 +200,12 @@ classDec 	::= 	CLASS ID:name LBRACE cFieldList:body RBRACE						{: RESULT = new 
 					;
 
 
-arrayTypedef ::=	ARRAY ID:name EQ type:t LBRACK RBRACK SEMICOLON		{: RESULT = new AstArrayTypedef(t, name);	:}
+arrayTypedef ::=	ARRAY ID:typeName EQ type:t LBRACK RBRACK SEMICOLON		{: RESULT = new AstArrayTypedef(typeName, t);	:}
 					;
 
 
 exp			::=		INT:i								{: RESULT = new AstExpInt(i);			:}
-					| MINUS INT:i 						{: RESULT = new AstExpNegInt(i);		:}
+					| MINUS INT:i 						{: RESULT = new AstNegInt(-i);			:}
 					| STRING:s 							{: RESULT = new AstExpString(s);		:}
 					| NIL								{: RESULT = new AstExpNil();			:}
 					| var:v								{: RESULT = new AstExpVar(v);          	:}
@@ -214,8 +216,8 @@ exp			::=		INT:i								{: RESULT = new AstExpInt(i);			:}
 					| exp:e1 LT exp:e2					{: RESULT = new AstExpBinop(e1, e2, 4);	:}
 					| exp:e1 GT exp:e2					{: RESULT = new AstExpBinop(e1, e2, 5);	:}
 					| exp:e1 EQ exp:e2					{: RESULT = new AstExpBinop(e1, e2, 6);	:}
-					| LPAREN exp:e RPAREN				{: RESULT = new AstExpParentheses(e);	:}
-					| callExp:e							{: RESULT = new AstExpCall(e);			:}
+					| LPAREN exp:e RPAREN				{: RESULT = e;							:}
+					| callExp:e							{: RESULT = e;							:}
 					;
 
 
@@ -246,7 +248,7 @@ stmt		::=		var:v ASSIGN exp:e SEMICOLON								{: RESULT = new AstStmtAssign(v, 
 					| IF LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE		{: RESULT = new AstStmtIf(cond,body);	:}
 					| IF LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE ELSE LBRACE stmtList:elsebody RBRACE	{: RESULT = new AstStmtIfElse(cond,body, elsebody);:}
 					| WHILE LPAREN exp:cond RPAREN LBRACE stmtList:body RBRACE	{: RESULT = new AstStmtWhile(cond,body);:}
-					| varDec:vd													{: RESULT = new AstStmtDec(vd);			:}
+					| varDec:d													{: RESULT = new AstStmtDec(d);			:}
 					| RETURN exp:e SEMICOLON									{: RESULT = new AstStmtReturn(e);		:}
 					| RETURN SEMICOLON											{: RESULT = new AstStmtReturn(null);	:}
 					| callExp:e SEMICOLON										{: RESULT = new AstStmtCall(e);			:}

@@ -1,11 +1,14 @@
 package ast;
 
-public class AstFuncDec extends AstNode
+import types.*;
+import symboltable.*;
+
+public class AstFuncDec extends AstDec
 {
-    AstType type;
-    String name;
-	AstArgList arglist;
-	AstStmtList body;
+    public AstType type;
+    public String name;
+	public AstArgList arglist;
+	public AstStmtList body;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -16,11 +19,6 @@ public class AstFuncDec extends AstNode
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
 		serialNumber = AstNodeSerialNumber.getFresh();
-
-		/***************************************/
-		/* PRINT CORRESPONDING DERIVATION RULE */
-		/***************************************/
-		System.out.print("====================== funcDec- -> type ID LPAREN argList RPAREN LBRACE stmtList RBRACE\n");
 
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
@@ -39,7 +37,7 @@ public class AstFuncDec extends AstNode
 		/*************************************/
 		/* AST NODE TYPE = AST BINOP EXP */
 		/*************************************/
-		System.out.print("AST NODE FUNC DECLARATION\n");
+		System.out.format("FUNC(%s):%s\n",name,type.toString());
 
 		/**************************************/
 		/* RECURSIVELY PRINT left + right ... */
@@ -53,7 +51,7 @@ public class AstFuncDec extends AstNode
 		/***************************************/
 		if (name != null) AstGraphviz.getInstance().logNode(
 			serialNumber,
-			String.format("FUNC\nDECLARATION\n(%s)\n", name));
+			String.format("FUNC(%s):%s\n",name,type.typeName));
 		
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
@@ -61,5 +59,64 @@ public class AstFuncDec extends AstNode
 		if (type != null) AstGraphviz.getInstance().logEdge(serialNumber,type.serialNumber);
 		if (arglist != null) AstGraphviz.getInstance().logEdge(serialNumber,arglist.serialNumber);
 		if (body != null) AstGraphviz.getInstance().logEdge(serialNumber,body.serialNumber);
+	}
+
+
+	public Type semantMe()
+	{
+		Type t;
+		Type returnType = null;
+		TypeList type_list = null;
+
+		/*******************/
+		/* [0] return type */
+		/*******************/
+		returnType = SymbolTable.getInstance().find(type.typeName);
+		if (returnType == null)
+		{
+			System.out.format(">> ERROR [%d:%d] non existing return type %s\n",6,6,type.typeName);				
+		}
+	
+		/****************************/
+		/* [1] Begin Function Scope */
+		/****************************/
+		SymbolTable.getInstance().beginScope();
+
+		/***************************/
+		/* [2] Semant Input Params */
+		/***************************/
+		for (AstTypeNameList it = arglist; it  != null; it = it.tail)
+		{
+			t = SymbolTable.getInstance().find(it.head.type);
+			if (t == null)
+			{
+				System.out.format(">> ERROR [%d:%d] non existing type %s\n",2,2,it.head.type.typeName);				
+			}
+			else
+			{
+				type_list = new TypeList(t,type_list);
+				SymbolTable.getInstance().enter(it.head.name,t);
+			}
+		}
+
+		/*******************/
+		/* [3] Semant Body */
+		/*******************/
+		body.semantMe();
+
+		/*****************/
+		/* [4] End Scope */
+		/*****************/
+		SymbolTable.getInstance().endScope();
+
+		/***************************************************/
+		/* [5] Enter the Function Type to the Symbol Table */
+		/***************************************************/
+		SymbolTable.getInstance().enter(name,new TypeFunction(returnType,name,type_list));
+
+		/************************************************************/
+		/* [6] Return value is irrelevant for function declarations */
+		/************************************************************/
+		return null;		
 	}
 }

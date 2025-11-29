@@ -2,13 +2,13 @@ package ast;
 
 public class AstArgList extends AstNode
 {
-	public AstArg arg;
-    public AstArgList next;
+	public AstArg head;
+    public AstArgList tail;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstArgList(AstArg arg, AstArgList next)
+	public AstArgList(AstArg head, AstArgList tail)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
@@ -18,14 +18,14 @@ public class AstArgList extends AstNode
 		/***************************************/
 		/* PRINT CORRESPONDING DERIVATION RULE */
 		/***************************************/
-		if (next != null) System.out.print("====================== argList -> arg argList\n");
-		if (next == null) System.out.print("====================== argList -> arg     \n");
+		if (tail != null) System.out.print("====================== argList -> arg argList\n");
+		if (tail == null) System.out.print("====================== argList -> arg     \n");
 
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
-		this.arg = arg;
-        this.next = next;
+		this.arg = head;
+        this.tail = tail;
 	}
 
 	/************************************************/
@@ -48,7 +48,7 @@ public class AstArgList extends AstNode
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (arg != null) AstGraphviz.getInstance().logEdge(serialNumber,arg.serialNumber);
-        if (next != null) AstGraphviz.getInstance().logEdge(serialNumber,next.serialNumber);
+		if (head != null) AstGraphviz.getInstance().logEdge(serialNumber,head.serialNumber);
+        if (tail != null) AstGraphviz.getInstance().logEdge(serialNumber,tail.serialNumber);
 	}
 }
