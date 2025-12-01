@@ -1,5 +1,8 @@
 package ast;
 
+import types.*;
+import symboltable.*;
+
 public class AstVarField extends AstVar
 {
 	public AstVar var;
@@ -54,5 +57,53 @@ public class AstVarField extends AstVar
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
 		if (var != null) AstGraphviz.getInstance().logEdge(serialNumber,var.serialNumber);
+	}
+
+	public Type semantMe()
+	{
+		Type t = null;
+
+		/******************************/
+		/* [1] Recursively semant var */
+		/******************************/
+		if (var != null) t = var.semantMe();
+
+		/*********************************/
+		/* [2] Make sure type is a class */
+		/*********************************/
+		if (t == null || t.isClass() == false)
+		{
+			System.out.format(">> ERROR [%d:%d] access %s field of a non-class variable\n",0,0,fieldName);
+			System.exit(0);
+		}
+
+		// Cast to TypeClass to access fields and hierarchy
+		TypeClass tc = (TypeClass) t;
+
+		/**************************************************************/
+		/* [3] Look for fieldName inside tc, or its superclasses      */
+		/**************************************************************/
+		while (tc != null)
+		{
+			// Iterate over the data members of the current class in the hierarchy
+			for (TypeList it = tc.dataMembers; it != null; it = it.tail)
+			{
+				// Check if the member name matches the requested fieldName
+				if (it.head.name.equals(fieldName))
+				{
+					return it.head;
+				}
+			}
+
+			// If not found in this class, move up to the father class
+			tc = tc.parent;
+		}
+
+		/*********************************************/
+		/* [4] fieldName does not exist in hierarchy */
+		/*********************************************/
+		System.out.format(">> ERROR [%d:%d] field %s does not exist in class %s or its superclasses\n",0,0,fieldName, t.name);
+		System.exit(0);
+		return null;
 	}
 }
