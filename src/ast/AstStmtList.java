@@ -60,5 +60,18 @@ public class AstStmtList extends AstNode
 		if (head != null) AstGraphviz.getInstance().logEdge(serialNumber,head.serialNumber);
 		if (tail != null) AstGraphviz.getInstance().logEdge(serialNumber,tail.serialNumber);
 	}
+
+	public Type semantMe()
+	{
+		/*************************************/
+		/* RECURSIVELY SEMANT HEAD + TAIL ... */
+		/* We simply execute the statements  */
+		/* one by one.                       */
+		/*************************************/
+		if (head != null) head.semantMe();
+		if (tail != null) tail.semantMe();
+
+		return null;
+	}
 	
 }

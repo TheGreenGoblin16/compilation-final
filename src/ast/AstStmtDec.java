@@ -1,5 +1,6 @@
 package ast;
-
+import types.*;
+import symboltable.*;
 public class AstStmtDec extends AstStmt
 {
     public AstVarDec d;
@@ -51,5 +52,19 @@ public class AstStmtDec extends AstStmt
         /* PRINT Edges to AST GRAPHVIZ DOT file */
         /****************************************/
         if (d != null) AstGraphviz.getInstance().logEdge(serialNumber, d.serialNumber);
+    }
+    public Type semantMe()
+    {
+        /********************************************/
+        /* [1] Semant the Variable Declaration      */
+        /* logic for checking types, uniqueness,    */
+        /* and void-checks resides in AstVarDec     */
+        /********************************************/
+        if (d != null)
+        {
+            d.semantMe();
+        }
+
+        return null;
     }
 }

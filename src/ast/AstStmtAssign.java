@@ -60,4 +60,82 @@ public class AstStmtAssign extends AstStmt
 		AstGraphviz.getInstance().logEdge(serialNumber,var.serialNumber);
 		AstGraphviz.getInstance().logEdge(serialNumber,exp.serialNumber);
 	}
+
+	public Type semantMe()
+	{
+		Type t1 = null;
+		Type t2 = null;
+
+		/********************************************/
+		/* [1] Semant the Variable (LHS)            */
+		/********************************************/
+		if (var != null) t1 = var.semantMe();
+
+		/********************************************/
+		/* [2] Semant the Expression (RHS)          */
+		/********************************************/
+		if (exp != null) t2 = exp.semantMe();
+
+		/********************************************/
+		/* [3] Check for valid inputs               */
+		/********************************************/
+		if (t1 == null || t2 == null)
+		{
+			// Error would have been printed in the child nodes
+			System.exit(0);
+		}
+
+		/***************************************************/
+		/* [4] Check for Exact Type Match                  */
+		/* Covers: int, string, exact array, exact class   */
+		/***************************************************/
+		if (t1 == t2)
+		{
+			return null;
+		}
+
+		/***************************************************/
+		/* [5] Check for Nil Assignment                    */
+		/* Rule: nil is allowed for Arrays and Classes     */
+		/* Rule: nil is ILLEGAL for int and string         */
+		/***************************************************/
+		if (t2 == TypeVoid.getInstance())
+		{
+			if (t1.isClass() || t1.isArray())
+			{
+				return null;
+			}
+			System.out.format(">> ERROR [%d:%d] cannot assign nil to variable of type %s\n",0,0, t1.name);
+			System.exit(0);
+		}
+
+		/***************************************************/
+		/* [6] Check for Class Inheritance (Polymorphism)  */
+		/* Rule: RHS can be a subclass of LHS              */
+		/***************************************************/
+		if (t1.isClass() && t2.isClass())
+		{
+			TypeClass parentClass = (TypeClass) t1;
+			TypeClass childClass  = (TypeClass) t2;
+
+			// Walk up the inheritance chain of the child
+			TypeClass temp = childClass.parent;
+			while (temp != null)
+			{
+				if (temp == parentClass)
+				{
+					return null; // Match found
+				}
+				temp = temp.parent;
+			}
+		}
+
+		/***************************************************/
+		/* [7] Type Mismatch Error                         */
+		/***************************************************/
+		System.out.format(">> ERROR [%d:%d] type mismatch: cannot assign value of type %s to variable of type %s\n",0,0, t2.name, t1.name);
+		System.exit(0);
+
+		return null;
+	}
 }

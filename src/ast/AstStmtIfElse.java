@@ -1,5 +1,6 @@
 package ast;
-
+import types.*;
+import symboltable.*;
 public class AstStmtIfElse extends AstStmt
 {
     public AstExp cond;
@@ -59,5 +60,54 @@ public class AstStmtIfElse extends AstStmt
         if (cond != null) AstGraphviz.getInstance().logEdge(serialNumber, cond.serialNumber);
         if (body != null) AstGraphviz.getInstance().logEdge(serialNumber, body.serialNumber);
         if (elsebody != null) AstGraphviz.getInstance().logEdge(serialNumber, elsebody.serialNumber);
+    }
+    public Type semantMe()
+    {
+        /********************************************/
+        /* [1] Check Condition Type                 */
+        /* Rule: The type of the condition inside   */
+        /* if/while statements is primitive int.    */
+        /********************************************/
+        if (cond != null)
+        {
+            Type tCond = cond.semantMe();
+            if (tCond != TypeInt.getInstance())
+            {
+                System.out.format(">> ERROR [%d:%d] condition inside if statement must be of type int\n",0,0);
+                System.exit(0);
+            }
+        }
+
+        /********************************************/
+        /* [2] Begin If-Block Scope                 */
+        /********************************************/
+        SymbolTable.getInstance().beginScope();
+
+        /********************************************/
+        /* [3] Semant If-Body                       */
+        /********************************************/
+        if (body != null) body.semantMe();
+
+        /********************************************/
+        /* [4] End If-Block Scope                   */
+        /********************************************/
+        SymbolTable.getInstance().endScope();
+
+        /********************************************/
+        /* [5] Begin Else-Block Scope               */
+        /********************************************/
+        SymbolTable.getInstance().beginScope();
+
+        /********************************************/
+        /* [6] Semant Else-Body                     */
+        /********************************************/
+        if (elsebody != null) elsebody.semantMe();
+
+        /********************************************/
+        /* [7] End Else-Block Scope                 */
+        /********************************************/
+        SymbolTable.getInstance().endScope();
+
+        return null;
     }
 }

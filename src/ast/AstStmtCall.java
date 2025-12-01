@@ -1,5 +1,6 @@
 package ast;
-
+import types.*;
+import symboltable.*;
 public class AstStmtCall extends AstStmt
 {
     public AstCallExp e;
@@ -51,5 +52,26 @@ public class AstStmtCall extends AstStmt
         /* PRINT Edges to AST GRAPHVIZ DOT file */
         /****************************************/
         if (e != null) AstGraphviz.getInstance().logEdge(serialNumber, e.serialNumber);
+    }
+    public Type semantMe()
+    {
+        /********************************************/
+        /* [1] Semant the Call Expression           */
+        /* The logic to verify the function exists, */
+        /* check arguments, and check signatures    */
+        /* belongs in AstCallExp.semantMe().        */
+        /********************************************/
+        if (e != null)
+        {
+            e.semantMe();
+        }
+
+        /********************************************/
+        /* [2] Return Null (Statements have no type)*/
+        /* Note: It is legal to call a non-void     */
+        /* function as a statement and ignore the   */
+        /* return value (e.g. List.pop()).          */
+        /********************************************/
+        return null;
     }
 }

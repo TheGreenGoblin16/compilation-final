@@ -1,5 +1,7 @@
 package ast;
 
+import types.*;
+import symboltable.*;
 public class AstStmtIf extends AstStmt
 {
 	public AstExp cond;
@@ -47,5 +49,41 @@ public class AstStmtIf extends AstStmt
 		/****************************************/
 		if (cond != null) AstGraphviz.getInstance().logEdge(serialNumber, cond.serialNumber);
 		if (body != null) AstGraphviz.getInstance().logEdge(serialNumber, body.serialNumber);
+	}
+
+	public Type semantMe()
+	{
+		/********************************************/
+		/* [1] Check Condition Type                 */
+		/* Rule: The type of the condition inside   */
+		/* if/while statements is primitive int.    */
+		/********************************************/
+		if (cond != null)
+		{
+			Type tCond = cond.semantMe();
+			if (tCond != TypeInt.getInstance())
+			{
+				System.out.format(">> ERROR [%d:%d] condition inside if statement must be of type int\n",0,0);
+				System.exit(0);
+			}
+		}
+
+		/********************************************/
+		/* [2] Begin Block Scope                    */
+		/* Rule: if, else and while create scopes   */
+		/********************************************/
+		SymbolTable.getInstance().beginScope();
+
+		/********************************************/
+		/* [3] Semant Body                          */
+		/********************************************/
+		if (body != null) body.semantMe();
+
+		/********************************************/
+		/* [4] End Block Scope                      */
+		/********************************************/
+		SymbolTable.getInstance().endScope();
+
+		return null;
 	}
 }
