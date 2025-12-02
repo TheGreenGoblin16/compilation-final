@@ -1,5 +1,8 @@
 package ast;
 
+import types.*;
+import symboltable.*;
+
 public class AstExpString extends AstExp
 {
 	public String str;
@@ -40,6 +43,11 @@ public class AstExpString extends AstExp
 		/*********************************/
 		AstGraphviz.getInstance().logNode(
 				serialNumber,
-			String.format("STRING(%s)",str));
+			String.format("STRING(%s)",str.replace('"','\'')));
+	}
+
+	public Type semantMe()
+	{
+		return TypeString.getInstance();
 	}
 }

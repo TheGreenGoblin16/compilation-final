@@ -1,5 +1,8 @@
 package ast;
 
+import types.*;
+import symboltable.*;
+
 public class AstCallExp extends AstExp
 {
 	public AstVar var;
@@ -15,14 +18,6 @@ public class AstCallExp extends AstExp
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
 		serialNumber = AstNodeSerialNumber.getFresh();
-
-		/***************************************/
-		/* PRINT CORRESPONDING DERIVATION RULE */
-		/***************************************/
-		if (args != null && var != null) System.out.format("====================== Callexp -> var ( %s ).ID( %s ) [ expList ](%s) \n", var, name, l);
-		if (args == null && var != null) System.out.format("====================== Callexp -> var ( %s ).ID( %s ) ( ) \n", var, name);
-		if (args != null && var == null) System.out.format("====================== Callexp -> ID( %s ) [ expList ](%s) \n", name, l);
-		if (args == null && var == null) System.out.format("====================== Callexp -> ID( %s ) ( ) \n", name);
 
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
@@ -40,13 +35,23 @@ public class AstCallExp extends AstExp
 		/*******************************/
 		/* AST NODE TYPE = AST CALL EXP */
 		/*******************************/
-		System.out.format("AST NODE CALL EXP\n");
+		if (var != null) System.out.format("CALL var(%s).", var);
+		else System.out.format("CALL ");
+		System.out.format("ID(%s)\n WITH:\n", name);
+		if (args != null) args.printMe();
+		else System.out.format("NO ARGUMENTS\n");
+
 
 		/*********************************/
 		/* Print to AST GRAPHVIZ DOT file */
 		/*********************************/
 		AstGraphviz.getInstance().logNode(
 			serialNumber,
-			String.format("CALL EXP"));
+			String.format("CALL %s\n", name));
+
+		/****************************************/
+		/* PRINT Edges to AST GRAPHVIZ DOT file */
+		/****************************************/
+		if (args != null) AstGraphviz.getInstance().logEdge(serialNumber,args.serialNumber);
 	}
 }
