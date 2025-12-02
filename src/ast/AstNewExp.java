@@ -58,6 +58,9 @@ public class AstNewExp extends AstExp
 	}
 	public Type semantMe()
 	{
+		if (t != null) t.semantMe();
+		if (exp != null) exp.semantMe();
+
 		return null;
 	}
 }

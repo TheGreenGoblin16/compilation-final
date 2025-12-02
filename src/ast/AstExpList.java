@@ -56,6 +56,9 @@ public class AstExpList extends AstNode
 	}
 	public Type semantMe()
 	{
-		return null;
+		if (exp != null) exp.semantMe();
+		if (next != null) next.semantMe();
+
+		return TypeList.getInstance();
 	}
 }
