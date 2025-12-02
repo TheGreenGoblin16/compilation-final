@@ -1,5 +1,8 @@
 package ast;
 
+import types.*;
+import symboltable.*;
+
 public class AstNewExp extends AstExp
 {
 	public AstType t;
@@ -36,7 +39,8 @@ public class AstNewExp extends AstExp
 		/*******************************/
 		/* AST NODE TYPE = AST NEW EXPRESSION */
 		/*******************************/
-		System.out.format("AST NODE NEW EXPRESSION\n");
+		if (exp != null) System.out.format("AST NODE NEW EXPRESSION (%s) (%s)\n", t, exp);
+		else System.out.format("AST NODE NEW EXPRESSION (%s)\n", t);
 
 		/*********************************/
 		/* Print to AST GRAPHVIZ DOT file */
@@ -49,7 +53,11 @@ public class AstNewExp extends AstExp
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (t != null) AstGraphviz.getInstance().logEdge(serialNumber,t.serialNumber);  // have no idea if this is correct
-		if (exp != null) AstGraphviz.getInstance().logEdge(serialNumber,exp.serialNumber);  // have no idea if this is correct
+		if (t != null) AstGraphviz.getInstance().logEdge(serialNumber,t.serialNumber);
+		if (exp != null) AstGraphviz.getInstance().logEdge(serialNumber,exp.serialNumber);
+	}
+	public Type semantMe()
+	{
+		return null;
 	}
 }

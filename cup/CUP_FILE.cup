@@ -157,8 +157,6 @@ dec 		::= 	varDec:d				{: RESULT = d; 	:}
 					| arrayTypedef:d		{: RESULT = d; 	:}
 					;
 
-/* VarDec - V, FuncDec - V, ClassDec - V, ArrayTypedef - (I think DELETE) inherit Dec */
-
 
 type 		::=		TYPE_INT		{: RESULT = new AstType("int");		:}
 					| TYPE_STRING	{: RESULT = new AstType("string");	:}
@@ -205,10 +203,10 @@ arrayTypedef ::=	ARRAY ID:typeName EQ type:t LBRACK RBRACK SEMICOLON		{: RESULT 
 
 
 exp			::=		INT:i								{: RESULT = new AstExpInt(i);			:}
-					| MINUS INT:i 						{: RESULT = new AstNegInt(-i);			:} // bro?
+					| MINUS INT:i 						{: RESULT = new AstExpInt(-i);			:}
 					| STRING:s 							{: RESULT = new AstExpString(s);		:}
 					| NIL								{: RESULT = new AstExpNil();			:}
-					| var:v								{: RESULT = new AstExpVar(v);          	:}
+					| var:v								{: RESULT = new AstExpVar(v);          	:} // hah?
 					| exp:e1 PLUS  exp:e2				{: RESULT = new AstExpBinop(e1, e2, 0);	:}
 					| exp:e1 MINUS exp:e2				{: RESULT = new AstExpBinop(e1, e2, 1);	:}
 					| exp:e1 TIMES exp:e2				{: RESULT = new AstExpBinop(e1, e2, 2);	:}			

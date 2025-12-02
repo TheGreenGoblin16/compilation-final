@@ -1,8 +1,10 @@
 package ast;
 
+import types.*;
+
 public class AstExpBinop extends AstExp
 {
-	int op;
+	public int op;
 	public AstExp left;
 	public AstExp right;
 	
@@ -41,11 +43,17 @@ public class AstExpBinop extends AstExp
 		/*********************************/
 		if (op == 0) {sop = "+";}
 		if (op == 1) {sop = "-";}
+		if (op == 2) {sop = "*";}
+		if (op == 3) {sop = "/";}
+		if (op == 4) {sop = "<";}
+		if (op == 5) {sop = ">";}
+		if (op == 6) {sop = "=";}
 		
 		/*************************************/
 		/* AST NODE TYPE = AST BINOP EXP */
 		/*************************************/
 		System.out.print("AST NODE BINOP EXP\n");
+		System.out.format("BINOP EXP(%s)\n",sop);
 
 		/**************************************/
 		/* RECURSIVELY PRINT left + right ... */
@@ -65,5 +73,21 @@ public class AstExpBinop extends AstExp
 		/****************************************/
 		if (left  != null) AstGraphviz.getInstance().logEdge(serialNumber,left.serialNumber);
 		if (right != null) AstGraphviz.getInstance().logEdge(serialNumber,right.serialNumber);
+	}
+
+	public Type semantMe()
+	{
+		Type t1 = null;
+		Type t2 = null;
+		
+		if (left  != null) t1 = left.semantMe();
+		if (right != null) t2 = right.semantMe();
+		
+		if ((t1 == TypeInt.getInstance()) && (t2 == TypeInt.getInstance()))
+		{
+			return TypeInt.getInstance();
+		}
+		System.exit(0);
+		return null;
 	}
 }

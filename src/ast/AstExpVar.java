@@ -1,5 +1,8 @@
 package ast;
 
+import types.*;
+import symboltable.*;
+
 public class AstExpVar extends AstExp
 {
 	public AstVar var;
@@ -51,6 +54,9 @@ public class AstExpVar extends AstExp
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
 		AstGraphviz.getInstance().logEdge(serialNumber,var.serialNumber);
-			
+	}
+	public Type semantMe()
+	{
+		return var.semantMe();
 	}
 }
