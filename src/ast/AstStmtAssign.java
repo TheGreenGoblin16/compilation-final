@@ -1,6 +1,8 @@
 package ast;
+
 import types.*;
 import symboltable.*;
+
 public class AstStmtAssign extends AstStmt
 {
 	/***************/

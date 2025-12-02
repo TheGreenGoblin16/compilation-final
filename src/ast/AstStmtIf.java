@@ -2,6 +2,7 @@ package ast;
 
 import types.*;
 import symboltable.*;
+
 public class AstStmtIf extends AstStmt
 {
 	public AstExp cond;
