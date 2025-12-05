@@ -100,7 +100,7 @@ terminal String ID;
 /*****************/
 non terminal AstProgram program;
 non terminal AstDec dec;
-non terminal AstType type;
+non terminal String type;
 non terminal AstVarDec varDec;
 non terminal AstFuncDec funcDec;
 non terminal AstStmtList stmtList;
@@ -156,10 +156,10 @@ dec       ::=    varDec:d                {: RESULT = d;     :}
                ;
 
 
-type      ::=    TYPE_INT:t              {: RESULT = new AstType("int", tleft+1);       :}
-               | TYPE_STRING:t           {: RESULT = new AstType("string", tleft+1);    :}
-               | TYPE_VOID:t             {: RESULT = new AstType("void", tleft+1);      :}
-               | ID:typeName             {: RESULT = new AstType(typeName, typeNameleft+1); :}
+type      ::=    TYPE_INT:t              {: RESULT = "int";       :}
+               | TYPE_STRING:t           {: RESULT = "string";    :}
+               | TYPE_VOID:t             {: RESULT = "void";      :}
+               | ID:typeName             {: RESULT = typeName;    :}
                ;
 
 
@@ -217,8 +217,8 @@ exp          ::=       INT:i                       {: RESULT = new AstExpInt(i, 
                ;
 
 
-newExp    ::=    NEW:n type:t                         {: RESULT = new AstNewExp(t, null, nleft+1);    :}
-               | NEW:n type:t LBRACK exp:e RBRACK     {: RESULT = new AstNewExp(t, e, nleft+1);   :}
+newExp    ::=    NEW type:t                         {: RESULT = new AstNewExp(t, null, nleft+1);    :}
+               | NEW type:t LBRACK exp:e RBRACK     {: RESULT = new AstNewExp(t, e, nleft+1);   :}
                ;
 
 
@@ -226,9 +226,9 @@ expList       ::=       exp:e                 {: RESULT = new AstExpList(e, null
                | exp:e COMMA expList:l        {: RESULT = new AstExpList(e, l, eleft+1);     :}
                ;
 
-callExp    ::=    var:v DOT ID:name LPAREN expList:l RPAREN     {: RESULT = new AstCallExp(v, name, l, vleft+1);          :}
-               | var:v DOT ID:name LPAREN RPAREN                {: RESULT = new AstCallExp(v, name, null, vleft+1);    :}
-               | ID:name LPAREN expList:l RPAREN                {: RESULT = new AstCallExp(null, name, l, nameleft+1);    :}
+callExp    ::=   var:v DOT ID:name LPAREN expList:l RPAREN      {: RESULT = new AstCallExp(v, name, l, vleft+1);           :}
+               | var:v DOT ID:name LPAREN RPAREN                {: RESULT = new AstCallExp(v, name, null, vleft+1);        :}
+               | ID:name LPAREN expList:l RPAREN                {: RESULT = new AstCallExp(null, name, l, nameleft+1);     :}
                | ID:name LPAREN RPAREN                          {: RESULT = new AstCallExp(null, name, null, nameleft+1);  :}
                ;
 

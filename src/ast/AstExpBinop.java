@@ -78,17 +78,61 @@ public class AstExpBinop extends AstExp
 
 	public Type semantMe()
 	{
-		Type t1 = null;
-		Type t2 = null;
-		
-		if (left  != null) t1 = left.semantMe();
-		if (right != null) t2 = right.semantMe();
-		
-		if ((t1 == TypeInt.getInstance()) && (t2 == TypeInt.getInstance()))
+		Type t1 = left.semantMe();
+		Type t2 = right.semantMe();
+
+		// Check for operations on integers
+		if (t1 == TypeInt.getInstance() && t2 == TypeInt.getInstance())
 		{
+			// Ops: +, -, *, /, <, >, =
+			if (op == 3) { // Division
+				if (right instanceof AstExpInt) {
+					AstExpInt intExp = (AstExpInt) right;
+					if (intExp.value == 0) {
+						System.out.format(">> ERROR [ %d ] division by zero\n", lineNumber);
+						abort();
+					}
+				}
+			}
 			return TypeInt.getInstance();
 		}
+
+		// Check for operations on strings
+		if (t1 == TypeString.getInstance() && t2 == TypeString.getInstance())
+		{
+			// Ops: +, =
+			if (op == 0) { // Concatenation
+				return TypeString.getInstance();
+			}
+			if (op == 6) { // Equality
+				return TypeInt.getInstance();
+			}
+		}
+
+		// Check for equality operation on complex types
+		if (op == 6) { // Equality
+			if (t1.isClass() && t2.isClass()) {
+				TypeClassInstance c1 = (TypeClassInstance) t1;
+				TypeClassInstance c2 = (TypeClassInstance) t2;
+				if (c1.isSubTypeOf(c2) || c2.isSubTypeOf(c1)) {
+					return TypeInt.getInstance();
+				}
+			}
+			if (t1.isClass() && t2 == TypeVoid.getInstance()) { // Comparing object with nil
+				return TypeInt.getInstance();
+			}
+			if (t2.isClass() && t1 == TypeVoid.getInstance()) { // Comparing nil with object
+				return TypeInt.getInstance();
+			}
+			if (t1.isArray() && t2.isArray()) { // Comparing two arrays
+				if (t1.name.equals(t2.name)) {
+					return TypeInt.getInstance();
+				}
+			}
+		}
+
+		System.out.format(">> ERROR [ %d ] type mismatch for binary operation\n", lineNumber);
 		abort();
-		return null;
+		return null; // Should not be reached
 	}
 }

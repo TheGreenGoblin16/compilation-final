@@ -7,4 +7,7 @@ public class TypeArrayInstance extends Type {
         this.arr = arr;
         this.name = arr.name;
     }
+
+    @Override
+    public boolean isArray() { return true; }
 }

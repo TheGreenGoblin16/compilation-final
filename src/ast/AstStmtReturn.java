@@ -73,7 +73,7 @@ public class AstStmtReturn extends AstStmt
         /* [1] Get the Expected Return Type from Symbol Table */
         /* This was put here by AstFuncDec.semantMe()         */
         /******************************************************/
-        expectedType = SymbolTable.getInstance().find("$RETURN_TYPE");
+        expectedType = SymbolTable.getInstance().find("$RETURN-TYPE");
 
         // Sanity check: This should theoretically never happen if parser works
         if (expectedType == null)

@@ -96,9 +96,9 @@ public class AstVarSubscript extends AstVar
 		/* [5] Return the element type of the Array     */
 		/* FIX: Cast to TypeArray                       */
 		/************************************************/
-		if (tVar instanceof TypeArray)
+		if (tVar instanceof TypeArrayInstance)
 		{
-			return ((TypeArray)tVar).type;
+			return ((TypeArrayInstance)tVar).arr.type;
 		}
 
 		return null;

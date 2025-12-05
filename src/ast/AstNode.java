@@ -32,4 +32,26 @@ public abstract class AstNode
 		// The output format matches the spec: ERROR(location)
 		throw new RuntimeException("SEMANT_ERROR(" + lineNumber + ")");
 	}
+
+	Type validateTypeName(typeName) {
+		// Validate that typeName exists in the current scope, if yes - return the matching Type for it, if no - abort.
+		Type t;
+		if (typeName.equals("int")) {
+			t = TypeInt.getInstance();
+		} else if (typeName.equals("string")) {
+			t = TypeString.getInstance();
+		} else {
+			t = SymbolTable.getInstance().find(typeName);
+			if (t == null) {
+				abort();
+			} else if (t instanceof TypeClass) {
+				t = ((TypeClass) t).getInstance();
+			} else if (t instanceof TypeArray) {
+				t = ((TypeArray) t).getInstance();
+			} else {
+				abort();
+			}
+		}
+		return t;
+	}
 }

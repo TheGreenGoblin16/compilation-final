@@ -4,6 +4,8 @@ public class TypeArray extends Type
 {
     public Type type; // The element type (e.g., int or string)
 
+    private TypeArrayInstance instance;
+
     /******************/
     /* CONSTRUCTOR(S) */
     /******************/
@@ -13,6 +15,13 @@ public class TypeArray extends Type
         this.name = name;
     }
 
-    @Override
-    public boolean isArray() { return true; }
+
+    public static TypeArrayInstance getInstance()
+	{
+		if (instance == null)
+		{
+			instance = new TypeArrayInstance(this);
+		}
+		return instance;
+	}
 }

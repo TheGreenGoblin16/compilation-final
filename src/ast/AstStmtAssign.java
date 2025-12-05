@@ -118,8 +118,8 @@ public class AstStmtAssign extends AstStmt
 		/***************************************************/
 		if (t1.isClass() && t2.isClass())
 		{
-			TypeClass parentClass = (TypeClass) t1;
-			TypeClass childClass  = (TypeClass) t2;
+			TypeClass parentClass = (TypeClass) t1.cls;
+			TypeClass childClass  = (TypeClass) t2.cls;
 
 			// Walk up the inheritance chain of the child
 			TypeClass temp = childClass.parent;

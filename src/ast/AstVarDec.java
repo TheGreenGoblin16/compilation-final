@@ -5,14 +5,14 @@ import symboltable.*;
 
 public class AstVarDec extends AstDec
 {
-    public AstType type;
+    public String typeName;
     public String name;
 	public AstExp exp;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstVarDec(AstType type, String name, AstExp exp)
+	public AstVarDec(String typeName, String name, AstExp exp)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
@@ -22,7 +22,7 @@ public class AstVarDec extends AstDec
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
-        this.type = type;
+        this.typeName = typeName;
 		this.name = name;
 		this.exp = exp;
 	}
@@ -35,14 +35,13 @@ public class AstVarDec extends AstDec
 		/*************************************/
 		/* AST NODE TYPE = AST BINOP EXP */
 		/*************************************/
-		if (exp != null) System.out.format("VAR-DEC(%s):%s := initialValue\n",name,type.toString());
-		if (exp == null) System.out.format("VAR-DEC(%s):%s                \n",name,type.toString());
+		if (exp != null) System.out.format("VAR-DEC(%s):%s := initialValue\n",name,type);
+		if (exp == null) System.out.format("VAR-DEC(%s):%s                \n",name,type);
 
 
 		/**************************************/
 		/* RECURSIVELY PRINT left + right ... */
 		/**************************************/
-		if (type != null) type.printMe();
 		if (exp != null) exp.printMe();
 		
 		/***************************************/
@@ -50,17 +49,16 @@ public class AstVarDec extends AstDec
 		/***************************************/
 		if (name != null) AstGraphviz.getInstance().logNode(
 			serialNumber,
-			String.format("VAR\nDEC(%s)\n:%s",name,type.typeName));
+			String.format("VAR\nDEC(%s)\n:%s",name,typeName));
 		
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (type != null) AstGraphviz.getInstance().logEdge(serialNumber,type.serialNumber);
 		if (exp != null) AstGraphviz.getInstance().logEdge(serialNumber,exp.serialNumber);
 	}
 	public Type semantMe()
 	{
-		Type t = SymbolTable.getInstance().find(type.typeName);
+		Type t = SymbolTable.getInstance().find(typeName);
 		Type e = null;
 
 		/****************************/
@@ -68,8 +66,7 @@ public class AstVarDec extends AstDec
 		/****************************/
 		if (t == null)
 		{
-			System.out.format(">> ERROR [%d:%d] non existing type %s\n",2,2,type.typeName);
-			System.exit(0);
+			abort()
 		}
 
 		/**************************************/

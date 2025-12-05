@@ -2,28 +2,23 @@ package ast;
 
 public class AstParam extends AstNode
 {
-    AstType type;
+    String typeName;
     String name;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstParam(AstType type, String name)
+	public AstParam(String typeName, String name)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
 		serialNumber = AstNodeSerialNumber.getFresh();
 
-		/***************************************/
-		/* PRINT CORRESPONDING DERIVATION RULE */
-		/***************************************/
-		System.out.print("====================== arg -> type ID\n");
-
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
-		this.type = type;
+		this.type = typeName;
         this.name = name;
 	}
 	
@@ -35,23 +30,27 @@ public class AstParam extends AstNode
 		/*************************************/
 		/* AST NODE TYPE = AST BINOP EXP */
 		/*************************************/
-		System.out.print("AST ARG\n");
-
-		/**************************************/
-		/* RECURSIVELY PRINT left + right ... */
-		/**************************************/
-		if (type != null) type.printMe();
+		System.out.print("AST PARAM\n");
 		
 		/***************************************/
 		/* PRINT Node to AST GRAPHVIZ DOT file */
 		/***************************************/
 		AstGraphviz.getInstance().logNode(
 			serialNumber,
-			String.format("ARG\n(%s)\n", name));
-		
-		/****************************************/
-		/* PRINT Edges to AST GRAPHVIZ DOT file */
-		/****************************************/
-		if (type  != null) AstGraphviz.getInstance().logEdge(serialNumber,type.serialNumber);
+			String.format("PARAM\n(%s)\n", name));
+	}
+
+	public Type semantMe() {
+		// Validate that typeName exists
+		Type t = validateTypeName(typeName);
+
+		// Validate that name isn't a previous parameter
+		if (SymbolTable.getInstance().findLocal(name) != null) {
+			abort();
+		}
+
+		// Add parameter as a local variable
+		SymbolTable.getInstance().enter(name, t);
+		return t;
 	}
 }

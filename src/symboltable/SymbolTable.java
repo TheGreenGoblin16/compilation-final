@@ -98,6 +98,43 @@ public class SymbolTable
 		return null;
 	}
 
+	/********************************************/
+	/* Find the current scope element with name */
+	/********************************************/
+	public Type findLocal(String name)
+	{
+		SymbolTableEntry e;
+				
+		for (e = table[hash(name)]; e != null && e.name.equals("SCOPE-BOUNDARY"); e = e.next)
+		{
+			if (e.name.equals(name))
+			{
+				return e.type;
+			}
+		}
+		
+		return null;
+	}
+
+	/**********************************************/
+	/* Find the hierarchy scope element with name */
+	/**********************************************/
+	public Type findHierarchy(String name)
+	{
+		// WIP
+		SymbolTableEntry e;
+				
+		for (e = table[hash(name)]; e != null && e.name.equals("SCOPE-BOUNDARY"); e = e.next)
+		{
+			if (e.name.equals(name))
+			{
+				return e.type;
+			}
+		}
+		
+		return null;
+	}
+
 	/***************************************************************************/
 	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
 	/***************************************************************************/
@@ -247,12 +284,15 @@ public class SymbolTable
 			/*******************************/
 			instance = new SymbolTable();
 
-			/*************************************/
-			/* [1] How should we handle void ??? */
-			/*************************************/
+			/*****************************************/
+			/* [1] Enter primitive types int, string */
+			/*****************************************/
+			instance.enter("int",   TypeInt.getInstance());
+			instance.enter("string", TypeString.getInstance());
 
 			/***************************************/
 			/* [2] Enter library function PrintInt */
+			/* void PrintInt(int i)                */
 			/***************************************/
 			instance.enter(
 				"PrintInt",
@@ -262,7 +302,19 @@ public class SymbolTable
 					new TypeList(
 						TypeInt.getInstance(),
 						null)));
-			
+
+			/******************************************/
+			/* [3] Enter library function PrintString */
+			/* void PrintString(string s)             */
+			/******************************************/
+			instance.enter(
+				"PrintString",
+				new TypeFunction(
+					TypeVoid.getInstance(),
+					"PrintString",
+					new TypeList(
+						TypeString.getInstance(),
+						null)));
 		}
 		return instance;
 	}

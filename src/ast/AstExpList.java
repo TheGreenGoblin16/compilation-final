@@ -55,11 +55,16 @@ public class AstExpList extends AstNode
 		if (exp != null) AstGraphviz.getInstance().logEdge(serialNumber,exp.serialNumber);
         if (next != null) AstGraphviz.getInstance().logEdge(serialNumber,next.serialNumber);
 	}
-	public Type semantMe()
+	public TypeList semantMe()
 	{
-		if (exp != null) exp.semantMe();
-		if (next != null) next.semantMe();
-
-		return TypeList.getInstance();
+		if (exp == null) {
+			return null;
+		}
+        Type headType = exp.semantMe();
+        TypeList tailTypes = null;
+        if (next != null) {
+            tailTypes = next.semantMe();
+        }
+		return new TypeList(headType, tailTypes);
 	}
 }

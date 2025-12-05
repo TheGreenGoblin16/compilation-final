@@ -42,6 +42,12 @@ public class AstExpNil extends AstExp
 	}
 	public Type semantMe()
 	{
+		Type t = value.semantMe();
+		if (t != TypeVoid.getInstance())
+		{
+			System.out.format(">> ERROR [ %d ] type %s is not void\n", lineNumber, this.type);
+			abort();
+		}
 		return TypeVoid.getInstance();
 	}
 }
