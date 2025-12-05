@@ -60,42 +60,71 @@ public class AstVarDec extends AstDec
 	}
 	public Type semantMe()
 	{
-		Type t, e;
-	
+		Type t = SymbolTable.getInstance().find(type.typeName);
+		Type e = null;
+
 		/****************************/
 		/* [1] Check If Type exists */
 		/****************************/
-		t = SymbolTable.getInstance().find(type.typeName);
 		if (t == null)
 		{
 			System.out.format(">> ERROR [%d:%d] non existing type %s\n",2,2,type.typeName);
 			System.exit(0);
 		}
-		
+
 		/**************************************/
 		/* [2] Check That Name does NOT exist */
 		/**************************************/
 		if (SymbolTable.getInstance().find(name) != null)
 		{
-			System.out.format(">> ERROR [%d:%d] variable %s already exists in scope\n",2,2,name);				
-		}
-
-		/************************************************/
-		/* [3] Enter the Identifier to the Symbol Table */
-		/************************************************/
-
-		e = SymbolTable.getInstance().find(exp.type.typeName);
-		if (t != e || e == null)
-		{
-			System.out.format(">> ERROR [%d:%d] expretion type %s does not match variable type%s\n",2,2,exp.type.typeName);
+			System.out.format(">> ERROR [%d:%d] variable %s already exists in scope\n",2,2,name);
 			System.exit(0);
 		}
 
+		/********************************************/
+		/* [3] Semant the Initial Value (if any)    */
+		/********************************************/
+		if (exp != null)
+		{
+			e = exp.semantMe();
+
+			// Validation Logic (Same as AstStmtAssign)
+			boolean valid = false;
+
+			// A. Exact Match
+			if (t == e) valid = true;
+
+			// B. Nil (allowed for Class/Array)
+			if (!valid && e == TypeVoid.getInstance())
+			{
+				if (t.isClass() || t.isArray()) valid = true;
+			}
+
+			// C. Inheritance (Subclassing)
+			if (!valid && t.isClass() && e.isClass())
+			{
+				TypeClass parent = (TypeClass)t;
+				TypeClass child = (TypeClass)e;
+				TypeClass temp = child.parent;
+				while (temp != null)
+				{
+					if (temp == parent) { valid = true; break; }
+					temp = temp.parent;
+				}
+			}
+
+			if (!valid)
+			{
+				System.out.format(">> ERROR [%d:%d] type mismatch: cannot assign %s to %s\n",2,2,e.name,t.name);
+				System.exit(0);
+			}
+		}
+
+		/************************************************/
+		/* [4] Enter the Identifier to the Symbol Table */
+		/************************************************/
 		SymbolTable.getInstance().enter(name,t);
 
-		/************************************************************/
-		/* [4] Return value is irrelevant for variable declarations */
-		/************************************************************/
 		return null;
 	}
 }

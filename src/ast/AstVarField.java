@@ -73,11 +73,10 @@ public class AstVarField extends AstVar
 		/*********************************/
 		if (t == null || t.isClass() == false)
 		{
-			System.out.format(">> ERROR [%d:%d] access %s field of a non-class variable\n",0,0,fieldName);
+			System.out.format(">> ERROR [%d:%d] access field of a non-class variable\n",0,0);
 			System.exit(0);
 		}
 
-		// Cast to TypeClass to access fields and hierarchy
 		TypeClass tc = (TypeClass) t;
 
 		/**************************************************************/
@@ -85,24 +84,26 @@ public class AstVarField extends AstVar
 		/**************************************************************/
 		while (tc != null)
 		{
-			// Iterate over the data members of the current class in the hierarchy
 			for (TypeList it = tc.dataMembers; it != null; it = it.tail)
 			{
-				// Check if the member name matches the requested fieldName
 				if (it.head.name.equals(fieldName))
 				{
+					// FIX: Ensure the member is NOT a method
+					if (it.head instanceof TypeFunction)
+					{
+						System.out.format(">> ERROR [%d:%d] member %s is a method, not a field\n",0,0,fieldName);
+						System.exit(0);
+					}
 					return it.head;
 				}
 			}
-
-			// If not found in this class, move up to the father class
 			tc = tc.parent;
 		}
 
 		/*********************************************/
 		/* [4] fieldName does not exist in hierarchy */
 		/*********************************************/
-		System.out.format(">> ERROR [%d:%d] field %s does not exist in class %s or its superclasses\n",0,0,fieldName, t.name);
+		System.out.format(">> ERROR [%d:%d] field %s does not exist in class %s\n",0,0,fieldName, t.name);
 		System.exit(0);
 		return null;
 	}
