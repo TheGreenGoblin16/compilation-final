@@ -82,6 +82,9 @@ public class AstFuncDec extends AstDec
 		/****************************/
 		SymbolTable.getInstance().beginScope();
 
+		//MR KOREN please keep this line in the semantMe() right after opening new scope!
+		SymbolTable.getInstance().enter("$RETURN_TYPE", returnType);
+
 		/***************************/
 		/* [2] Semant Input Params */
 		/***************************/
