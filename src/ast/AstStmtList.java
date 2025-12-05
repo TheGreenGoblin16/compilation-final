@@ -14,8 +14,9 @@ public class AstStmtList extends AstNode
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstStmtList(AstStmt head, AstStmtList tail)
+	public AstStmtList(AstStmt head, AstStmtList tail , int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/

@@ -10,8 +10,9 @@ public class AstStmtCall extends AstStmt
     /*******************/
     /* CONSTRUCTOR(S) */
     /*******************/
-    public AstStmtCall(AstCallExp e)
+    public AstStmtCall(AstCallExp e , int lineNumber)
     {
+        super(lineNumber);
         /******************************/
         /* SET A UNIQUE SERIAL NUMBER */
         /******************************/

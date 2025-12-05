@@ -14,8 +14,9 @@ public class AstStmtAssign extends AstStmt
 	/*******************/
 	/*  CONSTRUCTOR(S) */
 	/*******************/
-	public AstStmtAssign(AstVar var, AstExp exp)
+	public AstStmtAssign(AstVar var, AstExp exp , int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -84,7 +85,7 @@ public class AstStmtAssign extends AstStmt
 		if (t1 == null || t2 == null)
 		{
 			// Error would have been printed in the child nodes
-			System.exit(0);
+			abort();
 		}
 
 		/***************************************************/
@@ -108,7 +109,7 @@ public class AstStmtAssign extends AstStmt
 				return null;
 			}
 			System.out.format(">> ERROR [%d:%d] cannot assign nil to variable of type %s\n",0,0, t1.name);
-			System.exit(0);
+			abort();
 		}
 
 		/***************************************************/
@@ -136,7 +137,7 @@ public class AstStmtAssign extends AstStmt
 		/* [7] Type Mismatch Error                         */
 		/***************************************************/
 		System.out.format(">> ERROR [%d:%d] type mismatch: cannot assign value of type %s to variable of type %s\n",0,0, t2.name, t1.name);
-		System.exit(0);
+		abort();
 
 		return null;
 	}

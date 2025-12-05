@@ -13,8 +13,9 @@ public class AstVarSimple extends AstVar
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstVarSimple(String name)
+	public AstVarSimple(String name , int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -69,7 +70,7 @@ public class AstVarSimple extends AstVar
 
 			// We exit to ensure the Output file writes "ERROR" (handled by Main/Makefile wrapper usually)
 			// or simply stop execution.
-			System.exit(0);
+			abort();
 		}
 
 		/******************************************************/

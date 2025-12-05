@@ -12,8 +12,9 @@ public class AstStmtIfElse extends AstStmt
     /*******************/
     /* CONSTRUCTOR(S) */
     /*******************/
-    public AstStmtIfElse(AstExp cond, AstStmtList body, AstStmtList elsebody)
+    public AstStmtIfElse(AstExp cond, AstStmtList body, AstStmtList elsebody , int lineNumber)
     {
+        super(lineNumber);
         /******************************/
         /* SET A UNIQUE SERIAL NUMBER */
         /******************************/
@@ -76,7 +77,7 @@ public class AstStmtIfElse extends AstStmt
             if (tCond != TypeInt.getInstance())
             {
                 System.out.format(">> ERROR [%d:%d] condition inside if statement must be of type int\n",0,0);
-                System.exit(0);
+                abort();
             }
         }
 

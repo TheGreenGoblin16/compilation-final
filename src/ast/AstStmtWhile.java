@@ -11,8 +11,9 @@ public class AstStmtWhile extends AstStmt
 	/*******************/
 	/*  CONSTRUCTOR(S) */
 	/*******************/
-	public AstStmtWhile(AstExp cond, AstStmtList body)
+	public AstStmtWhile(AstExp cond, AstStmtList body , int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -71,7 +72,7 @@ public class AstStmtWhile extends AstStmt
 			if (tCond != TypeInt.getInstance())
 			{
 				System.out.format(">> ERROR [%d:%d] condition inside while statement must be of type int\n",0,0);
-				System.exit(0);
+				abort();
 			}
 		}
 

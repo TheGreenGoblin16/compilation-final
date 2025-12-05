@@ -9,8 +9,9 @@ public class AstVarSubscript extends AstVar
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstVarSubscript(AstVar var, AstExp subscript)
+	public AstVarSubscript(AstVar var, AstExp subscript , int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -74,7 +75,7 @@ public class AstVarSubscript extends AstVar
 		if (tVar == null || tVar.isArray() == false)
 		{
 			System.out.format(">> ERROR [%d:%d] subscript applied to non-array type\n",0,0);
-			System.exit(0);
+			abort();
 		}
 
 		/************************************************/
@@ -88,7 +89,7 @@ public class AstVarSubscript extends AstVar
 		if (tSub != TypeInt.getInstance())
 		{
 			System.out.format(">> ERROR [%d:%d] array subscript must be an integer\n",0,0);
-			System.exit(0);
+			abort();
 		}
 
 		/************************************************/

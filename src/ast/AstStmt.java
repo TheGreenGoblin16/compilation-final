@@ -1,10 +1,13 @@
 package ast;
-
 import types.*;
-import symboltable.*;
 
 public abstract class AstStmt extends AstNode
 {
+    public AstStmt(int lineNumber)
+    {
+        super(lineNumber);
+    }
+
     public Type semantMe()
     {
         return null;

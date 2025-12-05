@@ -10,8 +10,9 @@ public class AstStmtDec extends AstStmt
     /*******************/
     /* CONSTRUCTOR(S) */
     /*******************/
-    public AstStmtDec(AstVarDec d)
+    public AstStmtDec(AstVarDec d , int lineNumber)
     {
+        super(lineNumber);
         /******************************/
         /* SET A UNIQUE SERIAL NUMBER */
         /******************************/

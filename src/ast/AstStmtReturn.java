@@ -9,8 +9,9 @@ public class AstStmtReturn extends AstStmt
     /*******************/
     /* CONSTRUCTOR(S) */
     /*******************/
-    public AstStmtReturn(AstExp e)
+    public AstStmtReturn(AstExp e , int lineNumber)
     {
+        super(lineNumber);
         /******************************/
         /* SET A UNIQUE SERIAL NUMBER */
         /******************************/
@@ -79,7 +80,7 @@ public class AstStmtReturn extends AstStmt
         {
             // return statement outside of a function?
             System.out.format(">> ERROR [%d:%d] return statement outside of function scope\n", 0,0);
-            System.exit(0);
+            abort();
         }
 
         /******************************************************/
@@ -99,7 +100,7 @@ public class AstStmtReturn extends AstStmt
             if (e != null)
             {
                 System.out.format(">> ERROR [%d:%d] void function cannot return a value\n", 0,0);
-                System.exit(0);
+                abort();
             }
             return null; // OK
         }
@@ -111,7 +112,7 @@ public class AstStmtReturn extends AstStmt
         if (e == null)
         {
             System.out.format(">> ERROR [%d:%d] non-void function must return a value\n", 0,0);
-            System.exit(0);
+            abort();
         }
 
         /******************************************************/
@@ -134,7 +135,7 @@ public class AstStmtReturn extends AstStmt
                 return null; // OK
             }
             System.out.format(">> ERROR [%d:%d] cannot return nil for return type %s\n", 0,0, expectedType.name);
-            System.exit(0);
+            abort();
         }
 
         /******************************************************/
@@ -162,7 +163,7 @@ public class AstStmtReturn extends AstStmt
         /* [8] Mismatch Error                                 */
         /******************************************************/
         System.out.format(">> ERROR [%d:%d] return type mismatch: expected %s, got %s\n", 0,0, expectedType.name, actualType.name);
-        System.exit(0);
+        abort();
 
         return null;
     }

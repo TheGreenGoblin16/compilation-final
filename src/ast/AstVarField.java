@@ -11,8 +11,9 @@ public class AstVarField extends AstVar
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstVarField(AstVar var, String fieldName)
+	public AstVarField(AstVar var, String fieldName , int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -74,7 +75,7 @@ public class AstVarField extends AstVar
 		if (t == null || t.isClass() == false)
 		{
 			System.out.format(">> ERROR [%d:%d] access field of a non-class variable\n",0,0);
-			System.exit(0);
+			abort();
 		}
 
 		TypeClass tc = (TypeClass) t;
@@ -92,7 +93,7 @@ public class AstVarField extends AstVar
 					if (it.head instanceof TypeFunction)
 					{
 						System.out.format(">> ERROR [%d:%d] member %s is a method, not a field\n",0,0,fieldName);
-						System.exit(0);
+						abort();
 					}
 					return it.head;
 				}
@@ -104,7 +105,7 @@ public class AstVarField extends AstVar
 		/* [4] fieldName does not exist in hierarchy */
 		/*********************************************/
 		System.out.format(">> ERROR [%d:%d] field %s does not exist in class %s\n",0,0,fieldName, t.name);
-		System.exit(0);
+		abort();
 		return null;
 	}
 }
