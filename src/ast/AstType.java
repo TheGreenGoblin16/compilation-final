@@ -2,12 +2,12 @@ package ast;
 
 public class AstType extends AstNode
 {
-    public String typeName;
+    public String name;
 
     /******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstType(String typeName, int kind)
+	public AstType(String name)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
@@ -17,7 +17,7 @@ public class AstType extends AstNode
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
-		this.typeName = typeName;
+		this.name = name;
 	}
 	
 	/*************************************************/
@@ -28,18 +28,15 @@ public class AstType extends AstNode
 		/*************************************/
 		/* AST NODE TYPE = AST BINOP EXP */
 		/*************************************/
-		System.out.format("TYPE: %s\n", typeName);
+		System.out.format("TYPE: %s\n", name);
 		
 		/***************************************/
 		/* PRINT Node to AST GRAPHVIZ DOT file */
 		/***************************************/
 		AstGraphviz.getInstance().logNode(
 			serialNumber,
-			String.format("TYPE\n(%s)\n", typeName));
+			String.format("TYPE\n(%s)\n", name));
 	}
 
-	public Type semantMe()
-	{
-		return null;
-	}
+	// No semantMe() method! AstType is only a container for typeName. 
 }

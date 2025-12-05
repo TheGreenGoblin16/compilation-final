@@ -51,7 +51,7 @@ public class AstFuncDec extends AstDec
 		/***************************************/
 		if (name != null) AstGraphviz.getInstance().logNode(
 			serialNumber,
-			String.format("FUNC(%s):%s\n",name,type.typeName));
+			String.format("FUNC(%s):%s\n",name,type.name));
 		
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
@@ -71,10 +71,10 @@ public class AstFuncDec extends AstDec
 		/*******************/
 		/* [0] return type */
 		/*******************/
-		returnType = SymbolTable.getInstance().find(type.typeName);
+		returnType = SymbolTable.getInstance().find(type.name);
 		if (returnType == null)
 		{
-			System.out.format(">> ERROR [%d:%d] non existing return type %s\n",6,6,type.typeName);				
+			System.out.format(">> ERROR [%d:%d] non existing return type %s\n",6,6,type.name);				
 		}
 	
 		/****************************/

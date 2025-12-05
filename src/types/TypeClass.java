@@ -23,4 +23,7 @@ public class TypeClass extends Type
 		this.parent = parent;
 		this.dataMembers = dataMembers;
 	}
+
+	@Override
+	public boolean isClass() { return true; }
 }

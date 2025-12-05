@@ -247,18 +247,12 @@ public class SymbolTable
 			/*******************************/
 			instance = new SymbolTable();
 
-			/*****************************************/
-			/* [1] Enter primitive types int, string */
-			/*****************************************/
-			instance.enter("int",   TypeInt.getInstance());
-			instance.enter("string", TypeString.getInstance());
-
 			/*************************************/
-			/* [2] How should we handle void ??? */
+			/* [1] How should we handle void ??? */
 			/*************************************/
 
 			/***************************************/
-			/* [3] Enter library function PrintInt */
+			/* [2] Enter library function PrintInt */
 			/***************************************/
 			instance.enter(
 				"PrintInt",

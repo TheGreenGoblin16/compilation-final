@@ -6,12 +6,12 @@ import symboltable.*;
 public class AstArrayTypedef extends AstDec
 {
     String typeName;
-    AstType type;
+    AstType elementType;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstArrayTypedef(String typeName, AstType type)
+	public AstArrayTypedef(String typeName, AstType elementType)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
@@ -22,7 +22,7 @@ public class AstArrayTypedef extends AstDec
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
 		this.typeName = typeName;
-        this.type = type;
+        this.elementType = elementType;
 	}
 	
 	/*************************************************/
@@ -38,7 +38,7 @@ public class AstArrayTypedef extends AstDec
 		/**************************************/
 		/* RECURSIVELY PRINT left + right ... */
 		/**************************************/
-		if (type != null) type.printMe();
+		if (elementType != null) elementType.printMe();
 		
 		/***************************************/
 		/* PRINT Node to AST GRAPHVIZ DOT file */
@@ -50,24 +50,24 @@ public class AstArrayTypedef extends AstDec
 		/****************************************/
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
-		if (type != null) AstGraphviz.getInstance().logEdge(serialNumber,type.serialNumber);
+		if (elementType != null) AstGraphviz.getInstance().logEdge(serialNumber,elementType.serialNumber);
 	}
 	public Type semantMe()
 	{
 		Type t;
 	
 		/****************************/
-		/* [1] Check If Type exists */
+		/* [1] Check if type exists */
 		/****************************/
-		t = SymbolTable.getInstance().find(type.typeName);
+		t = SymbolTable.getInstance().find(elementType.name);
 		if (t == null)
 		{
-			System.out.format(">> ERROR [%d:%d] non existing type %s\n",2,2,type.typeName);
+			System.out.format(">> ERROR [%d:%d] non existing type %s\n",2,2,elementType.name);
 			System.exit(0);
 		}
 
 		/**************************************/
-		/* [2] Check That Name does NOT exist */
+		/* [2] Check that typeName does NOT exist */
 		/**************************************/
 		if (SymbolTable.getInstance().find(typeName) != null)
 		{
@@ -75,12 +75,12 @@ public class AstArrayTypedef extends AstDec
 		}
 
 		/************************************************/
-		/* [3] Enter the Identifier to the Symbol Table */
+		/* [3] Enter the identifier to the Symbol Table */
 		/************************************************/
 		SymbolTable.getInstance().enter(typeName,t);
 
 		/************************************************************/
-		/* [4] Return value is irrelevant for variable declarations */
+		/* [4] Return value is irrelevant for declarations 			*/
 		/************************************************************/
 		return null;
 	}

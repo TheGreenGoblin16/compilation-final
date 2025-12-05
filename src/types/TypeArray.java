@@ -7,10 +7,10 @@ public class TypeArray extends Type
     /******************/
     /* CONSTRUCTOR(S) */
     /******************/
-    public TypeArray(Type type)
+    public TypeArray(Type type, String name)
     {
-        this.name = type.name + "[]";
         this.type = type;
+        this.name = name;
     }
 
     @Override
