@@ -7,13 +7,13 @@ public class AstFuncDec extends AstDec
 {
     public AstType type;
     public String name;
-	public AstArgList arglist;
+	public AstParamList paramlist;
 	public AstStmtList body;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstFuncDec(AstType type, String name, AstArgList arglist, AstStmtList body)
+	public AstFuncDec(AstType type, String name, AstParamList paramlist, AstStmtList body)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
@@ -25,7 +25,7 @@ public class AstFuncDec extends AstDec
 		/*******************************/
         this.type = type;
 		this.name = name;
-		this.arglist = arglist;
+		this.paramlist = paramlist;
 		this.body = body;
 	}
 	
@@ -43,7 +43,7 @@ public class AstFuncDec extends AstDec
 		/* RECURSIVELY PRINT left + right ... */
 		/**************************************/
 		if (type != null) type.printMe();
-		if (arglist != null) arglist.printMe();
+		if (paramlist != null) paramlist.printMe();
 		if (body != null) body.printMe();
 		
 		/***************************************/
@@ -57,7 +57,7 @@ public class AstFuncDec extends AstDec
 		/* PRINT Edges to AST GRAPHVIZ DOT file */
 		/****************************************/
 		if (type != null) AstGraphviz.getInstance().logEdge(serialNumber,type.serialNumber);
-		if (arglist != null) AstGraphviz.getInstance().logEdge(serialNumber,arglist.serialNumber);
+		if (paramlist != null) AstGraphviz.getInstance().logEdge(serialNumber,paramlist.serialNumber);
 		if (body != null) AstGraphviz.getInstance().logEdge(serialNumber,body.serialNumber);
 	}
 
@@ -88,7 +88,7 @@ public class AstFuncDec extends AstDec
 		/***************************/
 		/* [2] Semant Input Params */
 		/***************************/
-		for (AstTypeNameList it = arglist; it  != null; it = it.tail)
+		for (AstTypeNameList it = paramlist; it  != null; it = it.tail)
 		{
 			t = SymbolTable.getInstance().find(it.head.type);
 			if (t == null)

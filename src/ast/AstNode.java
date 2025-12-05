@@ -1,5 +1,7 @@
 package ast;
 
+import types.*;
+
 public abstract class AstNode
 {
 	/*******************************************/
@@ -16,4 +18,6 @@ public abstract class AstNode
 	{
 		System.out.print("AST NODE UNKNOWN\n");
 	}
+
+	abstract public Type semantMe();
 }
