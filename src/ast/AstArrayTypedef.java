@@ -11,8 +11,10 @@ public class AstArrayTypedef extends AstDec
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstArrayTypedef(String typeName, AstType elementType)
+	public AstArrayTypedef(String typeName, AstType elementType, int lineNumber)
 	{
+		super(lineNumber);
+
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/

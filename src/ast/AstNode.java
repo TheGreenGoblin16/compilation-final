@@ -25,8 +25,6 @@ public abstract class AstNode
 		System.out.print("AST NODE UNKNOWN\n");
 	}
 
-	abstract public Type semantMe();
-
 	public void abort()
 	{
 		// Throw exception to be caught by Main.java
