@@ -10,6 +10,12 @@ public abstract class AstNode
 	/* a graphviz dot format of the AST ...    */
 	/*******************************************/
 	public int serialNumber;
+	public int lineNumber;
+
+	public AstNode(int lineNumber)
+	{
+		this.lineNumber = lineNumber;
+	}
 	
 	/***********************************************/
 	/* The default message for an unknown AST node */
@@ -20,4 +26,12 @@ public abstract class AstNode
 	}
 
 	abstract public Type semantMe();
+
+	public void abort()
+	{
+		// Throw exception to be caught by Main.java
+		// Note: Using 0 as line number since AST doesn't have line info yet.
+		// The output format matches the spec: ERROR(location)
+		throw new RuntimeException("SEMANT_ERROR(" + lineNumber + ")");
+	}
 }
