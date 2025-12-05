@@ -1,14 +1,17 @@
 package ast;
 
-public class AstArgList extends AstNode
+import types.*;
+import symboltable.*;
+
+public class AstParamList extends AstNode
 {
-	public AstArg head;
-    public AstArgList tail;
+	public AstParam head;
+    public AstParamList tail;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstArgList(AstArg head, AstArgList tail)
+	public AstParamList(AstParam head, AstParamList tail)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
@@ -24,7 +27,7 @@ public class AstArgList extends AstNode
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
-		this.arg = head;
+		this.head = head;
         this.tail = tail;
 	}
 

@@ -105,7 +105,7 @@ non terminal AstVarDec varDec;
 non terminal AstFuncDec funcDec;
 non terminal AstStmtList stmtList;
 non terminal AstClassDec classDec;
-non terminal AstCField cField;
+non terminal AstDec cField;
 non terminal AstArrayTypedef arrayTypedef;
 non terminal AstExp exp;
 non terminal AstNewExp newExp;
@@ -113,12 +113,10 @@ non terminal AstCallExp callExp;
 non terminal AstVar var;
 non terminal AstStmt stmt;
 
-
-
 /* We added these non terminals: */
 
-non terminal AstArg arg;
-non terminal AstArgList argList;
+non terminal AstParam param;
+non terminal AstParamList paramList;
 non terminal AstDecList cFieldList;
 non terminal AstExpList expList;
 
@@ -171,16 +169,16 @@ varDec 		::= 	type:t ID:name SEMICOLON 					{: RESULT = new AstVarDec(t, name, n
 					;
 
 
-arg 		::= 	type:t ID:name				{: RESULT = new AstArg(t, name);	:}
+param 		::= 	type:t ID:name				{: RESULT = new AstParam(t, name);	:}
                     ;
 
-argList		::=		arg:a						{: RESULT = new AstArgList(a, null);	:}
-					| arg:a COMMA argList:l		{: RESULT = new AstArgList(a, l);		:}
+paramList	::=		arg:a						{: RESULT = new AstParamList(a, null);	:}
+					| arg:a COMMA paramList:l	{: RESULT = new AstParamList(a, l);		:}
 					;
 
 
 funcDec 	::= 	type:t ID:name LPAREN RPAREN LBRACE stmtList:body RBRACE					{: RESULT = new AstFuncDec(t, name, null, body);	:}
-					| type:t ID:name LPAREN argList:l RPAREN LBRACE stmtList:body RBRACE		{: RESULT = new AstFuncDec(t, name, l, body);		:}
+					| type:t ID:name LPAREN paramList:l RPAREN LBRACE stmtList:body RBRACE		{: RESULT = new AstFuncDec(t, name, l, body);		:}
 					;
 
 

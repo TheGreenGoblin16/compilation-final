@@ -1,6 +1,6 @@
 package ast;
 
-public class AstArg extends AstNode
+public class AstParam extends AstNode
 {
     AstType type;
     String name;
@@ -8,7 +8,7 @@ public class AstArg extends AstNode
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstArg(AstType type, String name)
+	public AstParam(AstType type, String name)
 	{
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
