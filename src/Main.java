@@ -22,7 +22,7 @@ public class Main
 		try
 		{
 			/********************************/
-			/* [1] Initialize a file reader */
+			/* [1] Initialize a file reader  */
 			/********************************/
 			fileReader = new FileReader(inputFileName);
 
