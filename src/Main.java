@@ -1,8 +1,10 @@
+/***********/
+/* IMPORTS */
+/***********/
 import java.io.*;
 import java.io.PrintWriter;
 import java_cup.runtime.Symbol;
 import ast.*;
-
 
 public class Main
 {
@@ -11,13 +13,12 @@ public class Main
 		Lexer l;
 		Parser p;
 		Symbol s;
-		AstProgram ast;
+		AstStmtList ast;
 		FileReader fileReader;
 		PrintWriter fileWriter = null;
 		String inputFileName = argv[0];
 		String outputFileName = argv[1];
-		boolean parsingSuccessful = false;
-		
+
 		try
 		{
 			/********************************/
@@ -29,12 +30,12 @@ public class Main
 			/* [2] Initialize a file writer */
 			/********************************/
 			fileWriter = new PrintWriter(outputFileName);
-			
+
 			/******************************/
 			/* [3] Initialize a new lexer */
 			/******************************/
 			l = new Lexer(fileReader);
-			
+
 			/*******************************/
 			/* [4] Initialize a new parser */
 			/*******************************/
@@ -43,46 +44,73 @@ public class Main
 			/***********************************/
 			/* [5] 3 ... 2 ... 1 ... Parse !!! */
 			/***********************************/
-			ast = (AstProgram) p.parse().value;
-			parsingSuccessful = true;
+			// This will throw "SYNTAX_ERROR(line)" if parsing fails
+			ast = (AstStmtList) p.parse().value;
 
-			fileWriter.print("OK");
-			
-			/*************************/
-			/* [6] Print the AST ... */
-			/*************************/
+			/**********************************************************/
+			/* [6] Print the AST to console (Optional Debugging Step) */
+			/**********************************************************/
 			ast.printMe();
 
-			
-			/**************************/
-			/* [7] Semant the AST ... */
-			/**************************/
+			/***********************************************************/
+			/* [7] Semant the AST                                      */
+			/* This is the critical step. It recursively checks the    */
+			/* tree and will throw "SEMANT_ERROR(line)" if it fails.   */
+			/***********************************************************/
 			ast.semantMe();
 
 			/*************************************/
 			/* [8] Finalize AST GRAPHIZ DOT file */
 			/*************************************/
 			AstGraphviz.getInstance().finalizeFile();
-    	}
-			     
+
+			/**********************************************************/
+			/* [9] Success!                                           */
+			/* If we reached here, no exceptions were thrown.         */
+			/* Per PDF: "When the input program is semantically       */
+			/* correct: OK"                                           */
+			/**********************************************************/
+			fileWriter.print("OK");
+		}
 		catch (Throwable e)
 		{
-			if (e.getMessage() != null && e.getMessage().startsWith("SYNTAX_ERROR"))
+			// We use Throwable to catch everything, including RuntimeExceptions and Errors
+
+			if (e.getMessage() != null)
 			{
-				// Extract "SYNTAX_ERROR(5)" -> "ERROR(5)"
-				String msg = e.getMessage().replace("SYNTAX_", "");
-				fileWriter.print(msg);
+				// Handle Syntax Errors (from CUP / Parser.java)
+				// Format: SYNTAX_ERROR(line) -> ERROR(line)
+				if (e.getMessage().startsWith("SYNTAX_ERROR"))
+				{
+					String msg = e.getMessage().replace("SYNTAX_", "");
+					fileWriter.print(msg);
+				}
+				// Handle Semantic Errors (from AstNode.abort)
+				// Format: SEMANT_ERROR(line) -> ERROR(line)
+				else if (e.getMessage().startsWith("SEMANT_ERROR"))
+				{
+					String msg = e.getMessage().replace("SEMANT_", "");
+					fileWriter.print(msg);
+				}
+				// Handle Lexical Errors or other crashes
+				// Per PDF: "When there is a lexical error: ERROR"
+				else
+				{
+					fileWriter.print("ERROR");
+				}
 			}
-			else if (parsingSuccessful == false)
+			else
 			{
+				// Fallback for null messages
 				fileWriter.print("ERROR");
 			}
 		}
 		finally
 		{
-			/*************************/
-			/* [8] Close output file */
-			/*************************/
+			/***********************************************/
+			/* [10] Close output file safely               */
+			/* This ensures the text is actually written.  */
+			/***********************************************/
 			if (fileWriter != null)
 			{
 				fileWriter.close();
@@ -90,5 +118,3 @@ public class Main
 		}
 	}
 }
-
-
