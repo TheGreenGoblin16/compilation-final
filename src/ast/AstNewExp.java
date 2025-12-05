@@ -11,8 +11,9 @@ public class AstNewExp extends AstExp
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstNewExp(AstType t, AstExp exp)
+	public AstNewExp(AstType t, AstExp exp, int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/

@@ -11,8 +11,9 @@ public class AstExpList extends AstNode
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstExpList(AstExp exp, AstExpList next)
+	public AstExpList(AstExp exp, AstExpList next, int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/

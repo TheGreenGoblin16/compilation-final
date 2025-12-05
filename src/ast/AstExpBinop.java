@@ -11,8 +11,9 @@ public class AstExpBinop extends AstExp
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstExpBinop(AstExp left, AstExp right, int op)
+	public AstExpBinop(AstExp left, AstExp right, int op, int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -87,7 +88,7 @@ public class AstExpBinop extends AstExp
 		{
 			return TypeInt.getInstance();
 		}
-		System.exit(0);
+		abort();
 		return null;
 	}
 }

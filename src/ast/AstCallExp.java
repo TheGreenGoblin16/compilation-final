@@ -12,8 +12,9 @@ public class AstCallExp extends AstExp
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstCallExp(AstVar var, String name, AstExpList args)
+	public AstCallExp(AstVar var, String name, AstExpList args, int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
