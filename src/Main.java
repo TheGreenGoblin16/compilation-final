@@ -13,7 +13,7 @@ public class Main
 		Lexer l;
 		Parser p;
 		Symbol s;
-		AstStmtList ast;
+		AstDecList ast;
 		FileReader fileReader;
 		PrintWriter fileWriter = null;
 		String inputFileName = argv[0];
@@ -45,7 +45,7 @@ public class Main
 			/* [5] 3 ... 2 ... 1 ... Parse !!! */
 			/***********************************/
 			// This will throw "SYNTAX_ERROR(line)" if parsing fails
-			ast = (AstStmtList) p.parse().value;
+			ast = (AstDecList) p.parse().value;
 
 			/**********************************************************/
 			/* [6] Print the AST to console (Optional Debugging Step) */
