@@ -88,7 +88,7 @@ public class AstCallExp extends AstExp
 		// Case 2: Function call or method call within a class
 		else {
 			// Check for a method in the current class scope
-			TypeClass currentClass = SymbolTable.getInstance().find("$CURRENT_CLASS");
+			TypeClass currentClass = SymbolTable.getInstance().find("$CURRENT-CLASS");
 			if (currentClass != null) {
 				TypeClass tc = currentClass;
 				boolean found = false;
