@@ -72,7 +72,7 @@ public class AstVarSubscript extends AstVar
 		/************************************************/
 		/* [2] Ensure the variable is of type Array     */
 		/************************************************/
-		if (tVar == null || tVar.isArray() == false)
+		if (tVar == null || !tVar.isArray())
 		{
 			System.out.format(">> ERROR [%d:%d] subscript applied to non-array type\n",0,0);
 			abort();
@@ -90,6 +90,15 @@ public class AstVarSubscript extends AstVar
 		{
 			System.out.format(">> ERROR [%d:%d] array subscript must be an integer\n",0,0);
 			abort();
+		}
+
+		// 4.5 CHECK FOR NEGATIVE CONSTANT INDEX (e.g., arr[-1])
+		if (subscript instanceof AstExpInt) {
+			int val = ((AstExpInt)subscript).value;
+			if (val < 0) {
+				System.out.format(">> ERROR [%d] array subscript must be non-negative\n", lineNumber);
+				abort();
+			}
 		}
 
 		/************************************************/

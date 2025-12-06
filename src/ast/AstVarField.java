@@ -78,7 +78,7 @@ public class AstVarField extends AstVar
 			abort();
 		}
 
-		TypeClass tc = (TypeClass) t;
+		TypeClass tc = ((TypeClassInstance)t).cls;
 
 		/**************************************************************/
 		/* [3] Look for fieldName inside tc, or its superclasses      */
