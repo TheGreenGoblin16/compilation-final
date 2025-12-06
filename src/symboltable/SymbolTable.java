@@ -116,13 +116,14 @@ public class SymbolTable
 		return null;
 	}
 
-	/**********************************************/
-	/* Find the hierarchy scope element with name */
-	/**********************************************/
+	/******************************************************/
+	/* Find the hierarchy-deepest scope element with name */
+	/******************************************************/
 	public Type findHierarchy(String name)
 	{
-		// WIP
 		SymbolTableEntry e;
+
+		if (find("$CURRENT-CLASS"))
 				
 		for (e = table[hash(name)]; e != null && e.name.equals("SCOPE-BOUNDARY"); e = e.next)
 		{

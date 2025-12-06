@@ -13,8 +13,10 @@ public class AstFuncDec extends AstDec
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstFuncDec(String typeName, String name, AstParamList params, AstStmtList body)
+	public AstFuncDec(String typeName, String name, AstParamList params, AstStmtList body, int lineNumber)
 	{
+		super(lineNumber);
+
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/

@@ -12,8 +12,10 @@ public class AstClassDec extends AstDec
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstClassDec(String name, String parent, AstDecList body)
+	public AstClassDec(String name, String parent, AstDecList body, int lineNumber)
 	{
+		super(lineNumber);
+
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -68,7 +70,7 @@ public class AstClassDec extends AstDec
 		TypeClass t = new TypeClass(parent, name, body.semantMe());
 
 		//MR KOREN please keep this line in the semantMe() right after opening new scope!
-		SymbolTable.getInstance().enter("$CURRENT_CLASS", t);
+		SymbolTable.getInstance().enter("$CURRENT-CLASS", t);
 
 		/*****************/
 		/* [3] End Scope */
