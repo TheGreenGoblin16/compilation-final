@@ -85,17 +85,17 @@ public class AstVarField extends AstVar
 		/**************************************************************/
 		while (tc != null)
 		{
-			for (TypeList it = tc.dataMembers; it != null; it = it.tail)
+			for (TypedIdentifierList it = tc.dataMembers; it != null; it = it.tail)
 			{
 				if (it.head.name.equals(fieldName))
 				{
 					// FIX: Ensure the member is NOT a method
-					if (it.head instanceof TypeFunction)
+					if (it.head.type instanceof TypeFunction)
 					{
 						System.out.format(">> ERROR [%d:%d] member %s is a method, not a field\n",0,0,fieldName);
 						abort();
 					}
-					return it.head;
+					return it.head.type;
 				}
 			}
 			tc = tc.parent;

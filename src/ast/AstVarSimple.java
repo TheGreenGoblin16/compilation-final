@@ -60,17 +60,17 @@ public class AstVarSimple extends AstVar
             {
                 // Iterate over data members (fields/methods)
                 // NOTE: dataMembers is a TypeList based on your TypeClass.java
-                for (TypeList it = cls.dataMembers; it != null; it = it.tail)
+                for (TypedIdentifierList it = cls.dataMembers; it != null; it = it.tail)
                 {
                     if (it.head.name.equals(name))
                     {
                         // [CRITICAL CHECK] Ensure it is a FIELD, not a METHOD
-                        if (it.head instanceof TypeFunction)
+                        if (it.head.type instanceof TypeFunction)
                         {
                             System.out.format(">> ERROR [ %d ] member %s is a method, not a field\n", lineNumber, name);
                             abort();
                         }
-                        return it.head;
+                        return it.head.type;
                     }
                 }
                 // Move to parent
