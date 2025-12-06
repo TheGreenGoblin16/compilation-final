@@ -65,37 +65,73 @@ public class AstFuncDec extends AstDec
 	public Type semantMe()
 	{
 		Type returnType;
-		TypeFunction t;
+		TypeList paramsTypes = null;
+		TypeFunction thisFunc;
+		TypeClass currentClass = (TypeClass) SymbolTable.getInstance().find("$CURRENT-CLASS");
 
-		/*******************/
-		/* [0] Get return type */
-		/*******************/
-		returnType = SymbolTable.getInstance().find(typeName);
-		if (returnType == null)
-		{
-			abort();			
+		/***********************************/
+		/* [0] Get return and params types */
+		/***********************************/
+		if (typeName.equals("void")) {
+			returnType = TypeVoid.getInstance();
+		} else {
+			returnType = validateTypeName(typeName);
+		}
+
+		if (params != null) {
+			paramsTypes = params.semantMe(false);
+		}
+
+		thisFunc = new TypeFunction(returnType, name, paramsTypes);
+
+		/**************************************/
+		/* [1] Check for previous appearances */
+		/**************************************/
+		if (currentClass == null) { // Is in global scope
+			if (SymbolTable.getInstance().find(name) != null) {
+				// We can't allow a function with the same name in global scope
+                System.out.format(">> ERROR [%d] found a previous member with the same name in global scope\n", lineNumber);
+				abort();
+			}
+		} else { // Is in class scope
+			TypeClass tc = currentClass;
+			boolean isProper = false;
+			while (tc != null) { // Move upwards the hierarchy
+				for (TypedIdentifierList it = tc.dataMembers; it != null; it = it.tail) { // Traverse data members
+					if (it.head.name.equals(name)) {
+						if (it.head.type instanceof TypeFunction && isProper) { // Is a function in a proper superlcass
+							TypeFunction otherFunc = (TypeFunction) it.head.type;
+							if (!TypeFunction.signaturesEqual(thisFunc, otherFunc)) {
+                            	System.out.format(">> ERROR [%d] found a previous member with the same name and not the same signature in hierarchy\n", lineNumber);
+								abort();
+							}
+						} else {
+                            System.out.format(">> ERROR [%d] found a previous member with the same name in hierarchy\n", lineNumber);
+							abort();
+						}
+					}
+				}
+				tc = tc.parent;
+				isProper = true; // Now we enter proper superclasses
+			}
 		}
 	
 		/****************************/
-		/* [1] Begin function scope */
+		/* [2] Begin function scope */
 		/****************************/
-		// We want to already push the function itself for recursion purposes
-		t = new TypeFunction(returnType, name, null);
-		SymbolTable.getInstance().enter(name, t);
+		// We want to already push the function so it can call itself
+		SymbolTable.getInstance().enter(name, thisFunc);
+
 		SymbolTable.getInstance().beginScope();
 
-		// MR KOREN please keep this line in the semantMe() right after opening new scope!
 		SymbolTable.getInstance().enter("$RETURN-TYPE", returnType);
 
-		/************************************/
-		/* [2] Semant and push input params */
-		/************************************/
-		t.paramsTypes = params.semantMe();
-
-		/*************************/
-		/* [3] Handle overriding */
-		/*************************/
-		
+		/*******************/
+		/* [3] Push params */
+		/*******************/
+		if (params != null) {
+			params.semantMe(true);
+		}
 
 		/*******************/
 		/* [4] Semant body */
@@ -107,8 +143,17 @@ public class AstFuncDec extends AstDec
 		/*****************/
 		SymbolTable.getInstance().endScope();
 
+		/******************************************************/
+		/* [6] Add the identifier to currentClass.dataMembers */
+		/******************************************************/
+		if (currentClass != null) {
+			TypedIdentifierList til = currentClass.dataMembers;
+			currentClass.dataMembers = new TypedIdentifierList(
+				new TypedIdentifier(thisFunc, name), til);
+		}
+
 		/************************************************************/
-		/* [6] Return value is irrelevant for function declarations */
+		/* [7] Return value is irrelevant for function declarations */
 		/************************************************************/
 		return null;		
 	}

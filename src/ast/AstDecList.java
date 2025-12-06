@@ -51,7 +51,10 @@ public class AstDecList extends AstNode
         if (tail != null) AstGraphviz.getInstance().logEdge(serialNumber,tail.serialNumber);
 	}
 
-	Type semantMe() {
+	public Type semantMe() {
+		for (AstDecList it = this; it != null; it = it.tail) {
+			it.head.semantMe();
+		}
 		return null;
 	}
 }

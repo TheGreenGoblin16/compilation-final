@@ -35,7 +35,7 @@ public abstract class AstNode
 	}
 
 	Type validateTypeName(String typeName) {
-		// Validate that typeName exists in the current scope, if yes - return the matching Type for it, if no - abort.
+		// Validate that typeName exists in the global scope, if yes - return the matching Type for it, if no - abort.
 		Type t;
 		if (typeName.equals("int")) {
 			t = TypeInt.getInstance();
@@ -44,12 +44,14 @@ public abstract class AstNode
 		} else {
 			t = SymbolTable.getInstance().find(typeName);
 			if (t == null) {
+                System.out.format(">> ERROR [%d] type %s is not defined in scope\n", lineNumber, typeName);
 				abort();
 			} else if (t instanceof TypeClass) {
 				t = ((TypeClass) t).getInstance();
 			} else if (t instanceof TypeArray) {
 				t = ((TypeArray) t).getInstance();
 			} else {
+				System.out.format(">> ERROR [%d] type %s is not correct in scope\n", lineNumber, typeName);
 				abort();
 			}
 		}

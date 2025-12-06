@@ -35,4 +35,14 @@ public class TypeClass extends Type
 		}
 		return instance;
 	}
+
+	public static boolean isSubTypeOf(TypeClass current, TypeClass other) {
+        while (current != null) {
+            if (current != other) {
+                return true;
+            }
+            current = current.parent;
+        }
+        return false;
+    }
 }

@@ -114,7 +114,7 @@ public class AstExpBinop extends AstExp
 			if (t1.isClass() && t2.isClass()) {
 				TypeClassInstance c1 = (TypeClassInstance) t1;
 				TypeClassInstance c2 = (TypeClassInstance) t2;
-				if (c1.isSubTypeOf(c2) || c2.isSubTypeOf(c1)) {
+				if (TypeClass.isSubTypeOf(c1.cls, c2.cls) || TypeClass.isSubTypeOf(c2.cls, c1.cls)) {
 					return TypeInt.getInstance();
 				}
 			}

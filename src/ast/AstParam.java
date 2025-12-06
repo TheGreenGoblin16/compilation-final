@@ -45,17 +45,21 @@ public class AstParam extends AstNode
 			String.format("PARAM\n(%s)\n", name));
 	}
 
-	public Type semantMe() {
+	public Type semantMe(boolean push) {
 		// Validate that typeName exists
 		Type t = validateTypeName(typeName);
 
-		// Validate that name isn't a previous parameter
-		if (SymbolTable.getInstance().findLocal(name) != null) {
-			abort();
+		if (push) {
+			// Validate that name isn't a previous parameter
+			if (SymbolTable.getInstance().findLocal(name) != null) {
+				System.out.format(">> ERROR [%d] parameter %s was already used\n", lineNumber, name);
+				abort();
+			}
+	
+			// Add parameter as a local variable
+			SymbolTable.getInstance().enter(name, t);
 		}
 
-		// Add parameter as a local variable
-		SymbolTable.getInstance().enter(name, t);
 		return t;
 	}
 }

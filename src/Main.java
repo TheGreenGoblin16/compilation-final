@@ -18,6 +18,7 @@ public class Main
 		PrintWriter fileWriter = null;
 		String inputFileName = argv[0];
 		String outputFileName = argv[1];
+		boolean finished = false;
 
 		try
 		{
@@ -58,6 +59,7 @@ public class Main
 			/* tree and will throw "SEMANT_ERROR(line)" if it fails.   */
 			/***********************************************************/
 			ast.semantMe();
+			finished = true;
 
 			/*************************************/
 			/* [8] Finalize AST GRAPHIZ DOT file */
@@ -75,35 +77,38 @@ public class Main
 		catch (Throwable e)
 		{
 			// We use Throwable to catch everything, including RuntimeExceptions and Errors
-
-			if (e.getMessage() != null)
-			{
-				// Handle Syntax Errors (from CUP / Parser.java)
-				// Format: SYNTAX_ERROR(line) -> ERROR(line)
-				if (e.getMessage().startsWith("SYNTAX_ERROR"))
+			if (!finished){
+				System.out.println(e.getMessage());
+				if (e.getMessage() != null)
 				{
-					String msg = e.getMessage().replace("SYNTAX_", "");
-					fileWriter.print(msg);
+					// Handle Syntax Errors (from CUP / Parser.java)
+					// Format: SYNTAX_ERROR(line) -> ERROR(line)
+					if (e.getMessage().startsWith("SYNTAX_ERROR"))
+					{
+						String msg = e.getMessage().replace("SYNTAX_", "");
+						fileWriter.print(msg);
+					}
+					// Handle Semantic Errors (from AstNode.abort)
+					// Format: SEMANT_ERROR(line) -> ERROR(line)
+					else if (e.getMessage().startsWith("SEMANT_ERROR"))
+					{
+						String msg = e.getMessage().replace("SEMANT_", "");
+						fileWriter.print(msg);
+					}
+					// Handle Lexical Errors or other crashes
+					// Per PDF: "When there is a lexical error: ERROR"
+					else
+					{
+						fileWriter.print("ERROR");
+					}
 				}
-				// Handle Semantic Errors (from AstNode.abort)
-				// Format: SEMANT_ERROR(line) -> ERROR(line)
-				else if (e.getMessage().startsWith("SEMANT_ERROR"))
-				{
-					String msg = e.getMessage().replace("SEMANT_", "");
-					fileWriter.print(msg);
-				}
-				// Handle Lexical Errors or other crashes
-				// Per PDF: "When there is a lexical error: ERROR"
 				else
 				{
+					// Fallback for null messages
 					fileWriter.print("ERROR");
 				}
 			}
-			else
-			{
-				// Fallback for null messages
-				fileWriter.print("ERROR");
-			}
+
 		}
 		finally
 		{

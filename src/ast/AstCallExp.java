@@ -63,7 +63,7 @@ public class AstCallExp extends AstExp
 		if (var != null) {
 			Type t1 = var.semantMe();
 			if (t1 == null) {
-				System.out.format(">> ERROR [ %d ] variable %s not found in scope\n", lineNumber, var.name);
+				System.out.format(">> ERROR [ %d ] variable not found in scope\n", lineNumber);
 				abort();
 			}
 			if (!(t1 instanceof TypeClassInstance)) {
@@ -73,29 +73,38 @@ public class AstCallExp extends AstExp
 
 			TypeClassInstance tci = (TypeClassInstance) t1;
 			TypeClass tc = tci.cls;
-			boolean found = false;
-			while (tc != null && !found) {
+			while (tc != null) {
 				for (TypedIdentifierList it_tl = tc.dataMembers; it_tl != null; it_tl = it_tl.tail) {
 					if (it_tl.head.name.equals(name)) {
-						t = it_tl.head;
-						found = true;
-						break;
+						if (it_tl.head.type instanceof TypeFunction) {
+                            t = it_tl.head.type;
+                        } else {
+                             System.out.format(">> ERROR [ %d ] member %s is not a method\n", lineNumber, name);
+                             abort();
+                        }
+                        break;
 					}
 				}
+				if (t != null) break;
 				tc = tc.parent;
 			}
+
+			if (t == null) {
+                System.out.format(">> ERROR [ %d ] method %s not found in class %s\n", lineNumber, name, tci.name);
+                abort();
+            }
 		}
 		// Case 2: Function call or method call within a class
 		else {
 			// Check for a method in the current class scope
-			TypeClass currentClass = SymbolTable.getInstance().find("$CURRENT-CLASS");
+			TypeClass currentClass = (TypeClass)SymbolTable.getInstance().find("$CURRENT-CLASS");
 			if (currentClass != null) {
 				TypeClass tc = currentClass;
 				boolean found = false;
 				while (tc != null && !found) {
 					for (TypedIdentifierList it_tl = tc.dataMembers; it_tl != null; it_tl = it_tl.tail) {
 						if (it_tl.head.name.equals(name)) {
-							t = it_tl.head;
+							t = it_tl.head.type;
 							found = true;
 							break;
 						}
@@ -130,8 +139,19 @@ public class AstCallExp extends AstExp
 		while (paramIter != null && argIter != null) {
 			if (paramIter.head == null && argIter.head == null) {
 				// Both are lists of empty expressions e.g. f() called with ()
+				break;
+			} else if (argIter.head == null && paramIter.head != null) {
+				if (!(paramIter.head instanceof TypeArray || paramIter.head instanceof TypeClass)) {
+					System.out.format(">> ERROR [ %d ] function %s argument type mismatch1\n", lineNumber, name);
+					abort();
+				}
+			} else if (paramIter.head instanceof TypeClass && argIter.head instanceof TypeClassInstance) {
+				if (!(TypeClass.isSubTypeOf(((TypeClassInstance) argIter.head).cls, (TypeClass)paramIter.head))) {
+					System.out.format(">> ERROR [ %d ] function %s argument type mismatch2\n", lineNumber, name);
+					abort();
+				}
 			} else if (paramIter.head == null || argIter.head == null || !paramIter.head.name.equals(argIter.head.name)) {
-				System.out.format(">> ERROR [ %d ] function %s argument type mismatch\n", lineNumber, name);
+				System.out.format(">> ERROR [ %d ] function %s argument type mismatch3\n", lineNumber, name);
 				abort();
 			}
 			paramIter = paramIter.tail;

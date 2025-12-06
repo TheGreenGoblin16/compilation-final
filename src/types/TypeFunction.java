@@ -15,10 +15,26 @@ public class TypeFunction extends Type
 	/****************/
 	/* CTROR(S) ... */
 	/****************/
-	public TypeFunction(Type returnType, String name, TypeList params)
+	public TypeFunction(Type returnType, String name, TypeList paramsTypes)
 	{
 		this.name = name;
 		this.returnType = returnType;
-		this.paramsTypes = params;
+		this.paramsTypes = paramsTypes;
+	}
+
+	public static boolean signaturesEqual(TypeFunction tf1, TypeFunction tf2)
+	{
+		if (tf1 == null || tf2 == null) return false;
+
+		if (tf1.returnType != tf2.returnType) return false;
+
+		TypeList tl1 = tf1.paramsTypes;
+		TypeList tl2 = tf2.paramsTypes;
+		while (tl1 != null && tl2 != null) {
+			if (tl1.head != tl2.head) return false;
+			tl1 = tl1.tail;
+			tl2 = tl2.tail;
+		}
+		return tl1 == null && tl2 == null;
 	}
 }

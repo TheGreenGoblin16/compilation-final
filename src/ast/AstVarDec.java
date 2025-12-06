@@ -59,29 +59,40 @@ public class AstVarDec extends AstDec
 	}
 	public Type semantMe()
 	{
-		Type t = SymbolTable.getInstance().find(typeName);
-		Type e = null;
+		Type t;
+		Type e;
+		TypeClass currentClass = (TypeClass) SymbolTable.getInstance().find("$CURRENT-CLASS");
+		boolean isStmt = (SymbolTable.getInstance().find("$RETURN-TYPE") != null);
 
-		/****************************/
-		/* [1] Check If Type exists */
-		/****************************/
-		if (t == null)
-		{
-			System.out.format(">> ERROR [%d] type %s not found\n", lineNumber, typeName);
-			abort();
-		}
+		/********************************/
+		/* [1] Check If typeName exists */
+		/********************************/
+		t = validateTypeName(typeName);
 
 		/**************************************/
-		/* [2] Check That Name does NOT exist */
+		/* [2] Check for previous appearances */
 		/**************************************/
-		if (SymbolTable.getInstance().find(name) != null)
-		{
-			System.out.format(">> ERROR [%d:%d] variable %s already exists in scope\n",2,2,name);
-			System.exit(0);
+		if (currentClass == null || isStmt) { // Is not a class field
+			if (SymbolTable.getInstance().findLocal(name) != null) {
+				// We can't allow a variable with the same name in local scope
+				System.out.format(">> ERROR [%d] found a previous member with the same name in local scope\n", lineNumber);
+				abort();
+			}
+		} else { // Is a class field
+			TypeClass tc = currentClass;
+			while (tc != null) { // Move upwards the hierarchy
+				for (TypedIdentifierList it = tc.dataMembers; it != null; it = it.tail) { // Traverse data members
+					if (it.head.name.equals(name)) {
+						System.out.format(">> ERROR [%d] found a previous member with the same name in class hierarchy\n", lineNumber);
+						abort();
+					}
+				}
+				tc = tc.parent;
+			}
 		}
 
 		/********************************************/
-		/* [3] Semant the Initial Value (if any)    */
+		/* [3] Semant the initial value (if any)    */
 		/********************************************/
 		if (exp != null)
 		{
@@ -90,39 +101,50 @@ public class AstVarDec extends AstDec
 			// Validation Logic (Same as AstStmtAssign)
 			boolean valid = false;
 
-			// A. Exact Match
-			if (t == e) valid = true;
+			// A. Exact match
+			if (t == e) { valid = true; }
 
 			// B. Nil (allowed for Class/Array)
 			if (!valid && e == TypeVoid.getInstance())
 			{
-				if (t.isClass() || t.isArray()) valid = true;
+				if (t.isClass() || t.isArray()) { valid = true; }
 			}
 
 			// C. Inheritance (Subclassing)
 			if (!valid && t.isClass() && e.isClass())
 			{
-				TypeClass parent = (TypeClass)t;
-				TypeClass child = (TypeClass)e;
-				TypeClass temp = child.parent;
-				while (temp != null)
-				{
-					if (temp == parent) { valid = true; break; }
-					temp = temp.parent;
-				}
+				TypeClassInstance parent = (TypeClassInstance) t;
+				TypeClassInstance child = (TypeClassInstance) e;
+				if (TypeClass.isSubTypeOf(child.cls , parent.cls)) { valid = true; }
+			}
+
+			// D. New array 
+			if (!valid && t.isArray() && e.isArray()) {
+				TypeArrayInstance parent = (TypeArrayInstance) t;
+				TypeArrayInstance child = (TypeArrayInstance) e;
+				if (child.arr.name.equals("$NEW") && child.arr.type == parent.arr.type) { valid = true; }
 			}
 
 			if (!valid)
 			{
-				System.out.format(">> ERROR [%d:%d] type mismatch: cannot assign %s to %s\n",2,2,e.name,t.name);
-				System.exit(0);
+				System.out.format(">> ERROR [%d] expression type does not match\n", lineNumber);
+				abort();
 			}
 		}
 
 		/************************************************/
-		/* [4] Enter the Identifier to the Symbol Table */
+		/* [4] Enter the identifier to the symbol table */
 		/************************************************/
-		SymbolTable.getInstance().enter(name,t);
+		SymbolTable.getInstance().enter(name, t);
+
+		/******************************************************/
+		/* [5] Add the identifier to currentClass.dataMembers */
+		/******************************************************/
+		if (currentClass != null && !isStmt) { // Is a class field
+			TypedIdentifierList til = currentClass.dataMembers;
+			currentClass.dataMembers = new TypedIdentifierList(
+				new TypedIdentifier(t, name), til);
+		}
 
 		return null;
 	}

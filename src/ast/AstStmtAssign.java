@@ -108,7 +108,7 @@ public class AstStmtAssign extends AstStmt
 			{
 				return null;
 			}
-			System.out.format(">> ERROR [%d:%d] cannot assign nil to variable of type %s\n",0,0, t1.name);
+			System.out.format(">> ERROR [ %d ] cannot assign nil to variable of type %s\n",lineNumber, t1.name);
 			abort();
 		}
 
@@ -120,20 +120,23 @@ public class AstStmtAssign extends AstStmt
 		{
 			TypeClassInstance t1Inst = (TypeClassInstance) t1;
 			TypeClassInstance t2Inst = (TypeClassInstance) t2;
-			if (t2Inst.isSubTypeOf(t1Inst)) return null;
+			if (TypeClass.isSubTypeOf(t2Inst.cls , t1Inst.cls)) return null;
 		}
 
-
-		// 7.5 Array Name Equivalence Match
-		// Arrays are name-equivalent. If t1 is "IntArray" and t2 is "IntArray", they are compatible.
-		if (t1.isArray() && t2.isArray())
-		{
-			if (t1.name.equals(t2.name)) return null;
+		/***************************************************/
+		/* [7] Check for New Array						   */
+		/* Rule: Blah						               */
+		/***************************************************/
+		if (t1.isArray() && t2.isArray()) {
+			TypeArrayInstance parent = (TypeArrayInstance) t1;
+			TypeArrayInstance child = (TypeArrayInstance) t2;
+			if (child.arr.name.equals("$NEW") && child.arr.type == parent.arr.type) return null;
 		}
+
 		/***************************************************/
-		/* [7] Type Mismatch Error                         */
+		/* [8] Type Mismatch Error                         */
 		/***************************************************/
-		System.out.format(">> ERROR [%d:%d] type mismatch: cannot assign value of type %s to variable of type %s\n",0,0, t2.name, t1.name);
+		System.out.format(">> ERROR [ %d ] type mismatch: cannot assign value of type %s to variable of type %s\n",lineNumber, t2.name, t1.name);
 		abort();
 
 		return null;

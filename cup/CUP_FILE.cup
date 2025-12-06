@@ -98,7 +98,7 @@ terminal String ID;
 /*****************/
 /* NON TERMINALS */
 /*****************/
-non terminal AstProgram program;
+non terminal AstDecList program;
 non terminal AstDec dec;
 non terminal String type;
 non terminal AstVarDec varDec;
@@ -217,8 +217,8 @@ exp          ::=       INT:i                       {: RESULT = new AstExpInt(i, 
                ;
 
 
-newExp    ::=    NEW type:t                         {: RESULT = new AstNewExp(t, null, nleft+1);    :}
-               | NEW type:t LBRACK exp:e RBRACK     {: RESULT = new AstNewExp(t, e, nleft+1);   :}
+newExp    ::=    NEW:n type:t                         {: RESULT = new AstNewExp(t, null, nleft+1);    :}
+               | NEW:n type:t LBRACK exp:e RBRACK     {: RESULT = new AstNewExp(t, e, nleft+1);   :}
                ;
 
 

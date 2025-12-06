@@ -72,11 +72,16 @@ public class AstVarSubscript extends AstVar
 		/************************************************/
 		/* [2] Ensure the variable is of type Array     */
 		/************************************************/
-		if (tVar == null || !tVar.isArray())
-		{
-			System.out.format(">> ERROR [%d:%d] subscript applied to non-array type\n",0,0);
-			abort();
-		}
+		TypeArray arrType = null;
+
+        if (tVar instanceof TypeArray) {
+            arrType = (TypeArray) tVar;
+        } else if (tVar instanceof TypeArrayInstance) {
+            arrType = ((TypeArrayInstance)tVar).arr;
+        } else {
+            System.out.format(">> ERROR [%d] subscript applied to non-array type\n", lineNumber);
+            abort();
+        }
 
 		/************************************************/
 		/* [3] Recursively semant the subscript index   */
@@ -88,7 +93,7 @@ public class AstVarSubscript extends AstVar
 		/************************************************/
 		if (tSub != TypeInt.getInstance())
 		{
-			System.out.format(">> ERROR [%d:%d] array subscript must be an integer\n",0,0);
+			System.out.format(">> ERROR [%d] array subscript must be an integer\n",lineNumber);
 			abort();
 		}
 

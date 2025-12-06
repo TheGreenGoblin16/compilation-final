@@ -65,7 +65,7 @@ public class AstStmtIf extends AstStmt
 			Type tCond = cond.semantMe();
 			if (tCond != TypeInt.getInstance())
 			{
-				System.out.format(">> ERROR [%d:%d] condition inside if statement must be of type int\n",0,0);
+				System.out.format(">> ERROR [ %d ] condition inside if statement must be of type int\n",lineNumber);
 				abort();
 			}
 		}

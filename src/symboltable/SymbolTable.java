@@ -116,26 +116,6 @@ public class SymbolTable
 		return null;
 	}
 
-	/******************************************************/
-	/* Find the hierarchy-deepest scope element with name */
-	/******************************************************/
-	public Type findHierarchy(String name)
-	{
-		SymbolTableEntry e;
-
-		if (find("$CURRENT-CLASS"))
-				
-		for (e = table[hash(name)]; e != null && e.name.equals("SCOPE-BOUNDARY"); e = e.next)
-		{
-			if (e.name.equals(name))
-			{
-				return e.type;
-			}
-		}
-		
-		return null;
-	}
-
 	/***************************************************************************/
 	/* begine scope = Enter the <SCOPE-BOUNDARY> element to the data structure */
 	/***************************************************************************/
@@ -285,14 +265,9 @@ public class SymbolTable
 			/*******************************/
 			instance = new SymbolTable();
 
-			/*****************************************/
-			/* [1] Enter primitive types int, string */
-			/*****************************************/
-			instance.enter("int",   TypeInt.getInstance());
-			instance.enter("string", TypeString.getInstance());
 
 			/***************************************/
-			/* [2] Enter library function PrintInt */
+			/* [1] Enter library function PrintInt */
 			/* void PrintInt(int i)                */
 			/***************************************/
 			instance.enter(
@@ -305,7 +280,7 @@ public class SymbolTable
 						null)));
 
 			/******************************************/
-			/* [3] Enter library function PrintString */
+			/* [2] Enter library function PrintString */
 			/* void PrintString(string s)             */
 			/******************************************/
 			instance.enter(

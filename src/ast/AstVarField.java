@@ -72,13 +72,16 @@ public class AstVarField extends AstVar
 		/*********************************/
 		/* [2] Make sure type is a class */
 		/*********************************/
-		if (t == null || t.isClass() == false)
-		{
-			System.out.format(">> ERROR [%d:%d] access field of a non-class variable\n",0,0);
-			abort();
-		}
-
-		TypeClass tc = ((TypeClassInstance)t).cls;
+		TypeClass tc = null;
+        
+        if (t instanceof TypeClass) {
+            tc = (TypeClass) t;
+        } else if (t instanceof TypeClassInstance) {
+            tc = ((TypeClassInstance)t).cls;
+        } else {
+            System.out.format(">> ERROR [%d] access field of a non-class variable\n", lineNumber);
+            abort();
+        }
 
 		/**************************************************************/
 		/* [3] Look for fieldName inside tc, or its superclasses      */
@@ -92,7 +95,7 @@ public class AstVarField extends AstVar
 					// FIX: Ensure the member is NOT a method
 					if (it.head.type instanceof TypeFunction)
 					{
-						System.out.format(">> ERROR [%d:%d] member %s is a method, not a field\n",0,0,fieldName);
+						System.out.format(">> ERROR [ %d ] member %s is a method, not a field\n",lineNumber,fieldName);
 						abort();
 					}
 					return it.head.type;
@@ -104,7 +107,7 @@ public class AstVarField extends AstVar
 		/*********************************************/
 		/* [4] fieldName does not exist in hierarchy */
 		/*********************************************/
-		System.out.format(">> ERROR [%d:%d] field %s does not exist in class %s\n",0,0,fieldName, t.name);
+		System.out.format(">> ERROR [%d] field %s does not exist in class %s\n",lineNumber,fieldName, t.name);
 		abort();
 		return null;
 	}

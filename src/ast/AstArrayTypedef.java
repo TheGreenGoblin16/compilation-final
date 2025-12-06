@@ -51,11 +51,11 @@ public class AstArrayTypedef extends AstDec
 		/****************************/
 		/* [1] Check if type exists */
 		/****************************/
-		t = validateType(elementTypeName);
+		t = validateTypeName(elementTypeName);
 
-		/**************************************/
-		/* [2] Check that typeName does NOT exist */
-		/**************************************/
+		/**********************************/
+		/* [2] Check that typeName exists */
+		/**********************************/
 		if (SymbolTable.getInstance().find(typeName) != null) {
 			abort();
 		}
@@ -63,7 +63,7 @@ public class AstArrayTypedef extends AstDec
 		/************************************************/
 		/* [3] Enter the identifier to the Symbol Table */
 		/************************************************/
-		SymbolTable.getInstance().enter(typeName, new TypeArray(t));
+		SymbolTable.getInstance().enter(typeName, new TypeArray(t, typeName));
 
 		/************************************************************/
 		/* [4] Return value is irrelevant for declarations 			*/

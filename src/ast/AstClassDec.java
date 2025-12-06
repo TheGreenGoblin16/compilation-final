@@ -57,38 +57,71 @@ public class AstClassDec extends AstDec
 		if (body != null) AstGraphviz.getInstance().logEdge(serialNumber,body.serialNumber);
 	}
 	public Type semantMe()
-	{	
-		/*************************/
-		/* [1] Begin Class Scope */
-		/*************************/
-		TypeClass t = new TypeClass(parent, name, null);
-		SymbolTable.getInstance().enter(name,t);
+    {   
+        TypeClass parentType = null;
 
-		SymbolTable.getInstance().beginScope();
+        /*******************************************************/
+        /* [1] Resolve Parent Class (Inheritance)              */
+        /* Rule: A class can extend only previously defined    */
+        /* classes.                                  */
+        /*******************************************************/
+        if (parent != null) {
+            Type t = SymbolTable.getInstance().find(parent);
+            
+            // Check 1: Does the parent exist?
+            if (t == null) {
+                System.out.format(">> ERROR [%d] parent class %s not found\n", lineNumber, parent);
+                abort();
+            }
+            
+            // Check 2: Is the parent actually a class?
+            if (!(t instanceof TypeClass)) {
+                System.out.format(">> ERROR [%d] parent %s is not a class\n", lineNumber, parent);
+                abort();
+            }
 
-		SymbolTable.getInstance().enter("$CURRENT-CLASS", t);
+            parentType = (TypeClass) t;
+        }
 
-		/***************************/
-		/* [2] Semant Data Members */
-		/***************************/
-		body.semantMe();
+        /*******************************************************/
+        /* [2] Create the TypeClass Object                     */
+        /* We pass 'null' for members because the children     */
+        /* (body) will add themselves to this object later.    */
+        /*******************************************************/
+        TypeClass myClass = new TypeClass(parentType, name, null);
 
-		//MR KOREN please keep this line in the semantMe() right after opening new scope!
-		SymbolTable.getInstance().enter("$CURRENT-CLASS", t);
+        /*******************************************************/
+        /* [3] Enter Class into Global Scope                   */
+        /* Must be done BEFORE body so methods can refer to    */
+        /* the class type (e.g., return type).                 */
+        /*******************************************************/
+        if (SymbolTable.getInstance().find(name) != null) {
+            System.out.format(">> ERROR [%d] class %s already exists\n", lineNumber, name);
+            abort();
+        }
+        SymbolTable.getInstance().enter(name, myClass);
 
-		/*****************/
-		/* [3] End Scope */
-		/*****************/
-		SymbolTable.getInstance().endScope();
+        /*******************************************************/
+        /* [4] Begin Class Scope                               */
+        /*******************************************************/
+        SymbolTable.getInstance().beginScope();
 
-		/************************************************/
-		/* [4] Enter the Class Type to the Symbol Table */
-		/************************************************/
-		SymbolTable.getInstance().enter(name,t);
+        // Register the current class so children can find it and add themselves
+        // Note: Using "$CURRENT_CLASS" as a consistent key
+        SymbolTable.getInstance().enter("$CURRENT_CLASS", myClass);
 
-		/*********************************************************/
-		/* [5] Return value is irrelevant for class declarations */
-		/*********************************************************/
-		return null;		
-	}
+        /*******************************************************/
+        /* [5] Process Body (Children add themselves)          */
+        /*******************************************************/
+        if (body != null) {
+            body.semantMe();
+        }
+
+        /*******************************************************/
+        /* [6] End Scope                                       */
+        /*******************************************************/
+        SymbolTable.getInstance().endScope();
+
+        return null;        
+    }
 }

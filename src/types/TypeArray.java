@@ -16,7 +16,7 @@ public class TypeArray extends Type
     }
 
 
-    public static TypeArrayInstance getInstance()
+    public TypeArrayInstance getInstance()
 	{
 		if (instance == null)
 		{
