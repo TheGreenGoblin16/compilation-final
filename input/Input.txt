@@ -1,3 +1,0 @@
-int GIDI := 60;
-int AVROOM := 55 + GIDI;
-// JACOB.sons[11] := JOSEF;
