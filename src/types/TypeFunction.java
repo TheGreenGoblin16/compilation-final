@@ -10,7 +10,7 @@ public class TypeFunction extends Type
 	/*************************/
 	/* types of input params */
 	/*************************/
-	public TypeList params;
+	public TypeList paramsTypes;
 	
 	/****************/
 	/* CTROR(S) ... */
@@ -19,6 +19,6 @@ public class TypeFunction extends Type
 	{
 		this.name = name;
 		this.returnType = returnType;
-		this.params = params;
+		this.paramsTypes = params;
 	}
 }

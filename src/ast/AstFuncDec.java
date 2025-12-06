@@ -65,8 +65,7 @@ public class AstFuncDec extends AstDec
 	public Type semantMe()
 	{
 		Type returnType;
-		TypeList paramsTypes;
-		Type t;
+		TypeFunction t;
 
 		/*******************/
 		/* [0] Get return type */
@@ -80,6 +79,9 @@ public class AstFuncDec extends AstDec
 		/****************************/
 		/* [1] Begin function scope */
 		/****************************/
+		// We want to already push the function itself for recursion purposes
+		t = new TypeFunction(returnType, name, null);
+		SymbolTable.getInstance().enter(name, t);
 		SymbolTable.getInstance().beginScope();
 
 		// MR KOREN please keep this line in the semantMe() right after opening new scope!
@@ -88,19 +90,16 @@ public class AstFuncDec extends AstDec
 		/************************************/
 		/* [2] Semant and push input params */
 		/************************************/
-		paramsTypes = params.semantMe();
+		t.paramsTypes = params.semantMe();
 
 		/*************************/
 		/* [3] Handle overriding */
 		/*************************/
-		t = new TypeFunction(returnType, name, paramsTypes)
-		// WIP
+		
 
 		/*******************/
 		/* [4] Semant body */
 		/*******************/
-		// We want to already insert the function itself for recursion
-		SymbolTable.getInstance().enter(name, t);
 		body.semantMe();
 
 		/*****************/
@@ -108,13 +107,8 @@ public class AstFuncDec extends AstDec
 		/*****************/
 		SymbolTable.getInstance().endScope();
 
-		/***************************************************/
-		/* [6] Enter the function type to the symbol table */
-		/***************************************************/
-		SymbolTable.getInstance().enter(name, t);
-
 		/************************************************************/
-		/* [7] Return value is irrelevant for function declarations */
+		/* [6] Return value is irrelevant for function declarations */
 		/************************************************************/
 		return null;		
 	}

@@ -121,7 +121,7 @@ public class AstCallExp extends AstExp
 		}
 
 		TypeFunction funcType = (TypeFunction) t;
-		TypeList expectedParams = funcType.params;
+		TypeList expectedParams = funcType.paramsTypes;
 		TypeList actualArgsTypes = (args != null) ? (TypeList) args.semantMe() : null;
 
 		TypeList paramIter = expectedParams;

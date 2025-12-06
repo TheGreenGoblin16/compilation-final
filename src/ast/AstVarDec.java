@@ -36,8 +36,8 @@ public class AstVarDec extends AstDec
 		/*************************************/
 		/* AST NODE TYPE = AST BINOP EXP */
 		/*************************************/
-		if (exp != null) System.out.format("VAR-DEC(%s):%s := initialValue\n",name,type);
-		if (exp == null) System.out.format("VAR-DEC(%s):%s                \n",name,type);
+		if (exp != null) System.out.format("VAR-DEC(%s):%s := initialValue\n",name,typeName);
+		if (exp == null) System.out.format("VAR-DEC(%s):%s                \n",name,typeName);
 
 
 		/**************************************/
