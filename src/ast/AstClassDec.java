@@ -61,13 +61,17 @@ public class AstClassDec extends AstDec
 		/*************************/
 		/* [1] Begin Class Scope */
 		/*************************/
+		TypeClass t = new TypeClass(parent, name, null);
+		SymbolTable.getInstance().enter(name,t);
+
 		SymbolTable.getInstance().beginScope();
-		
+
+		SymbolTable.getInstance().enter("$CURRENT-CLASS", t);
 
 		/***************************/
 		/* [2] Semant Data Members */
 		/***************************/
-		TypeClass t = new TypeClass(parent, name, body.semantMe());
+		body.semantMe();
 
 		//MR KOREN please keep this line in the semantMe() right after opening new scope!
 		SymbolTable.getInstance().enter("$CURRENT-CLASS", t);
