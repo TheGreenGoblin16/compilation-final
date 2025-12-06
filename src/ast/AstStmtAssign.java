@@ -118,21 +118,18 @@ public class AstStmtAssign extends AstStmt
 		/***************************************************/
 		if (t1.isClass() && t2.isClass())
 		{
-			TypeClass parentClass = (TypeClass) t1.cls;
-			TypeClass childClass  = (TypeClass) t2.cls;
-
-			// Walk up the inheritance chain of the child
-			TypeClass temp = childClass.parent;
-			while (temp != null)
-			{
-				if (temp == parentClass)
-				{
-					return null; // Match found
-				}
-				temp = temp.parent;
-			}
+			TypeClassInstance t1Inst = (TypeClassInstance) t1;
+			TypeClassInstance t2Inst = (TypeClassInstance) t2;
+			if (t2Inst.isSubTypeOf(t1Inst)) return null;
 		}
 
+
+		// 7.5 Array Name Equivalence Match
+		// Arrays are name-equivalent. If t1 is "IntArray" and t2 is "IntArray", they are compatible.
+		if (t1.isArray() && t2.isArray())
+		{
+			if (t1.name.equals(t2.name)) return null;
+		}
 		/***************************************************/
 		/* [7] Type Mismatch Error                         */
 		/***************************************************/

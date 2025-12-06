@@ -5,13 +5,13 @@ import symboltable.*;
 
 public class AstNewExp extends AstExp
 {
-	public String type;
+	public String typeName;
     public AstExp exp;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstNewExp(String type, AstExp exp, int lineNumber)
+	public AstNewExp(String typeName, AstExp exp, int lineNumber)
 	{
 		super(lineNumber);
 		/******************************/
@@ -23,6 +23,7 @@ public class AstNewExp extends AstExp
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
 		this.exp = exp;
+		this.typeName = typeName;
 	}
 
 	/************************************************/
@@ -33,7 +34,7 @@ public class AstNewExp extends AstExp
 		/*******************************/
 		/* AST NODE TYPE = AST NEW EXPRESSION */
 		/*******************************/
-		else System.out.format("AST NODE NEW EXPRESSION (%s)\n", type);
+		System.out.format("AST NODE NEW EXPRESSION (%s)\n", typeName);
 
 		/*********************************/
 		/* Print to AST GRAPHVIZ DOT file */
@@ -50,15 +51,46 @@ public class AstNewExp extends AstExp
 	}
 	public Type semantMe()
 	{
-		if (exp != null) exp.semantMe();
-
-		symboltable.Type t = SymbolTable.getInstance().find(this.type);
+		// 1. Resolve the Type from the Symbol Table
+		Type t = SymbolTable.getInstance().find(typeName);
 		if (t == null)
 		{
-			System.out.format(">> ERROR [ %d ] type %s not found in scope\n", lineNumber, this.type);
+			System.out.format(">> ERROR [%d] type %s not found in scope\n", lineNumber, typeName);
 			abort();
 		}
 
-		return null;
+		// 2. Handle Array Allocation: new int[size]
+		if (exp != null)
+		{
+			// Check array size is an integer
+			Type sizeType = exp.semantMe();
+			if (sizeType != TypeInt.getInstance())
+			{
+				System.out.format(">> ERROR [%d] array size must be an integer\n", lineNumber);
+				abort();
+			}
+
+			// Check for negative constant size (e.g., new int[-5])
+			if (exp instanceof AstExpInt) {
+				if (((AstExpInt)exp).value <= 0) {
+					System.out.format(">> ERROR [%d] array size must be greater than zero\n", lineNumber);
+					abort();
+				}
+			}
+
+			// Return a new Array Instance of this type
+			// Note: If t is "int", we return "int[]"
+			return new TypeArray(t, null).getInstance();
+		}
+
+		// 3. Handle Class Allocation: new MyClass
+		if (!t.isClass())
+		{
+			System.out.format(">> ERROR [%d] cannot instantiate non-class type %s\n", lineNumber, t.name);
+			abort();
+		}
+
+		// Return the class instance
+		return ((TypeClass)t).getInstance();
 	}
 }

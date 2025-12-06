@@ -12,8 +12,9 @@ public class AstVarDec extends AstDec
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstVarDec(String typeName, String name, AstExp exp)
+	public AstVarDec(String typeName, String name, AstExp exp, int lineNumber)
 	{
+		super(lineNumber);
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -66,7 +67,8 @@ public class AstVarDec extends AstDec
 		/****************************/
 		if (t == null)
 		{
-			abort()
+			System.out.format(">> ERROR [%d] type %s not found\n", lineNumber, typeName);
+			abort();
 		}
 
 		/**************************************/
