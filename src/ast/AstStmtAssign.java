@@ -88,53 +88,12 @@ public class AstStmtAssign extends AstStmt
 			abort();
 		}
 
-		/***************************************************/
-		/* [4] Check for Exact Type Match                  */
-		/* Covers: int, string, exact array, exact class   */
-		/***************************************************/
-		if (t1 == t2)
-		{
+		if (Type.isMatchingTypeOf(t2, t1)) {
 			return null;
 		}
 
 		/***************************************************/
-		/* [5] Check for Nil Assignment                    */
-		/* Rule: nil is allowed for Arrays and Classes     */
-		/* Rule: nil is ILLEGAL for int and string         */
-		/***************************************************/
-		if (t2 == TypeVoid.getInstance())
-		{
-			if (t1.isClass() || t1.isArray())
-			{
-				return null;
-			}
-			System.out.format(">> ERROR [ %d ] cannot assign nil to variable of type %s\n",lineNumber, t1.name);
-			abort();
-		}
-
-		/***************************************************/
-		/* [6] Check for Class Inheritance (Polymorphism)  */
-		/* Rule: RHS can be a subclass of LHS              */
-		/***************************************************/
-		if (t1.isClass() && t2.isClass())
-		{
-			TypeClassInstance t1Inst = (TypeClassInstance) t1;
-			TypeClassInstance t2Inst = (TypeClassInstance) t2;
-			if (TypeClass.isSubTypeOf(t2Inst.cls , t1Inst.cls)) return null;
-		}
-
-		/***************************************************/
-		/* [7] Check for New Array						   */
-		/* Rule: Blah						               */
-		/***************************************************/
-		if (t1.isArray() && t2.isArray()) {
-			TypeArrayInstance parent = (TypeArrayInstance) t1;
-			TypeArrayInstance child = (TypeArrayInstance) t2;
-			if (child.arr.name.equals("$NEW") && child.arr.type == parent.arr.type) return null;
-		}
-
-		/***************************************************/
-		/* [8] Type Mismatch Error                         */
+		/* [4] Type Mismatch Error                         */
 		/***************************************************/
 		System.out.format(">> ERROR [ %d ] type mismatch: cannot assign value of type %s to variable of type %s\n",lineNumber, t2.name, t1.name);
 		abort();

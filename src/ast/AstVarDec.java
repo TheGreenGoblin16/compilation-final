@@ -94,40 +94,11 @@ public class AstVarDec extends AstDec
 		/********************************************/
 		/* [3] Semant the initial value (if any)    */
 		/********************************************/
-		if (exp != null)
-		{
+		if (exp != null) {
 			e = exp.semantMe();
 
-			// Validation Logic (Same as AstStmtAssign)
-			boolean valid = false;
-
-			// A. Exact match
-			if (t == e) { valid = true; }
-
-			// B. Nil (allowed for Class/Array)
-			if (!valid && e == TypeVoid.getInstance())
-			{
-				if (t.isClass() || t.isArray()) { valid = true; }
-			}
-
-			// C. Inheritance (Subclassing)
-			if (!valid && t.isClass() && e.isClass())
-			{
-				TypeClassInstance parent = (TypeClassInstance) t;
-				TypeClassInstance child = (TypeClassInstance) e;
-				if (TypeClass.isSubTypeOf(child.cls , parent.cls)) { valid = true; }
-			}
-
-			// D. New array 
-			if (!valid && t.isArray() && e.isArray()) {
-				TypeArrayInstance parent = (TypeArrayInstance) t;
-				TypeArrayInstance child = (TypeArrayInstance) e;
-				if (child.arr.name.equals("$NEW") && child.arr.type == parent.arr.type) { valid = true; }
-			}
-
-			if (!valid)
-			{
-				System.out.format(">> ERROR [%d] expression type does not match\n", lineNumber);
+			if (!Type.isMatchingTypeOf(e, t)) {
+				System.out.format(">> ERROR [ %d ] type mismatch: cannot assign value of type %s to variable of type %s\n",lineNumber, e.name, t.name);
 				abort();
 			}
 		}
