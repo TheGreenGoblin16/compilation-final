@@ -11,8 +11,10 @@ public class AstDecList extends AstNode
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstDecList(AstDec head, AstDecList tail)
+	public AstDecList(AstDec head, AstDecList tail, int lineNumber)
 	{
+		super(lineNumber);
+
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -47,5 +49,9 @@ public class AstDecList extends AstNode
 		/****************************************/
 		if (head != null) AstGraphviz.getInstance().logEdge(serialNumber,head.serialNumber);
         if (tail != null) AstGraphviz.getInstance().logEdge(serialNumber,tail.serialNumber);
+	}
+
+	Type semantMe() {
+		return null;
 	}
 }

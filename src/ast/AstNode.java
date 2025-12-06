@@ -1,6 +1,7 @@
 package ast;
 
 import types.*;
+import symboltable.*;
 
 public abstract class AstNode
 {
@@ -33,7 +34,7 @@ public abstract class AstNode
 		throw new RuntimeException("SEMANT_ERROR(" + lineNumber + ")");
 	}
 
-	Type validateTypeName(typeName) {
+	Type validateTypeName(String typeName) {
 		// Validate that typeName exists in the current scope, if yes - return the matching Type for it, if no - abort.
 		Type t;
 		if (typeName.equals("int")) {

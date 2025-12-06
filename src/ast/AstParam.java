@@ -1,5 +1,8 @@
 package ast;
 
+import types.*;
+import symboltable.*;
+
 public class AstParam extends AstNode
 {
     String typeName;
@@ -8,8 +11,10 @@ public class AstParam extends AstNode
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstParam(String typeName, String name)
+	public AstParam(String typeName, String name, int lineNumber)
 	{
+		super(lineNumber);
+
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -18,7 +23,7 @@ public class AstParam extends AstNode
 		/*******************************/
 		/* COPY INPUT DATA MEMBERS ... */
 		/*******************************/
-		this.type = typeName;
+		this.typeName = typeName;
         this.name = name;
 	}
 	

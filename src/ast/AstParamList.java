@@ -11,8 +11,10 @@ public class AstParamList extends AstNode
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
-	public AstParamList(AstParam head, AstParamList tail)
+	public AstParamList(AstParam head, AstParamList tail, int lineNumber)
 	{
+		super(lineNumber);
+
 		/******************************/
 		/* SET A UNIQUE SERIAL NUMBER */
 		/******************************/
@@ -51,8 +53,7 @@ public class AstParamList extends AstNode
 
 	public TypeList semantMe() {
 		TypeList tl = null;
-		for (AstParamList it = paramlist; it != null; it = it.tail)
-		{
+		for (AstParamList it = this; it != null; it = it.tail) {
 			Type t = it.head.semantMe();
 			tl = new TypeList(t, tl);
 		}
