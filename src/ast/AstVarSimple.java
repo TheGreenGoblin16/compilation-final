@@ -40,7 +40,7 @@ public class AstVarSimple extends AstVar
         // 2. Check for Class Field (Class Hierarchy)
         // This takes precedence over Globals
         Type currentClassType = SymbolTable.getInstance().find("$CURRENT-CLASS");
-        if (currentClassType != null && currentClassType instanceof TypeClass)
+        if ((currentClassType != null) && (currentClassType instanceof TypeClass))
         {
             TypeClass cls = (TypeClass) currentClassType;
             while (cls != null)

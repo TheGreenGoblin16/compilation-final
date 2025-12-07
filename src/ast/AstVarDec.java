@@ -96,7 +96,6 @@ public class AstVarDec extends AstDec
 		/********************************************/
 		if (exp != null) {
 			e = exp.semantMe();
-
 			if (!Type.isMatchingTypeOf(e, t)) {
 				System.out.format(">> ERROR [ %d ] type mismatch: cannot assign value of type %s to variable of type %s\n",lineNumber, e.name, t.name);
 				abort();

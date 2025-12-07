@@ -116,54 +116,16 @@ public class AstStmtReturn extends AstStmt
         }
 
         /******************************************************/
-        /* [5] Check Rule: Exact Type Match                   */
+        /* [5] Check type rules                               */
         /******************************************************/
-        Type t1 = expectedType;
-        Type t2 = actualType;
-
-        if (t1 instanceof TypeClassInstance) t1 = ((TypeClassInstance)t1).cls;
-        if (t2 instanceof TypeClassInstance) t2 = ((TypeClassInstance)t2).cls;
+        if (Type.isMatchingTypeOf(actualType, expectedType)) {
+            return null;
+        }
         
-        if (t1 instanceof TypeArrayInstance) t1 = ((TypeArrayInstance)t1).arr;
-        if (t2 instanceof TypeArrayInstance) t2 = ((TypeArrayInstance)t2).arr;
-
-        // 1. Exact Match
-        if (t1 == t2) return null;
-
         /******************************************************/
-        /* [6] Check Rule: Nil Assignment                     */
-        /* nil is compatible with Arrays and Classes          */
+        /* [6] Mismatch Error                                 */
         /******************************************************/
-        // Note: In your AST, AstExpNil returns TypeVoid.
-        if (t2 == TypeVoid.getInstance()) {
-            if (t1 instanceof TypeClass || t1 instanceof TypeArray) return null;
-            System.out.format(">> ERROR [%d] cannot return nil for return type %s\n", lineNumber, t1.name);
-            abort();
-        }
-
-        /******************************************************/
-        /* [7] Check Rule: Inheritance (Subclassing)          */
-        /* Allowed to return Son if function expects Father   */
-        /******************************************************/
-        if (t1 instanceof TypeClass && t2 instanceof TypeClass) {
-            TypeClass parent = (TypeClass) t1;
-            TypeClass child = (TypeClass) t2;
-            TypeClass temp = child.parent;
-            while (temp != null) {
-                if (temp == parent) return null;
-                temp = temp.parent;
-            }
-        }
-
-        //arrey name match
-        if (t1 instanceof TypeArray && t2 instanceof TypeArray) {
-             if (t1.name.equals(t2.name)) return null;
-        }
-
-        /******************************************************/
-        /* [8] Mismatch Error                                 */
-        /******************************************************/
-        System.out.format(">> ERROR [%d:%d] return type mismatch: expected %s, got %s\n", 0,0, expectedType.name, actualType.name);
+        System.out.format(">> ERROR [%d] return type mismatch: expected %s, got %s\n", lineNumber, expectedType.name, actualType.name);
         abort();
 
         return null;

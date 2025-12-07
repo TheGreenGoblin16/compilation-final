@@ -140,18 +140,11 @@ public class AstCallExp extends AstExp
 			if (paramIter.head == null && argIter.head == null) {
 				// Both are lists of empty expressions e.g. f() called with ()
 				break;
-			} else if (argIter.head == null && paramIter.head != null) {
-				if (!(paramIter.head instanceof TypeArray || paramIter.head instanceof TypeClass)) {
-					System.out.format(">> ERROR [ %d ] function %s argument type mismatch1\n", lineNumber, name);
-					abort();
-				}
-			} else if (paramIter.head instanceof TypeClass && argIter.head instanceof TypeClassInstance) {
-				if (!(TypeClass.isSubTypeOf(((TypeClassInstance) argIter.head).cls, (TypeClass)paramIter.head))) {
-					System.out.format(">> ERROR [ %d ] function %s argument type mismatch2\n", lineNumber, name);
-					abort();
-				}
-			} else if (paramIter.head == null || argIter.head == null || !paramIter.head.name.equals(argIter.head.name)) {
+			} else if (paramIter.head == null || argIter.head == null) {
 				System.out.format(">> ERROR [ %d ] function %s argument type mismatch3\n", lineNumber, name);
+				abort();
+			} else if (!Type.isMatchingTypeOf(argIter.head, paramIter.head)) {
+				System.out.format(">> ERROR [ %d ] function %s argument type mismatch0\n", lineNumber, name);
 				abort();
 			}
 			paramIter = paramIter.tail;

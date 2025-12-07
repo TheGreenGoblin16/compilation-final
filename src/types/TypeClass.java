@@ -38,7 +38,7 @@ public class TypeClass extends Type
 
 	public static boolean isSubTypeOf(TypeClass current, TypeClass other) {
         while (current != null) {
-            if (current != other) {
+            if (current == other) {
                 return true;
             }
             current = current.parent;

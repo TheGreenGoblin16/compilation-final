@@ -78,7 +78,6 @@ public class Main
 		{
 			// We use Throwable to catch everything, including RuntimeExceptions and Errors
 			if (!finished){
-				System.out.println(e.getMessage());
 				if (e.getMessage() != null)
 				{
 					// Handle Syntax Errors (from CUP / Parser.java)

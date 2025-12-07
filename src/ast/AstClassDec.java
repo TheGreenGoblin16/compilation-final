@@ -107,8 +107,8 @@ public class AstClassDec extends AstDec
         SymbolTable.getInstance().beginScope();
 
         // Register the current class so children can find it and add themselves
-        // Note: Using "$CURRENT_CLASS" as a consistent key
-        SymbolTable.getInstance().enter("$CURRENT_CLASS", myClass);
+        // Note: Using "$CURRENT-CLASS" as a consistent key
+        SymbolTable.getInstance().enter("$CURRENT-CLASS", myClass);
 
         /*******************************************************/
         /* [5] Process Body (Children add themselves)          */

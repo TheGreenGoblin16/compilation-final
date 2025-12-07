@@ -86,6 +86,6 @@ public class AstNewExp extends AstExp
 		}
 
 		// Return the class instance
-		return ((TypeClass)t).getInstance();
+		return ((TypeClassInstance)t);
 	}
 }

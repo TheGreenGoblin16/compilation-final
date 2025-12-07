@@ -105,7 +105,7 @@ public class SymbolTable
 	{
 		SymbolTableEntry e;
 				
-		for (e = table[hash(name)]; e != null && e.name.equals("SCOPE-BOUNDARY"); e = e.next)
+		for (e = top; e != null && !e.name.equals("SCOPE-BOUNDARY"); e = e.prevtop)
 		{
 			if (e.name.equals(name))
 			{
