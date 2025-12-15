@@ -1,6 +1,7 @@
 package ast;
 
 import java.io.PrintWriter;
+import java.io.File;
 
 public class AstGraphviz
 {
@@ -22,7 +23,7 @@ public class AstGraphviz
 	/******************************/
 	/* GET SINGLETON INSTANCE ... */
 	/******************************/
-	public static AstGraphviz getInstance()
+	public static synchronized AstGraphviz getInstance()
 	{
 		if (instance == null)
 		{
@@ -34,20 +35,29 @@ public class AstGraphviz
 			try
 			{
 				String dirname="./output/";
+				File dir = new File(dirname);
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+
 				String filename="AST_IN_GRAPHVIZ_DOT_FORMAT.txt";
 				instance.fileWriter = new PrintWriter(dirname+filename);
+
+				/******************************************************/
+				/* Print Directed Graph header in Graphviz dot format */
+				/******************************************************/
+				instance.fileWriter.print("digraph\n");
+				instance.fileWriter.print("{\n");
+				instance.fileWriter.print("graph [ordering = \"out\"]\n");
 			}
 			catch (Exception e)
 			{
+				System.err.println("*******************************************************************");
+				System.err.println("********** ERROR: Could not create graphviz output file. **********");
+				System.err.println("*******************************************************************");
 				e.printStackTrace();
+				System.exit(1);
 			}
-
-			/******************************************************/
-			/* Print Directed Graph header in Graphviz dot format */
-			/******************************************************/
-			instance.fileWriter.print("digraph\n");
-			instance.fileWriter.print("{\n");
-			instance.fileWriter.print("graph [ordering = \"out\"]\n");
 		}
 		return instance;
 	}

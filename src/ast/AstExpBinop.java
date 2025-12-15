@@ -124,7 +124,10 @@ public class AstExpBinop extends AstExp
 			if (t2.isClass() && t1 == TypeVoid.getInstance()) { // Comparing nil with object
 				return TypeInt.getInstance();
 			}
-			if (t1.isArray() && t2.isArray()) { // Comparing two arrays
+			if (t1.isArray() && (t2.isArray() || t2 == TypeVoid.getInstance())) { // Comparing two arrays
+				return TypeInt.getInstance();
+			}
+			if (t2.isArray() && (t1.isArray() || t1 == TypeVoid.getInstance())) { // Comparing two arrays
 				return TypeInt.getInstance();
 			}
 		}
