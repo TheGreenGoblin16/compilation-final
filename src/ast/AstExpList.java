@@ -67,4 +67,17 @@ public class AstExpList extends AstNode
         }
 		return new TypeList(headType, tailTypes);
 	}
+
+	public TempList irMe()
+	{
+		if (exp == null) {
+			return null;
+		}
+		Temp headTemp = exp.irMe();
+		TempList tailTemps = null;
+		if (next != null) {
+			tailTemps = next.irMe();
+		}
+		return new TempList(headTemp, tailTemps);
+	}
 }

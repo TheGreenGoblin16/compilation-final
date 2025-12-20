@@ -12,14 +12,16 @@ package ir;
 /*******************/
 import temp.*;
 
-public class IrCommandStore extends IrCommand
+public class IrCommandArrayAccess extends IrCommand
 {
-	String varName;
-	Temp src;
+	Temp dst;
+	Temp arr;
+	Temp index;
 	
-	public IrCommandStore(String varName, Temp src)
+	public IrCommandArrayAccess(Temp dst, Temp arr, Temp index)
 	{
-		this.src      = src;
-		this.varName = varName;
+		this.dst = dst;
+		this.arr = arr;
+		this.index = index;
 	}
 }

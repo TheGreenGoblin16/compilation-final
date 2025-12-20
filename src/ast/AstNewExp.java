@@ -88,4 +88,19 @@ public class AstNewExp extends AstExp
 		// Return the class instance
 		return ((TypeClassInstance)t);
 	}
+
+	public Temp irMe()
+	{
+		Temp t = TempFactory.getInstance().getFreshTemp();
+
+		if (exp != null) {
+			// Array allocation
+			Temp size = exp.irMe();
+			Ir.getInstance().AddIrCommand(new IrCommandNewArray(t, size, typeName));
+		} else {
+			// Class allocation
+			Ir.getInstance().AddIrCommand(new IrCommandNewClass(t, typeName));
+		}
+		return t;
+	}
 }

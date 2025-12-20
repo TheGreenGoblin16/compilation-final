@@ -12,14 +12,14 @@ package ir;
 /*******************/
 import temp.*;
 
-public class IrCommandJumpIfEqToZero extends IrCommand
+public class IrCommandCallVoid extends IrCommand
 {
-	Temp t;
-	String labelName;
+	String functionName;
+    TempList args;
 	
-	public IrCommandJumpIfEqToZero(Temp t, String labelName)
+	public IrCommandCallVoid(String functionName, TempList args)
 	{
-		this.t          = t;
-		this.labelName = labelName;
+		this.functionName = functionName;
+        this.args = args;
 	}
 }

@@ -117,4 +117,13 @@ public class AstVarSubscript extends AstVar
 
 		return null;
 	}
+
+
+	public Temp irMe(){
+		Temp dst = TempFactory.getInstance().getFreshTemp();
+		Temp arr = var.irMe();
+		Temp index = subscript.irMe()
+		Ir.getInstance().AddIrCommand(new IrCommandArreyAccess(dst,arr,index));
+		return dst;
+	}
 }

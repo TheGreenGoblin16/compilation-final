@@ -12,4 +12,9 @@ public abstract class AstStmt extends AstNode
     {
         return null;
     }
+
+    public Temp irMe()
+    {
+        return null;
+    }
 }

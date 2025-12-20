@@ -111,4 +111,11 @@ public class AstVarField extends AstVar
 		abort();
 		return null;
 	}
+
+	public Temp irMe(){
+		Temp dst = TempFactory.getInstance().getFreshTemp();
+		Temp src = var.irMe();
+		Ir.getInstance().AddIrCommand(new IrCommandFieldAcces(dst,src,fieldName));
+		return dst;
+	}
 }

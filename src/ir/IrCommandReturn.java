@@ -10,13 +10,14 @@ package ir;
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
+import temp.*;
 
-public class IrCommandJumpLabel extends IrCommand
+public class IrCommandReturn extends IrCommand
 {
-	String labelName;
+	Temp src;
 	
-	public IrCommandJumpLabel(String labelName)
+	public IrCommandReturn(Temp src)
 	{
-		this.labelName = labelName;
+		this.src = src;
 	}
 }

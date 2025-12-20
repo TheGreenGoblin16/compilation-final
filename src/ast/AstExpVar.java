@@ -60,4 +60,8 @@ public class AstExpVar extends AstExp
 	{
 		return var.semantMe();
 	}
+	public Temp irMe()
+	{
+		return var.irMe();
+	}
 }

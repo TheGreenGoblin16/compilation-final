@@ -77,4 +77,19 @@ public class AstStmtCall extends AstStmt
         /********************************************/
         return null;
     }
+
+    public Temp irMe() {
+        AstVar var = e.var;
+	    String functionName = e.name;
+	    AstExpList args = e.args;
+
+		if (var != null) {
+			Temp t = var.irMe();
+			Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(t, functionName, args.irMeList()));
+		} else {
+			Ir.getInstance().AddIrCommand(new IrCommandCallVoid(functionName, args.irMeList()));
+		}
+
+        return null;
+    }
 }

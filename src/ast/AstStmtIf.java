@@ -88,4 +88,35 @@ public class AstStmtIf extends AstStmt
 
 		return null;
 	}
+
+	public Temp irMe()
+	{
+		/*******************************/
+		/* [1] Allocate fresh labels */
+		/*******************************/
+		String labelEnd   = IrCommand.getFreshLabel("end");
+
+
+		/********************/
+		/* [2] cond.IRme(); */
+		/********************/
+		Temp condTemp = cond.irMe();
+
+		/******************************************/
+		/* [3] Jump conditionally to the loop end */
+		/******************************************/
+		Ir.getInstance().AddIrCommand(new IrCommandJumpIfEqToZero(condTemp,labelEnd));
+
+		/*******************/
+		/* [4] body.IRme() */
+		/*******************/
+		body.irMe();
+
+		/**********************/
+		/* [6] end label */
+		/**********************/
+		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelEnd));
+
+		return null;
+	}
 }

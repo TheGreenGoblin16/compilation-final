@@ -51,4 +51,10 @@ public class AstExpString extends AstExp
 	{
 		return TypeString.getInstance();
 	}
+
+	public Temp irMe()
+	{
+		Temp t = TempFactory.getInstance().getFreshTemp();
+		return t;
+	}
 }

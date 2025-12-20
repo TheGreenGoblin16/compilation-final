@@ -163,4 +163,27 @@ public class AstCallExp extends AstExp
 
 		return funcType.returnType;
 	}
+
+
+	public Temp irMe()
+	{
+		Temp t = tempFactory.getInstance().getFreshTemp();
+		TempList argTemps = null;
+
+		if (args != null) {
+			argTemps = args.irMe();
+		}
+
+		// Case 1: Method call on an object instance (e.g. obj.method())
+		if (var != null) { 
+			Temp objTemp = var.irMe();
+			Ir.getInstance().AddIrCommand(new IrCommandVirtualCall(t, objTemp, name, argTemps));
+		}
+		// Case 2: Function call or method call within a class
+		else { 
+			Ir.getInstance().AddIrCommand(new IrCommandCall(t, name, argTemps));
+		}
+
+		return t;
+	}
 }

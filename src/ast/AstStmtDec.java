@@ -70,4 +70,16 @@ public class AstStmtDec extends AstStmt
 
         return null;
     }
+
+    public Temp irMe() {
+        String varName = d.name;
+        AstExp exp = d.exp;
+
+        if (exp != null) {
+            Temp src = exp.irMe();
+            Ir.getInstance().AddIrCommand(new IrCommandStore(varName, src));
+        }
+
+        return null;
+    }
 }

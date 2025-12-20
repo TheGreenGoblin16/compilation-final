@@ -113,4 +113,26 @@ public class AstStmtIfElse extends AstStmt
 
         return null;
     }
+
+    public Temp irMe()
+	{
+		String labelEnd   = IrCommand.getFreshLabel("end");
+		String labelFalse = IrCommand.getFreshLabel("false");
+
+		Temp condTemp = cond.irMe();
+
+		Ir.getInstance().AddIrCommand(new IrCommandJumpIfEqToZero(condTemp,labelFalse));
+
+		body.irMe();
+
+		Ir.getInstance().AddIrCommand(new IrCommandJumpLabel(labelEnd));
+
+        Ir.getInstance().AddIrCommand(new IrCommandLabel(labelFalse));
+
+        elsebody.irMe();
+
+		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelEnd));
+
+		return null;
+	}
 }

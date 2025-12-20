@@ -12,12 +12,14 @@ package ir;
 /*******************/
 import temp.*;
 
-public class IrCommandPrintInt extends IrCommand
+public class IrCommandNewArray extends IrCommand
 {
-	Temp t;
+	Temp dst;
+	Temp size;
 	
-	public IrCommandPrintInt(Temp t)
+	public IrCommandNewArray(Temp dst, Temp size)
 	{
-		this.t = t;
+		this.dst = dst;
+		this.size = size;
 	}
 }

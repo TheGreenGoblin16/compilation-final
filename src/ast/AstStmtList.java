@@ -77,5 +77,17 @@ public class AstStmtList extends AstNode
 
 		return null;
 	}
+
+
+	public temp irMe(){
+		if (head != null){
+			head.irMe();
+		}
+		if (tail != null){
+			tail.irMe();
+		}
+
+		return null;
+	}
 	
 }

@@ -74,4 +74,12 @@ public class AstVarSimple extends AstVar
         abort();
         return null;
     }
+
+    
+    public Temp irMe()
+	{
+		Temp t = TempFactory.getInstance().getFreshTemp();
+		Ir.getInstance().AddIrCommand(new IrCommandLoad(t,name));
+		return t;
+	}
 }

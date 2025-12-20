@@ -100,4 +100,26 @@ public class AstStmtAssign extends AstStmt
 
 		return null;
 	}
+
+	public Temp irMe()
+	{
+		Temp src = exp.irMe();
+
+		if (var instanceof AstVarSimple){
+			Ir.getInstance().AddIrCommand(new IrCommandStore(((AstVarSimple) var).name,src));
+		}
+		else if (var instanceof AstVarSubscript){
+			Temp arr = ((AstVarSubscript) var).var.irMe();
+			Temp index = ((AstVarSubscript) var).subscript.irMe()
+			Ir.getInstance().AddIrCommand(new IrCommandArreySet(src, arr , index));
+		}
+		else if (var instanceof AstVarField){
+			Temp arr = ((AstVarField) var).var.irMe();
+			Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, arr , ((AstVarField)var).fieldName ));
+		}
+		
+
+		return null;
+	}
+
 }

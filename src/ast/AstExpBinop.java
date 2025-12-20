@@ -136,4 +136,38 @@ public class AstExpBinop extends AstExp
 		abort();
 		return null; // Should not be reached
 	}
+
+	public Temp irMe()
+	{
+		Temp t1 = null;
+		Temp t2 = null;
+		Temp dst = TempFactory.getInstance().getFreshTemp();
+
+		if (left  != null) t1 = left.irMe();
+		if (right != null) t2 = right.irMe();
+
+		if (op == 0)
+		{
+			Ir.getInstance().AddIrCommand(new IrCommandBinopAddIntegers(dst,t1,t2));
+		} else if (op == 1)
+		{
+			Ir.getInstance().AddIrCommand(new IrCommandBinopSubIntegers(dst,t1,t2));
+		} else if (op == 2)
+		{
+			Ir.getInstance().AddIrCommand(new IrCommandBinopMulIntegers(dst,t1,t2));
+		} else if (op == 3)
+		{
+			Ir.getInstance().AddIrCommand(new IrCommandBinopDivIntegers(dst,t1,t2));
+		} else if (op == 6)
+		{
+			Ir.getInstance().AddIrCommand(new IrCommandBinopEqIntegers(dst,t1,t2));
+		} else if (op == 4)
+		{
+			Ir.getInstance().AddIrCommand(new IrCommandBinopLtIntegers(dst,t1,t2));
+		} else if (op == 5)
+		{
+			Ir.getInstance().AddIrCommand(new IrCommandBinopLtIntegers(dst,t2,t1));
+		}
+		return dst;
+	}
 }
