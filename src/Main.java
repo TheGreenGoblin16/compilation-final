@@ -2,7 +2,7 @@
 /* IMPORTS */
 /***********/
 import java.io.*;
-import java.io.PrintWriter;
+
 import java_cup.runtime.Symbol;
 import ast.*;
 
@@ -61,13 +61,18 @@ public class Main
 			ast.semantMe();
 			finished = true;
 
+			/**********************/
+			/* [8] IR the AST ... */
+			/**********************/
+			ast.irMe();
+
 			/*************************************/
-			/* [8] Finalize AST GRAPHIZ DOT file */
+			/* [9] Finalize AST GRAPHIZ DOT file */
 			/*************************************/
 			AstGraphviz.getInstance().finalizeFile();
 
 			/**********************************************************/
-			/* [9] Success!                                           */
+			/* [10] Success!                                          */
 			/* If we reached here, no exceptions were thrown.         */
 			/* Per PDF: "When the input program is semantically       */
 			/* correct: OK"                                           */
@@ -112,7 +117,7 @@ public class Main
 		finally
 		{
 			/***********************************************/
-			/* [10] Close output file safely               */
+			/* [11] Close output file safely               */
 			/* This ensures the text is actually written.  */
 			/***********************************************/
 			if (fileWriter != null)
