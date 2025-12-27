@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstParamList extends AstNode
 {
 	public AstParam head;

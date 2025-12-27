@@ -2,6 +2,8 @@ package ast;
 
 import types.*;
 import symboltable.*;
+import ir.*;
+import temp.*;
 
 public class AstExpInt extends AstExp
 {
@@ -55,7 +57,7 @@ public class AstExpInt extends AstExp
 	public Temp irMe()
 	{
 		Temp t = TempFactory.getInstance().getFreshTemp();
-		Ir.getInstance().AddIrCommand(new IRcommandConstInt(t,value));
+		Ir.getInstance().AddIrCommand(new IrCommandConstInt(t,value));
 		return t;
 	}
 }

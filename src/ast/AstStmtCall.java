@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstStmtCall extends AstStmt
 {
     public AstCallExp e;
@@ -85,9 +88,9 @@ public class AstStmtCall extends AstStmt
 
 		if (var != null) {
 			Temp t = var.irMe();
-			Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(t, functionName, args.irMeList()));
+			Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(t, functionName, args.irMe()));
 		} else {
-			Ir.getInstance().AddIrCommand(new IrCommandCallVoid(functionName, args.irMeList()));
+			Ir.getInstance().AddIrCommand(new IrCommandCallVoid(functionName, args.irMe()));
 		}
 
         return null;

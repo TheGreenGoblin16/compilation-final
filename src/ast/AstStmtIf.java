@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstStmtIf extends AstStmt
 {
 	public AstExp cond;
@@ -105,7 +108,7 @@ public class AstStmtIf extends AstStmt
 		/******************************************/
 		/* [3] Jump conditionally to the loop end */
 		/******************************************/
-		Ir.getInstance().AddIrCommand(new IrCommandJumpIfEqToZero(condTemp,labelEnd));
+		Ir.getInstance().AddIrCommand(new IrCommandBranchIfZero(condTemp,labelEnd));
 
 		/*******************/
 		/* [4] body.IRme() */

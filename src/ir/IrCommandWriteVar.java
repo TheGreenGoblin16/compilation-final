@@ -14,12 +14,12 @@ import temp.*;
 
 public class IrCommandWriteVar extends IrCommand
 {
-	String varName;
+	String varName; // x := t1
 	Temp src;
 	
 	public IrCommandWriteVar(String varName, Temp src)
 	{
-		this.src      = src;
+		this.src     = src;
 		this.varName = varName;
 	}
 }

@@ -2,6 +2,8 @@ package ast;
 
 import types.*;
 import symboltable.*;
+import ir.*;
+import temp.*;
 
 public class AstCallExp extends AstExp
 {
@@ -167,7 +169,7 @@ public class AstCallExp extends AstExp
 
 	public Temp irMe()
 	{
-		Temp t = tempFactory.getInstance().getFreshTemp();
+		Temp t = TempFactory.getInstance().getFreshTemp();
 		TempList argTemps = null;
 
 		if (args != null) {

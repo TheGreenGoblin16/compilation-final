@@ -1,6 +1,11 @@
 package ast;
+
 import types.*;
 import symboltable.*;
+
+import ir.*;
+import temp.*;
+
 public class AstVarSubscript extends AstVar
 {
 	public AstVar var;
@@ -122,8 +127,8 @@ public class AstVarSubscript extends AstVar
 	public Temp irMe(){
 		Temp dst = TempFactory.getInstance().getFreshTemp();
 		Temp arr = var.irMe();
-		Temp index = subscript.irMe()
-		Ir.getInstance().AddIrCommand(new IrCommandArreyAccess(dst,arr,index));
+		Temp index = subscript.irMe();
+		Ir.getInstance().AddIrCommand(new IrCommandArrayAccess(dst,arr,index));
 		return dst;
 	}
 }

@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstStmtWhile extends AstStmt
 {
 	public AstExp cond;
@@ -116,7 +119,7 @@ public class AstStmtWhile extends AstStmt
 		/******************************************/
 		/* [4] Jump conditionally to the loop end */
 		/******************************************/
-		Ir.getInstance().AddIrCommand(new IrCommandJumpIfEqToZero(condTemp,labelEnd));
+		Ir.getInstance().AddIrCommand(new IrCommandBranchIfZero(condTemp,labelEnd));
 
 		/*******************/
 		/* [5] body.IRme() */
@@ -126,7 +129,7 @@ public class AstStmtWhile extends AstStmt
 		/******************************/
 		/* [6] Jump to the loop entry */
 		/******************************/
-		Ir.getInstance().AddIrCommand(new IrCommandJumpLabel(labelStart));
+		Ir.getInstance().AddIrCommand(new IrCommandBranch(labelStart));
 
 		/**********************/
 		/* [7] Loop end label */

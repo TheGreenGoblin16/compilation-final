@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstStmtDec extends AstStmt
 {
     public AstVarDec d;
@@ -77,7 +80,7 @@ public class AstStmtDec extends AstStmt
 
         if (exp != null) {
             Temp src = exp.irMe();
-            Ir.getInstance().AddIrCommand(new IrCommandStore(varName, src));
+            Ir.getInstance().AddIrCommand(new IrCommandWriteVar(varName, src));
         }
 
         return null;

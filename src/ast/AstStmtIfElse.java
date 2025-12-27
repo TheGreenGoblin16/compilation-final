@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstStmtIfElse extends AstStmt
 {
     public AstExp cond;
@@ -121,11 +124,11 @@ public class AstStmtIfElse extends AstStmt
 
 		Temp condTemp = cond.irMe();
 
-		Ir.getInstance().AddIrCommand(new IrCommandJumpIfEqToZero(condTemp,labelFalse));
+		Ir.getInstance().AddIrCommand(new IrCommandBranchIfZero(condTemp,labelFalse));
 
 		body.irMe();
 
-		Ir.getInstance().AddIrCommand(new IrCommandJumpLabel(labelEnd));
+		Ir.getInstance().AddIrCommand(new IrCommandBranch(labelEnd));
 
         Ir.getInstance().AddIrCommand(new IrCommandLabel(labelFalse));
 

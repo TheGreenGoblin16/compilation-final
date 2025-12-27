@@ -2,6 +2,8 @@ package ast;
 
 import types.*;
 import symboltable.*;
+import ir.*;
+import temp.*;
 
 public class AstDecList extends AstNode
 {
@@ -56,5 +58,14 @@ public class AstDecList extends AstNode
 			it.head.semantMe();
 		}
 		return null;
+	}
+
+	public void irMe() {
+		for (AstDecList it = this; it != null; it = it.tail) {
+			if (it.head instanceof AstFuncDec) {
+				AstFuncDec func = (AstFuncDec) it.head;
+				func.body.irMe();
+			}
+		}
 	}
 }

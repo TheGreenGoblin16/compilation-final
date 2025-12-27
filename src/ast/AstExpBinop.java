@@ -1,6 +1,8 @@
 package ast;
 
 import types.*;
+import ir.*;
+import temp.*;
 
 public class AstExpBinop extends AstExp
 {

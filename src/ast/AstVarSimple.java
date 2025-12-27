@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstVarSimple extends AstVar
 {
     public String name;
@@ -79,7 +82,7 @@ public class AstVarSimple extends AstVar
     public Temp irMe()
 	{
 		Temp t = TempFactory.getInstance().getFreshTemp();
-		Ir.getInstance().AddIrCommand(new IrCommandLoad(t,name));
+		Ir.getInstance().AddIrCommand(new IrCommandWriteVar(name, t));
 		return t;
 	}
 }

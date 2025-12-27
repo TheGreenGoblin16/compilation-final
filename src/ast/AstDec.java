@@ -1,6 +1,9 @@
 package ast;
 import types.*;
 
+import ir.*;
+import temp.*;
+
 public abstract class AstDec extends AstNode
 {
 	public AstDec(int lineNumber) {

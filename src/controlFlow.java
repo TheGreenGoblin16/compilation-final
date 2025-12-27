@@ -2,12 +2,41 @@ import java.io.*;
 
 import java_cup.runtime.Symbol;
 import ast.*;
+import ir.*;
+import temp.*;
 
-public class ControlFlow {
+public class controlFlow {
+    private static class VarNode {
+        Temp temp;
+        String name;
+
+        public VarNode(String name) {
+            this.name = name;
+            this.temp = null;
+        }
+        public VarNode(Temp temp) {
+            this.temp = temp;
+            this.name = null;
+        }
+        public boolean isTemp() {
+            return temp != null;
+        }
+        public boolean isVar() {
+            return name != null;
+        }
+    }
+    private static class VarList {
+        VarNode head;
+        VarList tail;
+
+
+    }
     private static class ControlFlowNode {
         IrCommand command;
         ControlFlowNode neighbor0;
         ControlFlowNode neighbor1;
+        VarList in;
+        VarList out;
 
         public ControlFlowNode(IrCommand command) {
             this.command = command;

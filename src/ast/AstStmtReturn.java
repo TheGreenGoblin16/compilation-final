@@ -2,6 +2,10 @@ package ast;
 
 import types.*;
 import symboltable.*;
+
+import ir.*;
+import temp.*;
+
 public class AstStmtReturn extends AstStmt
 {
     public AstExp e;
@@ -133,7 +137,7 @@ public class AstStmtReturn extends AstStmt
 
     public Temp irMe()
 	{
-		Temp src = e.irMe()
+		Temp src = e.irMe();
 		Ir.getInstance().AddIrCommand(new IrCommandReturn(src));
 		return null;
 	}

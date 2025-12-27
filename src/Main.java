@@ -65,6 +65,7 @@ public class Main
 			/* [8] IR the AST ... */
 			/**********************/
 			ast.irMe();
+			System.out.println("IR code generated.");
 
 			/*************************************/
 			/* [9] Finalize AST GRAPHIZ DOT file */

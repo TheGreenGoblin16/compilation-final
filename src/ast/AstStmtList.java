@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstStmtList extends AstNode
 {
 	/****************/
@@ -79,7 +82,7 @@ public class AstStmtList extends AstNode
 	}
 
 
-	public temp irMe(){
+	public Temp irMe(){
 		if (head != null){
 			head.irMe();
 		}

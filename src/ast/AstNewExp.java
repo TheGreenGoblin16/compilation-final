@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstNewExp extends AstExp
 {
 	public String typeName;
@@ -96,7 +99,7 @@ public class AstNewExp extends AstExp
 		if (exp != null) {
 			// Array allocation
 			Temp size = exp.irMe();
-			Ir.getInstance().AddIrCommand(new IrCommandNewArray(t, size, typeName));
+			Ir.getInstance().AddIrCommand(new IrCommandNewArray(t, size));
 		} else {
 			// Class allocation
 			Ir.getInstance().AddIrCommand(new IrCommandNewClass(t, typeName));

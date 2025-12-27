@@ -3,6 +3,9 @@ package ast;
 import types.*;
 import symboltable.*;
 
+import ir.*;
+import temp.*;
+
 public class AstStmtAssign extends AstStmt
 {
 	/***************/
@@ -106,18 +109,17 @@ public class AstStmtAssign extends AstStmt
 		Temp src = exp.irMe();
 
 		if (var instanceof AstVarSimple){
-			Ir.getInstance().AddIrCommand(new IrCommandStore(((AstVarSimple) var).name,src));
+			Ir.getInstance().AddIrCommand(new IrCommandWriteVar(((AstVarSimple) var).name,src));
 		}
 		else if (var instanceof AstVarSubscript){
 			Temp arr = ((AstVarSubscript) var).var.irMe();
-			Temp index = ((AstVarSubscript) var).subscript.irMe()
-			Ir.getInstance().AddIrCommand(new IrCommandArreySet(src, arr , index));
+			Temp index = ((AstVarSubscript) var).subscript.irMe();
+			Ir.getInstance().AddIrCommand(new IrCommandArraySet(src, arr ,index));
 		}
 		else if (var instanceof AstVarField){
 			Temp arr = ((AstVarField) var).var.irMe();
 			Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, arr , ((AstVarField)var).fieldName ));
 		}
-		
 
 		return null;
 	}

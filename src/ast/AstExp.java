@@ -1,6 +1,8 @@
 package ast;
 
 import types.*;
+import ir.*;
+import temp.*;
 
 public abstract class AstExp extends AstNode
 {
@@ -13,8 +15,7 @@ public abstract class AstExp extends AstNode
 	{
 		return null;
 	}
-	public Temp irMe()
-	{
+	public Temp irMe(){
 		return null;
 	}
 }
