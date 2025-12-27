@@ -6,6 +6,9 @@ import java.io.*;
 import java_cup.runtime.Symbol;
 import ast.*;
 
+import ir.*;
+import controlFlow.*;
+
 public class Main
 {
 	static public void main(String argv[])
@@ -66,6 +69,10 @@ public class Main
 			/**********************/
 			ast.irMe();
 			System.out.println("IR code generated.");
+
+
+			// NEW: Run Dataflow Analysis
+			controlFlow.controlFlow(Ir.getInstance().head, outputFileName); // Pass head and output path
 
 			/*************************************/
 			/* [9] Finalize AST GRAPHIZ DOT file */
