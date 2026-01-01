@@ -75,12 +75,12 @@ public class AstStmtDec extends AstStmt
     }
 
     public Temp irMe() {
-        String varName = d.name;
+        SymbolTableEntry varEntry = d.entry;
         AstExp exp = d.exp;
 
         if (exp != null) {
             Temp src = exp.irMe();
-            Ir.getInstance().AddIrCommand(new IrCommandWriteVar(varName, src));
+            Ir.getInstance().AddIrCommand(new IrCommandWriteVar(varEntry, src));
         }
 
         return null;

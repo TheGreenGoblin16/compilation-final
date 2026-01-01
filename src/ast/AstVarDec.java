@@ -11,6 +11,7 @@ public class AstVarDec extends AstDec
     public String typeName;
     public String name;
 	public AstExp exp;
+	public SymbolTableEntry entry;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -108,7 +109,7 @@ public class AstVarDec extends AstDec
 		/************************************************/
 		/* [4] Enter the identifier to the symbol table */
 		/************************************************/
-		SymbolTable.getInstance().enter(name, t);
+		entry = SymbolTable.getInstance().enter(name, t);
 
 		/******************************************************/
 		/* [5] Add the identifier to currentClass.dataMembers */

@@ -109,12 +109,12 @@ public class AstStmtAssign extends AstStmt
 		Temp src = exp.irMe();
 
 		if (var instanceof AstVarSimple){
-			Ir.getInstance().AddIrCommand(new IrCommandWriteVar(((AstVarSimple) var).name,src));
+			Ir.getInstance().AddIrCommand(new IrCommandWriteVar(((AstVarSimple) var).entry, src));
 		}
 		else if (var instanceof AstVarSubscript){
 			Temp arr = ((AstVarSubscript) var).var.irMe();
 			Temp index = ((AstVarSubscript) var).subscript.irMe();
-			Ir.getInstance().AddIrCommand(new IrCommandArraySet(src, arr ,index));
+			Ir.getInstance().AddIrCommand(new IrCommandArraySet(src, arr, index));
 		}
 		else if (var instanceof AstVarField){
 			Temp arr = ((AstVarField) var).var.irMe();

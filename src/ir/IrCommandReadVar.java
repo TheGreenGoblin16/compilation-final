@@ -15,11 +15,11 @@ import temp.*;
 public class IrCommandReadVar extends IrCommand
 {
 	Temp dst;
-	String varName;
+	SymbolTableEntry varEntry;
 	
-	public IrCommandReadVar(Temp dst, String varName)
+	public IrCommandReadVar(Temp dst, SymbolTableEntry varEntry)
 	{
 		this.dst      = dst;
-		this.varName = varName;
+		this.varEntry = varEntry;
 	}
 }

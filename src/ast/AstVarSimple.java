@@ -9,6 +9,7 @@ import temp.*;
 public class AstVarSimple extends AstVar
 {
     public String name;
+    public SymbolTableEntry entry;
     
     /******************/
     /* CONSTRUCTOR(S) */
@@ -37,6 +38,7 @@ public class AstVarSimple extends AstVar
         // usage of findLocal ensures we catch function params and locals
         Type tLocal = SymbolTable.getInstance().findLocal(name);
         if (tLocal != null) {
+            entry = SymbolTable.getInstance().getLocalEntry(name);
             return tLocal;
         }
 
@@ -57,6 +59,7 @@ public class AstVarSimple extends AstVar
                             System.out.format(">> ERROR [%d] member %s is a method, not a field\n", lineNumber, name);
                             abort();
                         }
+                        // TODO: set entry
                         return it.head.type;
                     }
                 }
@@ -69,6 +72,7 @@ public class AstVarSimple extends AstVar
         // it must be global (or we missed it in step 1, but findLocal covers that).
         Type tGlobal = SymbolTable.getInstance().find(name);
         if (tGlobal != null) {
+            entry = SymbolTable.getInstance().getEntry(name);
             return tGlobal;
         }
 
@@ -82,7 +86,7 @@ public class AstVarSimple extends AstVar
     public Temp irMe()
 	{
 		Temp t = TempFactory.getInstance().getFreshTemp();
-		Ir.getInstance().AddIrCommand(new IrCommandWriteVar(name, t));
+		Ir.getInstance().AddIrCommand(new IrCommandReadVar(t, entry));
 		return t;
 	}
 }

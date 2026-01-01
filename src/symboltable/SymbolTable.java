@@ -46,7 +46,7 @@ public class SymbolTable
 	/****************************************************************************/
 	/* Enter a variable, function, class type or array type to the symbol table */
 	/****************************************************************************/
-	public void enter(String name, Type t)
+	public SymbolTableEntry enter(String name, Type t)
 	{
 		/*************************************************/
 		/* [1] Compute the hash value for this new entry */
@@ -78,6 +78,8 @@ public class SymbolTable
 		/* [6] Print Symbol Table */
 		/**************************/
 		printMe();
+
+		return e;
 	}
 
 	/***********************************************/
@@ -98,6 +100,21 @@ public class SymbolTable
 		return null;
 	}
 
+	public SymbolTableEntry getEntry(String name)
+	{
+		SymbolTableEntry e;
+				
+		for (e = table[hash(name)]; e != null; e = e.next)
+		{
+			if (name.equals(e.name))
+			{
+				return e;
+			}
+		}
+		
+		return null;
+	}
+
 	/********************************************/
 	/* Find the current scope element with name */
 	/********************************************/
@@ -110,6 +127,21 @@ public class SymbolTable
 			if (e.name.equals(name))
 			{
 				return e.type;
+			}
+		}
+		
+		return null;
+	}
+
+	public SymbolTableEntry getLocalEntry(String name)
+	{
+		SymbolTableEntry e;
+				
+		for (e = top; e != null && !e.name.equals("SCOPE-BOUNDARY"); e = e.prevtop)
+		{
+			if (e.name.equals(name))
+			{
+				return e;
 			}
 		}
 		
