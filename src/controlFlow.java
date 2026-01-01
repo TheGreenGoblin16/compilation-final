@@ -3,7 +3,7 @@ import java.util.*;
 import ir.*;
 import temp.*;
 import symboltable.SymbolTableEntry;
-import java.lang.reflect.Field; // ??
+import java.lang.reflect.Field; 
 
 public class controlFlow {
 
@@ -275,6 +275,9 @@ public class controlFlow {
         if (o instanceof Temp) {
             return "Temp_" + ((Temp) o).getSerialNumber();
         }
+        if (o instanceof SymbolTableEntry) {
+            return ((SymbolTableEntry) o).toString();
+        }
         return o.toString();
     }
     
@@ -337,8 +340,11 @@ public class controlFlow {
             set.add(str(((IrCommandFieldSet)cmd).inst));
         } else if (cmd instanceof IrCommandNewArray) {
             set.add(str(((IrCommandNewArray)cmd).size));
+        } else if (cmd instanceof IrCommandReadVar) {
+            set.add(str(((IrCommandReadVar)cmd).varEntry)); //////////// check
+            
         }
-        // ConstInt, NewClass, Label, Branch, ReadVar(def only) have no uses (or handled in Def)
+        // ConstInt, NewClass, Label, Branch have no uses (or handled in Def)
     }
 
     // Return the variable defined by the command (or null)
@@ -354,7 +360,7 @@ public class controlFlow {
         else if (cmd instanceof IrCommandVirtualCall) def = str(((IrCommandVirtualCall)cmd).dst);
         else if (cmd instanceof IrCommandConstInt) def = str(((IrCommandConstInt)cmd).t);
         else if (cmd instanceof IrCommandReadVar) def = str(((IrCommandReadVar)cmd).dst);
-        else if (cmd instanceof IrCommandWriteVar) def = ((IrCommandWriteVar)cmd).varName; // The only String def
+        else if (cmd instanceof IrCommandWriteVar) def = str(((IrCommandWriteVar)cmd).varEntry); // The only String def
         else if (cmd instanceof IrCommandArrayAccess) def = str(((IrCommandArrayAccess)cmd).dst);
         else if (cmd instanceof IrCommandFieldAccess) def = str(((IrCommandFieldAccess)cmd).dst);
         else if (cmd instanceof IrCommandNewArray) def = str(((IrCommandNewArray)cmd).dst);

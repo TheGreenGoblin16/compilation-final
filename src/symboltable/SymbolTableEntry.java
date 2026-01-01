@@ -39,6 +39,9 @@ public class SymbolTableEntry
 	/****************************************************/
 	public int prevtopIndex;
 	
+	public int id;
+	public static int idCounter = 0;
+	
 	/******************/
 	/* CONSTRUCTOR(S) */
 	/******************/
@@ -56,5 +59,11 @@ public class SymbolTableEntry
 		this.next = next;
 		this.prevtop = prevtop;
 		this.prevtopIndex = prevtopIndex;
+		this.id = idCounter++;
+	}
+
+	@Override
+	public String toString() {
+		return "SymbolTableEntry_"+ name + id.toString();
 	}
 }
