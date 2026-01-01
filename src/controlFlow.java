@@ -167,10 +167,6 @@ public class controlFlow {
             
             Set<String> newOut = new HashSet<>(newIn);
             
-            // Logic adapted from prompt:
-            // "if at least one variable was added to OUTPUT during this instruction 
-            //  (meaning a use was uninitialized), remove var from OUT."
-            
             boolean errorInInstruction = false;
             Set<String> uses = new HashSet<>();
             getUses(node.command, uses);
