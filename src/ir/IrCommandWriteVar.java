@@ -11,11 +11,12 @@ package ir;
 /* PROJECT IMPORTS */
 /*******************/
 import temp.*;
+import symboltable.*;
 
 public class IrCommandWriteVar extends IrCommand
 {
-	SymbolTableEntry varEntry; // x := t1
-	Temp src;
+	public SymbolTableEntry varEntry; // x := t1
+	public Temp src;
 	
 	public IrCommandWriteVar(SymbolTableEntry varEntry, Temp src)
 	{

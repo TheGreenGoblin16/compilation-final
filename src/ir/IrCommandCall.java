@@ -14,9 +14,9 @@ import temp.*;
 
 public class IrCommandCall extends IrCommand
 {
-	Temp dst;
-	String functionName;
-    TempList args;
+	public Temp dst;
+	public String functionName;
+    public TempList args;
 	
 	public IrCommandCall(Temp dst, String functionName, TempList args)
 	{

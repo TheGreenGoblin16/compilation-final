@@ -14,8 +14,8 @@ import temp.*;
 
 public class IrCommandNewClass extends IrCommand
 {
-	Temp dst;
-	String typeName;
+	public Temp dst;
+	public String typeName;
 	
 	public IrCommandNewClass(Temp dst, String typeName)
 	{

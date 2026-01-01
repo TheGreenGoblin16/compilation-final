@@ -14,8 +14,8 @@ import temp.*;
 
 public class IrCommandBranchIfZero extends IrCommand
 {
-	Temp t;
-	String labelName;
+	public Temp t;
+	public String labelName;
 	
 	public IrCommandBranchIfZero(Temp t, String labelName)
 	{

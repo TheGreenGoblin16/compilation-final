@@ -14,9 +14,9 @@ import temp.*;
 
 public class IrCommandFieldSet extends IrCommand
 {
-	Temp src;
-	Temp inst;
-    String fieldName;
+	public Temp src;
+	public Temp inst;
+    public String fieldName;
 	
 	public IrCommandFieldSet(Temp src, Temp inst, String fieldName)
 	{

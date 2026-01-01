@@ -64,6 +64,6 @@ public class SymbolTableEntry
 
 	@Override
 	public String toString() {
-		return "SymbolTableEntry_"+ name + id.toString();
+		return name+";SymbolTableEntry_"+ Integer.toString(id);
 	}
 }

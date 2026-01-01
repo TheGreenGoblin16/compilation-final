@@ -14,7 +14,7 @@ import temp.*;
 
 public class IrCommandReturn extends IrCommand
 {
-	Temp src;
+	public Temp src;
 	
 	public IrCommandReturn(Temp src)
 	{

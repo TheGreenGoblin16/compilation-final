@@ -14,8 +14,8 @@ import temp.*;
 
 public class IrCommandCallVoid extends IrCommand
 {
-	String functionName;
-    TempList args;
+	public String functionName;
+    public TempList args;
 	
 	public IrCommandCallVoid(String functionName, TempList args)
 	{

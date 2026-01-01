@@ -31,7 +31,7 @@ public class controlFlow {
     // -------------------------------------------------------------------------
     
     // Note: Parameter signature matches Main.java call: controlFlow(IrCommand, String)
-    public static void controlFlow(IrCommand headCmd, String outputFileName) {
+    public static void controlFlow(IrCommand headCmd, PrintWriter writer) {
         
         // 1. Flatten IR into a List of Nodes
         // ---------------------------------------------------------------------
@@ -65,7 +65,7 @@ public class controlFlow {
         }
 
         if (nodes.isEmpty()) {
-            writeOutput(outputFileName, new ArrayList<>());
+            writeOutput(writer, new ArrayList<>());
             return;
         }
 
@@ -244,7 +244,8 @@ public class controlFlow {
         // ---------------------------------------------------------------------
         List<String> sortedErrors = new ArrayList<>(detectedErrors);
         Collections.sort(sortedErrors);
-        writeOutput(outputFileName, sortedErrors);
+        System.out.println("Detected uninitialized variable uses: " + sortedErrors); // y added for debug
+        writeOutput(writer, sortedErrors);
     }
 
     // -------------------------------------------------------------------------
@@ -256,18 +257,19 @@ public class controlFlow {
         if (!to.pred.contains(from)) to.pred.add(from);
     }
 
-    private static void writeOutput(String path, List<String> errors) {
-        try (PrintWriter writer = new PrintWriter(path)) {
-            if (errors.isEmpty()) {
-                writer.print("OK");
-            } else {
-                for (String err : errors) {
-                    writer.println(err);
+    // Update helper to use the existing writer
+    private static void writeOutput(PrintWriter writer, List<String> errors) {
+        if (errors.isEmpty()) {
+            writer.print("!OK");
+        } else {
+            for (int i = 0; i < errors.size(); i++) {
+                writer.print(errors.get(i).split(";")[0]); // Print only variable name
+                if (i < errors.size() - 1) {
+                    writer.print("\n"); // Ensure strictly one error per line
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        // Do NOT close the writer here; Main.java handles that in 'finally'
     }
 
     // Helper to extract string representation of Temp or String

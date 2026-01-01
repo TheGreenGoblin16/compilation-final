@@ -14,8 +14,8 @@ import temp.*;
 
 public class IrCommandNewArray extends IrCommand
 {
-	Temp dst;
-	Temp size;
+	public Temp dst;
+	public Temp size;
 	
 	public IrCommandNewArray(Temp dst, Temp size)
 	{

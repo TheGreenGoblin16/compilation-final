@@ -122,4 +122,11 @@ public class AstVarDec extends AstDec
 
 		return null;
 	}
+
+	public void irMe() {
+        if (exp != null) {
+            Temp src = exp.irMe();
+            Ir.getInstance().AddIrCommand(new IrCommandWriteVar(entry, src));
+        }
+	}
 }

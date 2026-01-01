@@ -14,9 +14,9 @@ import temp.*;
 
 public class IrCommandArrayAccess extends IrCommand
 {
-	Temp dst;
-	Temp arr;
-	Temp index;
+	public Temp dst;
+	public Temp arr;
+	public Temp index;
 	
 	public IrCommandArrayAccess(Temp dst, Temp arr, Temp index)
 	{

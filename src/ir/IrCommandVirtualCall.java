@@ -14,10 +14,10 @@ import temp.*;
 
 public class IrCommandVirtualCall extends IrCommand
 {
-	Temp dst;
-	Temp inst;
-	String functionName;
-    TempList args;
+	public Temp dst;
+	public Temp inst;
+	public String functionName;
+    public TempList args;
 	
 	public IrCommandVirtualCall(Temp dst, Temp inst, String functionName, TempList args)
 	{

@@ -13,8 +13,8 @@ package ir;
 
 public class Ir
 {
-	IrCommand head = null;
-	IrCommandList tail = null;
+	public IrCommand head = null;
+	public IrCommandList tail = null;
 
 	/******************/
 	/* Add Ir command */

@@ -160,4 +160,8 @@ public class AstFuncDec extends AstDec
 		/************************************************************/
 		return null;		
 	}
+
+	public void irMe() {
+		body.irMe();
+	}
 }

@@ -75,13 +75,7 @@ public class AstStmtDec extends AstStmt
     }
 
     public Temp irMe() {
-        SymbolTableEntry varEntry = d.entry;
-        AstExp exp = d.exp;
-
-        if (exp != null) {
-            Temp src = exp.irMe();
-            Ir.getInstance().AddIrCommand(new IrCommandWriteVar(varEntry, src));
-        }
+        d.irMe();
 
         return null;
     }

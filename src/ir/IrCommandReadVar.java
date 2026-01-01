@@ -11,11 +11,12 @@ package ir;
 /* PROJECT IMPORTS */
 /*******************/
 import temp.*;
+import symboltable.*;
 
 public class IrCommandReadVar extends IrCommand
 {
-	Temp dst;
-	SymbolTableEntry varEntry;
+	public Temp dst;
+	public SymbolTableEntry varEntry;
 	
 	public IrCommandReadVar(Temp dst, SymbolTableEntry varEntry)
 	{
