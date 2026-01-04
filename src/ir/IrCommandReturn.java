@@ -20,4 +20,9 @@ public class IrCommandReturn extends IrCommand
 	{
 		this.src = src;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandReturn");
+		System.out.println("src: " + src);
+	}
 }

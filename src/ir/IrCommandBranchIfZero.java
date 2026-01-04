@@ -19,7 +19,13 @@ public class IrCommandBranchIfZero extends IrCommand
 	
 	public IrCommandBranchIfZero(Temp t, String labelName)
 	{
-		this.t          = t;
+		this.t = t;
 		this.labelName = labelName;
+	}
+
+	public void printMe() {
+		System.out.println("IrCommandBranchIfZero");
+		System.out.println("t: " + t);
+		System.out.println("labelName: " + labelName);
 	}
 }

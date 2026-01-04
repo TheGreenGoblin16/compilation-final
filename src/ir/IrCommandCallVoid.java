@@ -22,4 +22,10 @@ public class IrCommandCallVoid extends IrCommand
 		this.functionName = functionName;
         this.args = args;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandCallVoid");
+		System.out.println("functionName: " + functionName);
+		System.out.println("args: " + args);
+	}
 }

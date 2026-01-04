@@ -21,4 +21,14 @@ public class IrCommandList
 		this.head = head;
 		this.tail = tail;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandList");
+		if (head != null) {
+			head.printMe();
+		}
+		if (tail != null) {
+			tail.printMe();
+		}
+	}
 }

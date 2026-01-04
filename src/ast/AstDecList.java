@@ -66,6 +66,8 @@ public class AstDecList extends AstNode
 				AstVarDec dec = (AstVarDec) it.head;
 				dec.irMe();
 			}
+		}
+		for (AstDecList it = this; it != null; it = it.tail) {
 			if (it.head instanceof AstFuncDec) {
 				AstFuncDec func = (AstFuncDec) it.head;
 				func.irMe();

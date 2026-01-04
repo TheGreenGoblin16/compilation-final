@@ -24,4 +24,11 @@ public class IrCommandVirtualCallVoid extends IrCommand
 		this.functionName = functionName;
         this.args = args;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandVirtualCallVoid");
+		System.out.println("inst: " + inst);
+		System.out.println("functionName: " + functionName);
+		System.out.println("args: " + args);
+	}
 }

@@ -24,4 +24,11 @@ public class IrCommandArraySet extends IrCommand
 		this.arr = arr;
 		this.index = index;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandArraySet");
+		System.out.println("src: " + src);
+		System.out.println("arr: " + arr);
+		System.out.println("index: " + index);
+	}
 }

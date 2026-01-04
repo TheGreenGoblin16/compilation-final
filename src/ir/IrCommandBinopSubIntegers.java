@@ -24,4 +24,11 @@ public class IrCommandBinopSubIntegers extends IrCommand
 		this.t1 = t1;
 		this.t2 = t2;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandBinopSubIntegers");
+		System.out.println("t1: " + t1);
+		System.out.println("t2: " + t2);
+		System.out.println("dst: " + dst);
+	}
 }

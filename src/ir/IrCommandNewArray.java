@@ -22,4 +22,10 @@ public class IrCommandNewArray extends IrCommand
 		this.dst = dst;
 		this.size = size;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandNewArray");
+		System.out.println("dst: " + dst);
+		System.out.println("size: " + size);
+	}
 }

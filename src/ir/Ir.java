@@ -16,11 +16,22 @@ public class Ir
 	public IrCommand head = null;
 	public IrCommandList tail = null;
 
+	public void printMe() {
+		System.out.println("Ir");
+		if (head != null) {
+			head.printMe();
+		}
+		if (tail != null) {
+			tail.printMe();
+		}
+	}
+
 	/******************/
 	/* Add Ir command */
 	/******************/
 	public void AddIrCommand(IrCommand cmd)
 	{
+		cmd.printMe();
 		if ((head == null) && (tail == null))
 		{
 			this.head = cmd;

@@ -22,4 +22,10 @@ public class IrCommandNewClass extends IrCommand
 		this.dst = dst;
 		this.typeName = typeName;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandNewClass");
+		System.out.println("dst: " + dst);
+		System.out.println("typeName: " + typeName);
+	}
 }

@@ -19,4 +19,9 @@ public class IrCommandBranch extends IrCommand
 	{
 		this.labelName = labelName;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandBranch");
+		System.out.println("labelName: " + labelName);
+	}
 }

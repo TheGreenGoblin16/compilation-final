@@ -13,6 +13,8 @@ package ir;
 
 public abstract class IrCommand
 {
+	public abstract void printMe();
+
 	/*****************/
 	/* Label Factory */
 	/*****************/

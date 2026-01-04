@@ -23,4 +23,10 @@ public class IrCommandWriteVar extends IrCommand
 		this.src      = src;
 		this.varEntry = varEntry;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandWriteVar");
+		System.out.println("varEntry: " + varEntry);
+		System.out.println("src: " + src);
+	}
 }

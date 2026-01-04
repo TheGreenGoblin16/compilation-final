@@ -1,8 +1,8 @@
 digraph
 {
 graph [ordering = "out"]
-v64 [label = "DEC
+v14 [label = "DEC
 LIST
 "];
-v64 -> v63;
+v14 -> v13;
 }

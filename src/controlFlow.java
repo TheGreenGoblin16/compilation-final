@@ -340,7 +340,6 @@ public class controlFlow {
             set.add(str(((IrCommandNewArray)cmd).size));
         } else if (cmd instanceof IrCommandReadVar) {
             set.add(str(((IrCommandReadVar)cmd).varEntry)); //////////// check
-            
         }
         // ConstInt, NewClass, Label, Branch have no uses (or handled in Def)
     }

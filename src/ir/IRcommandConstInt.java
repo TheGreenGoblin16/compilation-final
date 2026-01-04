@@ -22,4 +22,10 @@ public class IrCommandConstInt extends IrCommand
 		this.t = t;
 		this.value = value;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandConstInt");
+		System.out.println("t: " + t);
+		System.out.println("value: " + value);
+	}
 }

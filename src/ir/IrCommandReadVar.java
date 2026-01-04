@@ -23,4 +23,10 @@ public class IrCommandReadVar extends IrCommand
 		this.dst      = dst;
 		this.varEntry = varEntry;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandReadVar");
+		System.out.println("dst: " + dst);
+		System.out.println("varEntry: " + varEntry);
+	}
 }

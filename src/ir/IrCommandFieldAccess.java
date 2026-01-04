@@ -24,4 +24,11 @@ public class IrCommandFieldAccess extends IrCommand
 		this.inst = inst;
 		this.fieldName = fieldName;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandFieldAccess");
+		System.out.println("dst: " + dst);
+		System.out.println("inst: " + inst);
+		System.out.println("fieldName: " + fieldName);
+	}
 }

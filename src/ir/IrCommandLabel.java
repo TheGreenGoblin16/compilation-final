@@ -19,4 +19,9 @@ public class IrCommandLabel extends IrCommand
 	{
 		this.labelName = labelName;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandLabel");
+		System.out.println("labelName: " + labelName);
+	}
 }

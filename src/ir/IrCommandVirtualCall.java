@@ -26,4 +26,12 @@ public class IrCommandVirtualCall extends IrCommand
 		this.functionName = functionName;
         this.args = args;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandVirtualCall");
+		System.out.println("dst: " + dst);
+		System.out.println("inst: " + inst);
+		System.out.println("functionName: " + functionName);
+		System.out.println("args: " + args);
+	}
 }

@@ -24,4 +24,11 @@ public class IrCommandCall extends IrCommand
 		this.functionName = functionName;
         this.args = args;
 	}
+
+	public void printMe() {
+		System.out.println("IrCommandCall");
+		System.out.println("dst: " + dst);
+		System.out.println("functionName: " + functionName);
+		System.out.println("args: " + args);
+	}
 }
