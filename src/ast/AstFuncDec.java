@@ -128,6 +128,7 @@ public class AstFuncDec extends AstDec
 		/******************************************************/
 		/* [2.5] Add the identifier to currentClass.dataMembers */
 		/******************************************************/
+
 		if (currentClass != null) {
 			TypedIdentifierList til = currentClass.dataMembers;
 			currentClass.dataMembers = new TypedIdentifierList(
