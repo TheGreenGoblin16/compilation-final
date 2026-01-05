@@ -126,11 +126,14 @@ public class AstExpBinop extends AstExp
 			if (t2.isClass() && t1 == TypeVoid.getInstance()) { // Comparing nil with object
 				return TypeInt.getInstance();
 			}
-			if (t1.isArray() && (t2.isArray() || t2 == TypeVoid.getInstance())) { // Comparing two arrays
-				return TypeInt.getInstance();
-			}
-			if (t2.isArray() && (t1.isArray() || t1 == TypeVoid.getInstance())) { // Comparing two arrays
-				return TypeInt.getInstance();
+			if (t1.isArray() || t2.isArray()) {
+				if (t1 == t2){
+					return TypeInt.getInstance();
+				}
+				else {
+					System.out.format(">> ERROR [ %d ] type mismatch for binary operation\n", lineNumber);
+					abort();
+				}
 			}
 		}
 
