@@ -125,32 +125,8 @@ public class AstFuncDec extends AstDec
 		// We want to already push the function so it can call itself
 		SymbolTable.getInstance().enter(name, thisFunc);
 
-
-
-		SymbolTable.getInstance().beginScope();
-
-		SymbolTable.getInstance().enter("$RETURN-TYPE", returnType);
-
-		/*******************/
-		/* [3] Push params */
-		/*******************/
-		if (params != null) {
-			params.semantMe(true);
-		}
-
-		/*******************/
-		/* [4] Semant body */
-		/*******************/
-		body.semantMe();
-
-		/*****************/
-		/* [5] End scope */
-		/*****************/
-		SymbolTable.getInstance().endScope();
-
-
 		/******************************************************/
-		/* [6] Add the identifier to currentClass.dataMembers */
+		/* [3] Add the identifier to currentClass.dataMembers */
 		/******************************************************/
 
 		if (currentClass != null) {
@@ -158,6 +134,27 @@ public class AstFuncDec extends AstDec
 			currentClass.dataMembers = new TypedIdentifierList(
 					new TypedIdentifier(thisFunc, name), til);
 		}
+
+		SymbolTable.getInstance().beginScope();
+
+		SymbolTable.getInstance().enter("$RETURN-TYPE", returnType);
+
+		/*******************/
+		/* [4] Push params */
+		/*******************/
+		if (params != null) {
+			params.semantMe(true);
+		}
+
+		/*******************/
+		/* [5] Semant body */
+		/*******************/
+		body.semantMe();
+
+		/*****************/
+		/* [6] End scope */
+		/*****************/
+		SymbolTable.getInstance().endScope();
 
 		/************************************************************/
 		/* [7] Return value is irrelevant for function declarations */
