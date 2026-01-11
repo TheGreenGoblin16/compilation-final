@@ -7,6 +7,7 @@ import java_cup.runtime.Symbol;
 import ast.*;
 
 import ir.*;
+import mips.*;
 
 public class Main
 {
@@ -71,7 +72,7 @@ public class Main
 
 
 			// NEW: Run Dataflow Analysis
-			controlFlow.controlFlow(Ir.getInstance().head, fileWriter); // Pass head and output path
+			//controlFlow.controlFlow(Ir.getInstance().head, fileWriter); // Pass head and output path
 
 			/*************************************/
 			/* [9] Finalize AST GRAPHIZ DOT file */
@@ -84,7 +85,8 @@ public class Main
 			/* Per PDF: "When the input program is semantically       */
 			/* correct: OK"                                           */
 			/**********************************************************/
-			
+
+			MipsGenerator.getInstance().finalizeFile();
 		}
 		catch (Throwable e)
 		{
