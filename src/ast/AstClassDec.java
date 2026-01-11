@@ -7,9 +7,9 @@ import temp.*;
 
 public class AstClassDec extends AstDec
 {
-    String name;
-    String parent;
-	AstDecList body;
+    public String name;
+    public String parent;
+	public AstDecList body;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */

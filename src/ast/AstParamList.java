@@ -54,17 +54,32 @@ public class AstParamList extends AstNode
         if (tail != null) AstGraphviz.getInstance().logEdge(serialNumber,tail.serialNumber);
 	}
 
-	public TypeList semantMe(boolean push) {
+	public TypeList semantMe() { // For just getting the types
 
 		if (head == null) {
 			return null;
 		}
 
-		Type t = head.semantMe(push);
+		Type t = head.semantMe();
 
 		TypeList tl = null;
 		if (tail != null) {
-            tl = tail.semantMe(push);
+            tl = tail.semantMe();
+        }
+
+		return new TypeList(t, tl);
+	}
+
+	public TypeList semantMe(TypeFunction thisFunc) { // For also adding them to the symbol table
+		if (head == null) {
+			return null;
+		}
+
+		Type t = head.semantMe(thisFunc);
+
+		TypeList tl = null;
+		if (tail != null) {
+            tl = tail.semantMe(thisFunc);
         }
 
 		return new TypeList(t, tl);

@@ -82,7 +82,7 @@ public class AstFuncDec extends AstDec
 		}
 
 		if (params != null) {
-			paramsTypes = params.semantMe(false);
+			paramsTypes = params.semantMe();
 		}
 
 		thisFunc = new TypeFunction(returnType, name, paramsTypes);
@@ -135,29 +135,35 @@ public class AstFuncDec extends AstDec
 					new TypedIdentifier(thisFunc, name), til);
 		}
 
+		/*******************************************/
+		/* [4] Begin scope and push auxiliary info */
+		/*******************************************/
+
 		SymbolTable.getInstance().beginScope();
+
+		SymbolTable.getInstance().enter("$CURRENT-FUNCTION", thisFunc);
 
 		SymbolTable.getInstance().enter("$RETURN-TYPE", returnType);
 
 		/*******************/
-		/* [4] Push params */
+		/* [5] Push params */
 		/*******************/
 		if (params != null) {
-			params.semantMe(true);
+			params.semantMe(thisFunc);
 		}
 
 		/*******************/
-		/* [5] Semant body */
+		/* [6] Semant body */
 		/*******************/
 		body.semantMe();
 
 		/*****************/
-		/* [6] End scope */
+		/* [7] End scope */
 		/*****************/
 		SymbolTable.getInstance().endScope();
 
 		/************************************************************/
-		/* [7] Return value is irrelevant for function declarations */
+		/* [8] Return value is irrelevant for function declarations */
 		/************************************************************/
 		return null;		
 	}

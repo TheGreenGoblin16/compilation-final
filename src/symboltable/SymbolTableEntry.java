@@ -13,6 +13,8 @@ import types.*;
 /**********************/
 public class SymbolTableEntry
 {
+	
+
 	/*********/
 	/* index */
 	/*********/
@@ -41,6 +43,12 @@ public class SymbolTableEntry
 	
 	public int id;
 	public static int idCounter = 0;
+
+	/************************/
+	/* For variable entries */
+	/************************/
+	public VariableKind kind;
+	public int position; // stack index or class field index.
 	
 	/******************/
 	/* CONSTRUCTOR(S) */

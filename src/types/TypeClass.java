@@ -15,6 +15,11 @@ public class TypeClass extends Type
 	public TypedIdentifierList dataMembers;
 
 	private TypeClassInstance instance;
+
+	/************************/
+	/* declaration counters */
+	/************************/
+	public int fieldCounter = 0;
 	
 	/****************/
 	/* CTROR(S) ... */
@@ -24,6 +29,10 @@ public class TypeClass extends Type
 		this.name = name;
 		this.parent = parent;
 		this.dataMembers = dataMembers;
+
+		if (parent != null) {
+			this.fieldCounter = parent.fieldCounter;
+		}
 	}
 
 

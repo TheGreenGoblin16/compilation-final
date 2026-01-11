@@ -10,6 +10,7 @@ public class AstParam extends AstNode
 {
     String typeName;
     String name;
+	SymbolTableEntry entry;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -48,20 +49,30 @@ public class AstParam extends AstNode
 			String.format("PARAM\n(%s)\n", name));
 	}
 
-	public Type semantMe(boolean push) {
+	public Type semantMe() { // For just getting the types
 		// Validate that typeName exists
 		Type t = validateTypeName(typeName);
 
-		if (push) {
-			// Validate that name isn't a previous parameter
-			if (SymbolTable.getInstance().findLocal(name) != null) {
-				System.out.format(">> ERROR [%d] parameter %s was already used\n", lineNumber, name);
-				abort();
-			}
-	
-			// Add parameter as a local variable
-			SymbolTable.getInstance().enter(name, t);
+
+		return t;
+	}
+
+	public TypeList semantMe(TypeFunction thisFunc) { // For also adding them to the symbol table
+		// Validate that typeName exists
+		Type t = validateTypeName(typeName);
+
+		// Validate that name isn't a previous parameter
+		if (SymbolTable.getInstance().findLocal(name) != null) {
+			System.out.format(">> ERROR [%d] parameter %s was already used\n", lineNumber, name);
+			abort();
 		}
+
+		// Add parameter to the symbol table
+		entry = SymbolTable.getInstance().enter(name, t);
+
+		entry.kind = VariableKind.PARAMETER;
+		entry.position = thisFunc.paramCounter;
+		thisFunc.paramCounter++;
 
 		return t;
 	}

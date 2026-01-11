@@ -66,7 +66,7 @@ public class AstVarDec extends AstDec
 		Type t;
 		Type e;
 		TypeClass currentClass = (TypeClass) SymbolTable.getInstance().find("$CURRENT-CLASS");
-		boolean isStmt = (SymbolTable.getInstance().find("$RETURN-TYPE") != null);
+		TypeFunction currectFunction = (TypeFunction) SymbolTable.getInstance().find("$CURRENT-FUNCTION");
 
 		/********************************/
 		/* [1] Check If typeName exists */
@@ -76,7 +76,7 @@ public class AstVarDec extends AstDec
 		/**************************************/
 		/* [2] Check for previous appearances */
 		/**************************************/
-		if (currentClass == null || isStmt) { // Is not a class field
+		if (currentClass == null || currentFunction != null) { // Is not a class field
 			if (SymbolTable.getInstance().findLocal(name) != null) {
 				// We can't allow a variable with the same name in local scope
 				System.out.format(">> ERROR [%d] found a previous member with the same name in local scope\n", lineNumber);
@@ -111,13 +111,24 @@ public class AstVarDec extends AstDec
 		/************************************************/
 		entry = SymbolTable.getInstance().enter(name, t);
 
-		/******************************************************/
-		/* [5] Add the identifier to currentClass.dataMembers */
-		/******************************************************/
-		if (currentClass != null && !isStmt) { // Is a class field
+		/*******************************************************************/
+		/* [5] Add the identifier to currentClass.dataMembers and set kind */
+		/*******************************************************************/
+		if (currentClass != null && currentFunction == null) { // Is a class field
 			TypedIdentifierList til = currentClass.dataMembers;
 			currentClass.dataMembers = new TypedIdentifierList(
 				new TypedIdentifier(t, name), til);
+
+			entry.kind = VariableKind.CLASS_FIELD;
+			entry.position = currentClass.fieldCounter;
+			currectClass.fieldCounter++;
+		} else if (currentFunction == null) { // Is a global variable
+			entry.kind = VariableKind.GLOBAL;
+			entry.position = -1;
+		} else { // Is a local variable
+			entry.kind = VariableKind.LOCAL;
+			entry.position = currectFunction.localVarCounter;
+			currectFunction.localVarCounter++;
 		}
 
 		return null;

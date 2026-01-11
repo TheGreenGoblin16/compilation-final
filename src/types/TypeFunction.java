@@ -11,6 +11,12 @@ public class TypeFunction extends Type
 	/* types of input params */
 	/*************************/
 	public TypeList paramsTypes;
+
+	/************************/
+	/* declaration counters */
+	/************************/
+	public int paramCounter = 0;
+	public int localVarCounter = 0;
 	
 	/****************/
 	/* CTROR(S) ... */
