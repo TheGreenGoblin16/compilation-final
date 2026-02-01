@@ -12,6 +12,7 @@ public class AstFuncDec extends AstDec
     public String name;
 	public AstParamList params;
 	public AstStmtList body;
+	public String labelFunction;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -169,6 +170,9 @@ public class AstFuncDec extends AstDec
 	}
 
 	public void irMe() {
+		labelFunction = IrCommand.getFreshLabel("Function_"+name);
+		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelFunction));
 		body.irMe();
+		Ir.getInstance().AddIrCommand(new IrCommandReturn(null));
 	}
 }

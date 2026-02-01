@@ -1,9 +1,0 @@
-digraph
-{
-graph [ordering = "out"]
-v131 [label = "DEC
-LIST
-"];
-v131 -> v0;
-v131 -> v130;
-}

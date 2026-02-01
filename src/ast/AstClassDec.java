@@ -126,4 +126,13 @@ public class AstClassDec extends AstDec
 
         return null;        
     }
+
+    public void irMe() {
+		for (AstDecList it = body; it != null; it = it.tail) {
+			if (it.head instanceof AstFuncDec) {
+				AstFuncDec func = (AstFuncDec) it.head;
+				func.irMe();
+			}
+		}
+	}
 }

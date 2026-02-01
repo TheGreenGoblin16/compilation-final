@@ -61,16 +61,22 @@ public class AstDecList extends AstNode
 	}
 
 	public void irMe() {
+		String labelPreMain = IrCommand.getFreshLabel("pre_main");
+		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelPreMain));
 		for (AstDecList it = this; it != null; it = it.tail) {
 			if (it.head instanceof AstVarDec) {
 				AstVarDec dec = (AstVarDec) it.head;
 				dec.irMe();
 			}
 		}
+		
 		for (AstDecList it = this; it != null; it = it.tail) {
 			if (it.head instanceof AstFuncDec) {
 				AstFuncDec func = (AstFuncDec) it.head;
 				func.irMe();
+			} else if (it.head instanceof AstClassDec) {
+				AstClassDec cls = (AstClassDec) it.head;
+				cls.irMe();
 			}
 		}
 	}

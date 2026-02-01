@@ -109,13 +109,119 @@ public class RegisterAllocator {
         }
 
         private void collectAllTemps(Ir ir) {
-            // Basic scan to initialize map entries
-            // We can rely on getDef/getUse helpers or just initialize lazily in addEdge.
-            // But to be safe for degree 0 nodes:
-            // (Omitting full scan for brevity, usually nodes are added lazily or via addEdge)
-            // However, to ensure stack pops everything, we should ensure all are added.
-            // We will assume addEdge covers the interferences.
-            // Temps with no interference (degree 0) might need manual addition if not caught.
+            // 1. Flatten the IR list to get all commands
+            List<IrCommand> commands = new ArrayList<>();
+            if (ir.head != null) {
+                commands.add(ir.head);
+            }
+            
+            IrCommandList current = ir.tail;
+            while (current != null) {
+                if (current.head != null) {
+                    commands.add(current.head);
+                }
+                current = current.tail;
+            }
+
+            // 2. Iterate over every command and ensure every Temp is in the graph
+            for (IrCommand cmd : commands) {
+                // Add Definition (Write)
+                Temp def = getDef(cmd);
+                if (def != null) {
+                    initNode(def);
+                }
+
+                // Add Uses (Reads)
+                Set<Temp> uses = getUses(cmd);
+                for (Temp t : uses) {
+                    initNode(t);
+                }
+            }
+        }
+
+        // Helper to extract all used variables from a command
+        private Set<Temp> getUses(IrCommand cmd) {
+            Set<Temp> uses = new HashSet<>();
+            
+            if (cmd instanceof IrCommandBinopAddIntegers) {
+                uses.add(((IrCommandBinopAddIntegers) cmd).t1);
+                uses.add(((IrCommandBinopAddIntegers) cmd).t2);
+            }
+            else if (cmd instanceof IrCommandBinopSubIntegers) {
+                uses.add(((IrCommandBinopSubIntegers) cmd).t1);
+                uses.add(((IrCommandBinopSubIntegers) cmd).t2);
+            }
+            else if (cmd instanceof IrCommandBinopMulIntegers) {
+                uses.add(((IrCommandBinopMulIntegers) cmd).t1);
+                uses.add(((IrCommandBinopMulIntegers) cmd).t2);
+            }
+            else if (cmd instanceof IrCommandBinopDivIntegers) {
+                uses.add(((IrCommandBinopDivIntegers) cmd).t1);
+                uses.add(((IrCommandBinopDivIntegers) cmd).t2);
+            }
+            else if (cmd instanceof IrCommandBinopEqIntegers) {
+                uses.add(((IrCommandBinopEqIntegers) cmd).t1);
+                uses.add(((IrCommandBinopEqIntegers) cmd).t2);
+            }
+            else if (cmd instanceof IrCommandBinopLtIntegers) {
+                uses.add(((IrCommandBinopLtIntegers) cmd).t1);
+                uses.add(((IrCommandBinopLtIntegers) cmd).t2);
+            }
+            else if (cmd instanceof IrCommandWriteVar) {
+                uses.add(((IrCommandWriteVar) cmd).src);
+            }
+            else if (cmd instanceof IrCommandBranchIfZero) {
+                uses.add(((IrCommandBranchIfZero) cmd).t);
+            }
+            else if (cmd instanceof IrCommandCall) {
+                addTempListToSet(((IrCommandCall) cmd).args, uses);
+            }
+            else if (cmd instanceof IrCommandCallVoid) {
+                addTempListToSet(((IrCommandCallVoid) cmd).args, uses);
+            }
+            else if (cmd instanceof IrCommandVirtualCall) {
+                uses.add(((IrCommandVirtualCall) cmd).inst);
+                addTempListToSet(((IrCommandVirtualCall) cmd).args, uses);
+            }
+            else if (cmd instanceof IrCommandVirtualCallVoid) {
+                uses.add(((IrCommandVirtualCallVoid) cmd).inst);
+                addTempListToSet(((IrCommandVirtualCallVoid) cmd).args, uses);
+            }
+            else if (cmd instanceof IrCommandReturn) {
+                if (((IrCommandReturn) cmd).src != null) uses.add(((IrCommandReturn) cmd).src);
+            }
+            else if (cmd instanceof IrCommandArrayAccess) {
+                uses.add(((IrCommandArrayAccess) cmd).arr);
+                uses.add(((IrCommandArrayAccess) cmd).index);
+            }
+            else if (cmd instanceof IrCommandArraySet) {
+                uses.add(((IrCommandArraySet) cmd).src);
+                uses.add(((IrCommandArraySet) cmd).arr);
+                uses.add(((IrCommandArraySet) cmd).index);
+            }
+            else if (cmd instanceof IrCommandFieldAccess) {
+                uses.add(((IrCommandFieldAccess) cmd).inst);
+            }
+            else if (cmd instanceof IrCommandFieldSet) {
+                uses.add(((IrCommandFieldSet) cmd).src);
+                uses.add(((IrCommandFieldSet) cmd).inst);
+            }
+            else if (cmd instanceof IrCommandNewArray) {
+                uses.add(((IrCommandNewArray) cmd).size);
+            }
+            // ConstInt, ReadVar, NewClass, Labels, Branch have no uses.
+            
+            return uses;
+        }
+
+        private void addTempListToSet(TempList list, Set<Temp> set) {
+            TempList current = list;
+            while (current != null) {
+                if (current.head != null) {
+                    set.add(current.head);
+                }
+                current = current.tail;
+            }
         }
 
         private void addEdge(Temp u, Temp v) {

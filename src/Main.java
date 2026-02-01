@@ -67,7 +67,7 @@ public class Main
 			/**********************/
 			/* [8] IR the AST ... */
 			/**********************/
-
+			
 			ast.irMe();
 			System.out.println("IR code generated.");
 
@@ -78,6 +78,9 @@ public class Main
 			ir.RegisterAllocator allocator = new ir.RegisterAllocator();
 			allocator.allocate(Ir.getInstance());
 			System.out.println("Register Allocation Complete.");
+			System.out.println("______________________________________________________________________");
+
+			Ir.getInstance().printMe();
 
 
 

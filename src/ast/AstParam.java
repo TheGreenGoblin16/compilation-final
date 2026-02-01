@@ -57,7 +57,7 @@ public class AstParam extends AstNode
 		return t;
 	}
 
-	public TypeList semantMe(TypeFunction thisFunc) { // For also adding them to the symbol table
+	public Type semantMe(TypeFunction thisFunc) { // For also adding them to the symbol table
 		// Validate that typeName exists
 		Type t = validateTypeName(typeName);
 

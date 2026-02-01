@@ -66,7 +66,7 @@ public class AstVarDec extends AstDec
 		Type t;
 		Type e;
 		TypeClass currentClass = (TypeClass) SymbolTable.getInstance().find("$CURRENT-CLASS");
-		TypeFunction currectFunction = (TypeFunction) SymbolTable.getInstance().find("$CURRENT-FUNCTION");
+		TypeFunction currentFunction = (TypeFunction) SymbolTable.getInstance().find("$CURRENT-FUNCTION");
 
 		/********************************/
 		/* [1] Check If typeName exists */
@@ -121,14 +121,14 @@ public class AstVarDec extends AstDec
 
 			entry.kind = VariableKind.CLASS_FIELD;
 			entry.position = currentClass.fieldCounter;
-			currectClass.fieldCounter++;
+			currentClass.fieldCounter++;
 		} else if (currentFunction == null) { // Is a global variable
 			entry.kind = VariableKind.GLOBAL;
 			entry.position = -1;
 		} else { // Is a local variable
 			entry.kind = VariableKind.LOCAL;
-			entry.position = currectFunction.localVarCounter;
-			currectFunction.localVarCounter++;
+			entry.position = currentFunction.localVarCounter;
+			currentFunction.localVarCounter++;
 		}
 
 		return null;

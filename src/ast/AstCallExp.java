@@ -175,9 +175,9 @@ public class AstCallExp extends AstExp
 		if (args != null) {
 			argTemps = args.irMe();
 		}
-
+		
 		// Case 1: Method call on an object instance (e.g. obj.method())
-		if (var != null) { 
+		if (var != null) {
 			Temp objTemp = var.irMe();
 			Ir.getInstance().AddIrCommand(new IrCommandVirtualCall(t, objTemp, name, argTemps));
 		}

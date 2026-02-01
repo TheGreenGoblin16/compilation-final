@@ -12,23 +12,23 @@ package ir;
 /*******************/
 import temp.*;
 
-public class IrCommandBinopLtIntegers extends IrCommand
+public class IrCommandBranchIfEquals extends IrCommand
 {
 	public Temp t1;
 	public Temp t2;
-	public Temp dst;
-
-	public IrCommandBinopLtIntegers(Temp dst, Temp t1, Temp t2)
+	public String labelName;
+	
+	public IrCommandBranchIfEquals(Temp t1, Temp t2, String labelName)
 	{
-		this.dst = dst;
 		this.t1 = t1;
 		this.t2 = t2;
+		this.labelName = labelName;
 	}
 
 	public void printMe() {
-		System.out.println("IrCommandBinopLtIntegers");
+		System.out.println("IrCommandBranchIfEquals");
 		System.out.println("t1: " + t1);
 		System.out.println("t2: " + t2);
-		System.out.println("dst: " + dst);
+		System.out.println("labelName: " + labelName);
 	}
 }

@@ -72,7 +72,6 @@ public class Ir
 			/* [0] The instance itself ... */
 			/*******************************/
 			instance = new Ir();
-			instance.AddIrCommand(new IrCommandLabel(IrCommand.getFreshLabel("$hello_world$")));
 		}
 		return instance;
 	}
