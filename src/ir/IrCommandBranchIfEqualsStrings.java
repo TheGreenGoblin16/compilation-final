@@ -12,13 +12,13 @@ package ir;
 /*******************/
 import temp.*;
 
-public class IrCommandBranchIfLess extends IrCommand
+public class IrCommandBranchIfEqualsStrings extends IrCommand
 {
 	public Temp t1;
 	public Temp t2;
 	public String labelName;
 	
-	public IrCommandBranchIfLess(Temp t1, Temp t2, String labelName)
+	public IrCommandBranchIfEqualsStrings(Temp t1, Temp t2, String labelName)
 	{
 		this.t1 = t1;
 		this.t2 = t2;
@@ -26,7 +26,7 @@ public class IrCommandBranchIfLess extends IrCommand
 	}
 
 	public void printMe() {
-		System.out.println("IrCommandBranchIfLess");
+		System.out.println("IrCommandBranchIfEqualsStrings");
 		System.out.println("t1: " + t1);
 		System.out.println("t2: " + t2);
 		System.out.println("labelName: " + labelName);

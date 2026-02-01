@@ -104,6 +104,30 @@ public class controlFlow {
                     addEdge(node, targetNode);
                 }
                 fallsThrough = true; // Conditional falls through
+            }
+            else if (cmd instanceof IrCommandBranchIfEquals) {
+                String target = ((IrCommandBranchIfEquals) cmd).labelName;
+                CfgNode targetNode = labelMap.get(target);
+                if (targetNode != null) {
+                    addEdge(node, targetNode);
+                }
+                fallsThrough = true;
+            }
+            else if (cmd instanceof IrCommandBranchIfLess) {
+                String target = ((IrCommandBranchIfLess) cmd).labelName;
+                CfgNode targetNode = labelMap.get(target);
+                if (targetNode != null) {
+                    addEdge(node, targetNode);
+                }
+                fallsThrough = true;
+            }
+            else if (cmd instanceof IrCommandBranchIfEqualsStrings) {
+                String target = ((IrCommandBranchIfEqualsStrings) cmd).labelName;
+                CfgNode targetNode = labelMap.get(target);
+                if (targetNode != null) {
+                    addEdge(node, targetNode);
+                }
+                fallsThrough = true;
             } else if (cmd instanceof IrCommandReturn) {
                 fallsThrough = false;
             } else if (cmd instanceof IrCommandCallVoid) {
@@ -288,6 +312,9 @@ public class controlFlow {
         if (cmd instanceof IrCommandBinopAddIntegers) {
             set.add(str(((IrCommandBinopAddIntegers)cmd).t1));
             set.add(str(((IrCommandBinopAddIntegers)cmd).t2));
+        } else if (cmd instanceof IrCommandBinopAddStrings) {
+            set.add(str(((IrCommandBinopAddStrings)cmd).t1));
+            set.add(str(((IrCommandBinopAddStrings)cmd).t2));
         } else if (cmd instanceof IrCommandBinopSubIntegers) {
             set.add(str(((IrCommandBinopSubIntegers)cmd).t1));
             set.add(str(((IrCommandBinopSubIntegers)cmd).t2));
@@ -297,14 +324,17 @@ public class controlFlow {
         } else if (cmd instanceof IrCommandBinopDivIntegers) {
             set.add(str(((IrCommandBinopDivIntegers)cmd).t1));
             set.add(str(((IrCommandBinopDivIntegers)cmd).t2));
-        } else if (cmd instanceof IrCommandBinopEqIntegers) {
-            set.add(str(((IrCommandBinopEqIntegers)cmd).t1));
-            set.add(str(((IrCommandBinopEqIntegers)cmd).t2));
-        } else if (cmd instanceof IrCommandBinopLtIntegers) {
-            set.add(str(((IrCommandBinopLtIntegers)cmd).t1));
-            set.add(str(((IrCommandBinopLtIntegers)cmd).t2));
         } else if (cmd instanceof IrCommandBranchIfZero) {
             set.add(str(((IrCommandBranchIfZero)cmd).t));
+        } else if (cmd instanceof IrCommandBranchIfEquals) {
+            set.add(str(((IrCommandBranchIfEquals)cmd).t1));
+            set.add(str(((IrCommandBranchIfEquals)cmd).t2));
+        } else if (cmd instanceof IrCommandBranchIfLess) {
+            set.add(str(((IrCommandBranchIfLess)cmd).t1));
+            set.add(str(((IrCommandBranchIfLess)cmd).t2));
+        } else if (cmd instanceof IrCommandBranchIfEqualsStrings) {
+            set.add(str(((IrCommandBranchIfEqualsStrings)cmd).t1));
+            set.add(str(((IrCommandBranchIfEqualsStrings)cmd).t2));
         } else if (cmd instanceof IrCommandCall) {
             TempList args = ((IrCommandCall)cmd).args;
             while (args != null) { set.add(str(args.head)); args = args.tail; }
@@ -348,11 +378,10 @@ public class controlFlow {
     private static String getDef(IrCommand cmd, Set<String> addToUniverse) {
         String def = null;
         if (cmd instanceof IrCommandBinopAddIntegers) def = str(((IrCommandBinopAddIntegers)cmd).dst);
+        else if (cmd instanceof IrCommandBinopAddStrings) def = str(((IrCommandBinopAddStrings)cmd).dst);
         else if (cmd instanceof IrCommandBinopSubIntegers) def = str(((IrCommandBinopSubIntegers)cmd).dst);
         else if (cmd instanceof IrCommandBinopMulIntegers) def = str(((IrCommandBinopMulIntegers)cmd).dst);
         else if (cmd instanceof IrCommandBinopDivIntegers) def = str(((IrCommandBinopDivIntegers)cmd).dst);
-        else if (cmd instanceof IrCommandBinopEqIntegers) def = str(((IrCommandBinopEqIntegers)cmd).dst);
-        else if (cmd instanceof IrCommandBinopLtIntegers) def = str(((IrCommandBinopLtIntegers)cmd).dst);
         else if (cmd instanceof IrCommandCall) def = str(((IrCommandCall)cmd).dst);
         else if (cmd instanceof IrCommandVirtualCall) def = str(((IrCommandVirtualCall)cmd).dst);
         else if (cmd instanceof IrCommandConstInt) def = str(((IrCommandConstInt)cmd).t);

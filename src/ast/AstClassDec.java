@@ -10,6 +10,7 @@ public class AstClassDec extends AstDec
     public String name;
     public String parent;
 	public AstDecList body;
+    public int functionCount = 0;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -58,6 +59,8 @@ public class AstClassDec extends AstDec
 		/****************************************/
 		if (body != null) AstGraphviz.getInstance().logEdge(serialNumber,body.serialNumber);
 	}
+
+
 	public Type semantMe()
     {   
         TypeClass parentType = null;
@@ -91,6 +94,7 @@ public class AstClassDec extends AstDec
         /* (body) will add themselves to this object later.    */
         /*******************************************************/
         TypeClass myClass = new TypeClass(parentType, name, null);
+        functionCount = myClass.functionCount;
 
         /*******************************************************/
         /* [3] Enter Class into Global Scope                   */
@@ -116,8 +120,21 @@ public class AstClassDec extends AstDec
         /* [5] Process Body (Children add themselves)          */
         /*******************************************************/
         if (body != null) {
-            body.semantMe();
+            // First pass for variable declarations
+            for (AstDecList it = body; it != null; it = it.tail) {
+                if (it.head instanceof AstVarDec) {
+                    it.head.semantMe();
+                }
+            }
+            // Second pass for function declarations
+            for (AstDecList it = body; it != null; it = it.tail) {
+                if (it.head instanceof AstFuncDec) {
+                    AstFuncDec func = (AstFuncDec) it.head;
+                    functionCount = func.semantMe(functionCount);
+                }
+            }
         }
+        myClass.functionCount = functionCount;
 
         /*******************************************************/
         /* [6] End Scope                                       */

@@ -1,3 +1,28 @@
+class MyClass{
+    void what(){
+        PrintString("what");
+    }
+    void The(){
+        PrintString("what");
+    }
+    void Fuck(){
+        PrintString("what");
+    }
+}
+
+class Seconde extends MyClass{
+    void excuse(){
+        PrintString("what");
+    }
+    void me(){
+        PrintString("what");
+    }
+    void what(){
+        PrintString("wow");
+    }
+}
+
+
 int IsPrime(int p)
 {
     int i := 2;

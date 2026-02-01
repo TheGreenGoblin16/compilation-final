@@ -147,6 +147,10 @@ public class RegisterAllocator {
                 uses.add(((IrCommandBinopAddIntegers) cmd).t1);
                 uses.add(((IrCommandBinopAddIntegers) cmd).t2);
             }
+            else if (cmd instanceof IrCommandBinopAddStrings) {
+                uses.add(((IrCommandBinopAddStrings) cmd).t1);
+                uses.add(((IrCommandBinopAddStrings) cmd).t2);
+            }
             else if (cmd instanceof IrCommandBinopSubIntegers) {
                 uses.add(((IrCommandBinopSubIntegers) cmd).t1);
                 uses.add(((IrCommandBinopSubIntegers) cmd).t2);
@@ -159,19 +163,23 @@ public class RegisterAllocator {
                 uses.add(((IrCommandBinopDivIntegers) cmd).t1);
                 uses.add(((IrCommandBinopDivIntegers) cmd).t2);
             }
-            else if (cmd instanceof IrCommandBinopEqIntegers) {
-                uses.add(((IrCommandBinopEqIntegers) cmd).t1);
-                uses.add(((IrCommandBinopEqIntegers) cmd).t2);
-            }
-            else if (cmd instanceof IrCommandBinopLtIntegers) {
-                uses.add(((IrCommandBinopLtIntegers) cmd).t1);
-                uses.add(((IrCommandBinopLtIntegers) cmd).t2);
-            }
             else if (cmd instanceof IrCommandWriteVar) {
                 uses.add(((IrCommandWriteVar) cmd).src);
             }
             else if (cmd instanceof IrCommandBranchIfZero) {
                 uses.add(((IrCommandBranchIfZero) cmd).t);
+            }
+            else if (cmd instanceof IrCommandBranchIfEquals) {
+                uses.add(((IrCommandBranchIfEquals) cmd).t1);
+                uses.add(((IrCommandBranchIfEquals) cmd).t2);
+            }
+            else if (cmd instanceof IrCommandBranchIfLess) {
+                uses.add(((IrCommandBranchIfLess) cmd).t1);
+                uses.add(((IrCommandBranchIfLess) cmd).t2);
+            }
+            else if (cmd instanceof IrCommandBranchIfEqualsStrings) {
+                uses.add(((IrCommandBranchIfEqualsStrings) cmd).t1);
+                uses.add(((IrCommandBranchIfEqualsStrings) cmd).t2);
             }
             else if (cmd instanceof IrCommandCall) {
                 addTempListToSet(((IrCommandCall) cmd).args, uses);
@@ -275,11 +283,10 @@ public class RegisterAllocator {
 
         private Temp getDef(IrCommand cmd) {
             if (cmd instanceof IrCommandBinopAddIntegers) return ((IrCommandBinopAddIntegers)cmd).dst;
+            if (cmd instanceof IrCommandBinopAddStrings) return ((IrCommandBinopAddStrings)cmd).dst;
             if (cmd instanceof IrCommandBinopSubIntegers) return ((IrCommandBinopSubIntegers)cmd).dst;
             if (cmd instanceof IrCommandBinopMulIntegers) return ((IrCommandBinopMulIntegers)cmd).dst;
             if (cmd instanceof IrCommandBinopDivIntegers) return ((IrCommandBinopDivIntegers)cmd).dst;
-            if (cmd instanceof IrCommandBinopEqIntegers) return ((IrCommandBinopEqIntegers)cmd).dst;
-            if (cmd instanceof IrCommandBinopLtIntegers) return ((IrCommandBinopLtIntegers)cmd).dst;
             if (cmd instanceof IrCommandConstInt) return ((IrCommandConstInt)cmd).t;
             if (cmd instanceof IrCommandReadVar) return ((IrCommandReadVar)cmd).dst;
             if (cmd instanceof IrCommandCall) return ((IrCommandCall)cmd).dst;

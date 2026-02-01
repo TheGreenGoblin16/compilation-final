@@ -12,6 +12,8 @@ public class TypeFunction extends Type
 	/*************************/
 	public TypeList paramsTypes;
 
+	public int functionIndex = -1;
+
 	/************************/
 	/* declaration counters */
 	/************************/

@@ -118,6 +118,24 @@ public class Liveness {
                 if (targetNode != null) addEdge(node, targetNode);
                 fallsThrough = true;
             }
+            else if (cmd instanceof IrCommandBranchIfEquals) {
+                String target = ((IrCommandBranchIfEquals) cmd).labelName;
+                LiveNode targetNode = labelMap.get(target);
+                if (targetNode != null) addEdge(node, targetNode);
+                fallsThrough = true;
+            }
+            else if (cmd instanceof IrCommandBranchIfLess) {
+                String target = ((IrCommandBranchIfLess) cmd).labelName;
+                LiveNode targetNode = labelMap.get(target);
+                if (targetNode != null) addEdge(node, targetNode);
+                fallsThrough = true;
+            }
+            else if (cmd instanceof IrCommandBranchIfEqualsStrings) {
+                String target = ((IrCommandBranchIfEqualsStrings) cmd).labelName;
+                LiveNode targetNode = labelMap.get(target);
+                if (targetNode != null) addEdge(node, targetNode);
+                fallsThrough = true;
+            }
             else if (cmd instanceof IrCommandReturn) {
                 fallsThrough = false;
             }
@@ -149,6 +167,11 @@ public class Liveness {
             gen.add(((IrCommandBinopAddIntegers) cmd).t1);
             gen.add(((IrCommandBinopAddIntegers) cmd).t2);
         }
+        else if (cmd instanceof IrCommandBinopAddStrings) {
+            kill.add(((IrCommandBinopAddStrings) cmd).dst);
+            gen.add(((IrCommandBinopAddStrings) cmd).t1);
+            gen.add(((IrCommandBinopAddStrings) cmd).t2);
+        }
         else if (cmd instanceof IrCommandBinopSubIntegers) {
             kill.add(((IrCommandBinopSubIntegers) cmd).dst);
             gen.add(((IrCommandBinopSubIntegers) cmd).t1);
@@ -164,16 +187,6 @@ public class Liveness {
             gen.add(((IrCommandBinopDivIntegers) cmd).t1);
             gen.add(((IrCommandBinopDivIntegers) cmd).t2);
         }
-        else if (cmd instanceof IrCommandBinopEqIntegers) {
-            kill.add(((IrCommandBinopEqIntegers) cmd).dst);
-            gen.add(((IrCommandBinopEqIntegers) cmd).t1);
-            gen.add(((IrCommandBinopEqIntegers) cmd).t2);
-        }
-        else if (cmd instanceof IrCommandBinopLtIntegers) {
-            kill.add(((IrCommandBinopLtIntegers) cmd).dst);
-            gen.add(((IrCommandBinopLtIntegers) cmd).t1);
-            gen.add(((IrCommandBinopLtIntegers) cmd).t2);
-        }
         else if (cmd instanceof IrCommandConstInt) {
             kill.add(((IrCommandConstInt) cmd).t);
         }
@@ -185,6 +198,18 @@ public class Liveness {
         }
         else if (cmd instanceof IrCommandBranchIfZero) {
             gen.add(((IrCommandBranchIfZero) cmd).t);
+        }
+        else if (cmd instanceof IrCommandBranchIfEquals) {
+            gen.add(((IrCommandBranchIfEquals) cmd).t1);
+            gen.add(((IrCommandBranchIfEquals) cmd).t2);
+        }
+        else if (cmd instanceof IrCommandBranchIfLess) {
+            gen.add(((IrCommandBranchIfLess) cmd).t1);
+            gen.add(((IrCommandBranchIfLess) cmd).t2);
+        }
+        else if (cmd instanceof IrCommandBranchIfEqualsStrings) {
+            gen.add(((IrCommandBranchIfEqualsStrings) cmd).t1);
+            gen.add(((IrCommandBranchIfEqualsStrings) cmd).t2);
         }
         // Branch (unconditional) has no gen/kill
         else if (cmd instanceof IrCommandCall) {

@@ -13,6 +13,8 @@ public class AstFuncDec extends AstDec
 	public AstParamList params;
 	public AstStmtList body;
 	public String labelFunction;
+	public int functionIndex = -1;
+	public TypeFunction overridingFunction = null;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -68,6 +70,12 @@ public class AstFuncDec extends AstDec
 
 	public Type semantMe()
 	{
+		semantMe(-1);
+		return null;
+	}
+
+	public int semantMe(int i)
+	{
 		Type returnType;
 		TypeList paramsTypes = null;
 		TypeFunction thisFunc;
@@ -104,19 +112,23 @@ public class AstFuncDec extends AstDec
 				for (TypedIdentifierList it = tc.dataMembers; it != null; it = it.tail) { // Traverse data members
 					if (it.head.name.equals(name)) {
 						if (it.head.type instanceof TypeFunction && isProper) { // Is a function in a proper superlcass
-							TypeFunction otherFunc = (TypeFunction) it.head.type;
-							if (!TypeFunction.signaturesEqual(thisFunc, otherFunc)) {
+							overridingFunction = (TypeFunction) it.head.type;
+							if (!TypeFunction.signaturesEqual(thisFunc, overridingFunction)) {
                             	System.out.format(">> ERROR [%d] found a previous member with the same name and not the same signature in hierarchy\n", lineNumber);
 								abort();
 							}
+							tc = null; // To break the outer loop
+							break;
 						} else {
                             System.out.format(">> ERROR [%d] found a previous member with the same name in hierarchy\n", lineNumber);
 							abort();
 						}
 					}
 				}
-				tc = tc.parent;
-				isProper = true; // Now we enter proper superclasses
+				if (tc != null) {
+					tc = tc.parent;
+					isProper = true; // Now we enter proper superclasses
+				}
 			}
 		}
 	
@@ -162,15 +174,18 @@ public class AstFuncDec extends AstDec
 		/* [7] End scope */
 		/*****************/
 		SymbolTable.getInstance().endScope();
-
-		/************************************************************/
-		/* [8] Return value is irrelevant for function declarations */
-		/************************************************************/
-		return null;		
+		
+		/***********************************/
+		/* [8] Store and return func index */
+		/***********************************/
+		functionIndex = (overridingFunction == null) ? i : overridingFunction.functionIndex;
+		thisFunc.functionIndex = functionIndex;
+		return (overridingFunction == null) ? i+1 : i;
 	}
 
 	public void irMe() {
-		labelFunction = IrCommand.getFreshLabel("Function_"+name);
+		String functionLablelName = (functionIndex >= 0) ? ("Function_" + functionIndex + "_" + name) : ("Function_" + name);
+		labelFunction = IrCommand.getFreshLabel(functionLablelName);
 		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelFunction));
 		body.irMe();
 		Ir.getInstance().AddIrCommand(new IrCommandReturn(null));

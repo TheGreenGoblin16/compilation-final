@@ -9,6 +9,8 @@ public class AstExpBinop extends AstExp
 	public int op;
 	public AstExp left;
 	public AstExp right;
+	public Type leftType;
+	public Type rightType;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -80,11 +82,11 @@ public class AstExpBinop extends AstExp
 
 	public Type semantMe()
 	{
-		Type t1 = left.semantMe();
-		Type t2 = right.semantMe();
+		Type leftType = left.semantMe();
+		Type rightType = right.semantMe();
 
 		// Check for operations on integers
-		if (t1 == TypeInt.getInstance() && t2 == TypeInt.getInstance())
+		if (leftType == TypeInt.getInstance() && rightType == TypeInt.getInstance())
 		{
 			// Ops: +, -, *, /, <, >, =
 			if (op == 3) { // Division
@@ -100,7 +102,7 @@ public class AstExpBinop extends AstExp
 		}
 
 		// Check for operations on strings
-		if (t1 == TypeString.getInstance() && t2 == TypeString.getInstance())
+		if (leftType == TypeString.getInstance() && rightType == TypeString.getInstance())
 		{
 			// Ops: +, =
 			if (op == 0) { // Concatenation
@@ -113,21 +115,21 @@ public class AstExpBinop extends AstExp
 
 		// Check for equality operation on complex types
 		if (op == 6) { // Equality
-			if (t1.isClass() && t2.isClass()) {
-				TypeClassInstance c1 = (TypeClassInstance) t1;
-				TypeClassInstance c2 = (TypeClassInstance) t2;
+			if (leftType.isClass() && rightType.isClass()) {
+				TypeClassInstance c1 = (TypeClassInstance) leftType;
+				TypeClassInstance c2 = (TypeClassInstance) rightType;
 				if (TypeClass.isSubTypeOf(c1.cls, c2.cls) || TypeClass.isSubTypeOf(c2.cls, c1.cls)) {
 					return TypeInt.getInstance();
 				}
 			}
-			if (t1.isClass() && t2 == TypeVoid.getInstance()) { // Comparing object with nil
+			if (leftType.isClass() && rightType == TypeVoid.getInstance()) { // Comparing object with nil
 				return TypeInt.getInstance();
 			}
-			if (t2.isClass() && t1 == TypeVoid.getInstance()) { // Comparing nil with object
+			if (rightType.isClass() && leftType == TypeVoid.getInstance()) { // Comparing nil with object
 				return TypeInt.getInstance();
 			}
-			if (t1.isArray() || t2.isArray()) {
-				if (t1 == t2){
+			if (leftType.isArray() || rightType.isArray()) {
+				if (leftType == rightType){
 					return TypeInt.getInstance();
 				}
 				else {
@@ -150,6 +152,18 @@ public class AstExpBinop extends AstExp
 
 		if (left  != null) t1 = left.irMe();
 		if (right != null) t2 = right.irMe();
+
+		if (leftType == TypeString.getInstance() && rightType == TypeString.getInstance()){
+			if (op == 0) {
+				Ir.getInstance().AddIrCommand(new IrCommandBinopAddStrings(dst,t1,t2));
+			} else if (op == 6) {
+				String label = IrCommand.getFreshLabel("end");
+				Ir.getInstance().AddIrCommand(new IrCommandConstInt(dst, 1));
+				Ir.getInstance().AddIrCommand(new IrCommandBranchIfEqualsStrings(t1,t2, label));
+				Ir.getInstance().AddIrCommand(new IrCommandConstInt(dst, 0));
+				Ir.getInstance().AddIrCommand(new IrCommandLabel(label));
+			}
+		}
 
 		if (op == 0)
 		{

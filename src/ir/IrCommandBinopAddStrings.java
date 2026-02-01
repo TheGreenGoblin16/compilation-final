@@ -12,23 +12,23 @@ package ir;
 /*******************/
 import temp.*;
 
-public class IrCommandBranchIfLess extends IrCommand
+public class IrCommandBinopAddStrings extends IrCommand
 {
 	public Temp t1;
 	public Temp t2;
-	public String labelName;
+	public Temp dst;
 	
-	public IrCommandBranchIfLess(Temp t1, Temp t2, String labelName)
+	public IrCommandBinopAddStrings(Temp dst, Temp t1, Temp t2)
 	{
+		this.dst = dst;
 		this.t1 = t1;
 		this.t2 = t2;
-		this.labelName = labelName;
 	}
 
 	public void printMe() {
-		System.out.println("IrCommandBranchIfLess");
+		System.out.println("IrCommandBinopAddStrings");
 		System.out.println("t1: " + t1);
 		System.out.println("t2: " + t2);
-		System.out.println("labelName: " + labelName);
+		System.out.println("dst: " + dst);
 	}
 }
