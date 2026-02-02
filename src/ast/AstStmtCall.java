@@ -86,11 +86,23 @@ public class AstStmtCall extends AstStmt
 	    String functionName = e.name;
 	    AstExpList args = e.args;
 
-		if (var != null) {
+        TempList argTemps = null;
+
+        if (args != null) {
+            argTemps = args.irMe();
+        }
+
+		if (e.IsMethodCall && var != null) {
 			Temp t = var.irMe();
-			Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(t, functionName, args.irMe()));
-		} else {
-			Ir.getInstance().AddIrCommand(new IrCommandCallVoid(functionName, args.irMe()));
+			Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(t, functionName, argTemps));
+		}
+        else if (e.IsMethodCall && var == null){
+            Temp ths = TempFactory.getInstance().getFreshTemp();
+            Ir.getInstance().AddIrCommand(new IrCommandGetThis(ths));
+            Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(ths, functionName, argTemps));
+        }
+        else {
+			Ir.getInstance().AddIrCommand(new IrCommandCallVoid(functionName, argTemps));
 		}
 
         return null;

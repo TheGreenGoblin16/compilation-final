@@ -217,6 +217,9 @@ public class RegisterAllocator {
             else if (cmd instanceof IrCommandNewArray) {
                 uses.add(((IrCommandNewArray) cmd).size);
             }
+            else if (cmd instanceof IrCommandGetThis){
+                uses.add(((IrCommandGetThis) cmd).dst);
+            }
             // ConstInt, ReadVar, NewClass, Labels, Branch have no uses.
             
             return uses;
@@ -295,6 +298,8 @@ public class RegisterAllocator {
             if (cmd instanceof IrCommandFieldAccess) return ((IrCommandFieldAccess)cmd).dst;
             if (cmd instanceof IrCommandNewArray) return ((IrCommandNewArray)cmd).dst;
             if (cmd instanceof IrCommandNewClass) return ((IrCommandNewClass)cmd).dst;
+            else if (cmd instanceof IrCommandGetThis) return ((IrCommandGetThis) cmd).dst;
+
             return null;
         }
     }

@@ -258,6 +258,9 @@ public class Liveness {
         else if (cmd instanceof IrCommandNewClass) {
             kill.add(((IrCommandNewClass) cmd).dst);
         }
+        else if (cmd instanceof IrCommandGetThis) {
+            kill.add(((IrCommandGetThis) cmd).dst);
+        }
     }
 
     private static void addTempListToSet(TempList list, Set<Temp> set) {
