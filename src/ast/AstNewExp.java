@@ -102,8 +102,15 @@ public class AstNewExp extends AstExp
 			Temp size = exp.irMe();
 			Ir.getInstance().AddIrCommand(new IrCommandNewArray(t, size));
 		} else {
-			// Class allocation
-			Ir.getInstance().AddIrCommand(new IrCommandNewClass(t, ((TypeClassInstance) type).cls));
+			// Class allocation and construction
+			TypeClass cls = ((TypeClassInstance) type).cls;
+			Ir.getInstance().AddIrCommand(new IrCommandNewClass(t, cls));
+			for (AstDecList it = cls.astBody; it != null; it = it.tail) {
+				if (it.head instanceof AstVarDec) {
+					AstVarDec dec = (AstVarDec) it.head;
+					dec.irMe(t);
+				}
+			}
 		}
 		return t;
 	}

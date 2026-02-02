@@ -134,10 +134,17 @@ public class AstVarDec extends AstDec
 		return null;
 	}
 
-	public void irMe() {
+	public void irMe() { // For global and local variables, exactly as in AstStmtAssign
         if (exp != null) {
             Temp src = exp.irMe();
-            Ir.getInstance().AddIrCommand(new IrCommandWriteVar(entry, src));
+			Ir.getInstance().AddIrCommand(new IrCommandWriteVar(entry, src));
+        }
+	}
+
+	public void irMe(Temp objTemp) { // Only for class fields after class instance creation, like a constructor
+		if (exp != null) {
+            Temp src = exp.irMe();
+			Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, objTemp, entry));
         }
 	}
 }

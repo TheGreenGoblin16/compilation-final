@@ -1,7 +1,11 @@
 package types;
 
+import ast.*;
+
 public class TypeClass extends Type
 {
+	public AstDecList astBody; // For writing a "constructor" after allocating a new class instance
+
 	/*********************************************************************/
 	/* If this class does not extend a father class this should be null  */
 	/*********************************************************************/

@@ -92,8 +92,9 @@ public class AstClassDec extends AstDec
         /* We pass 'null' for members because the children     */
         /* (body) will add themselves to this object later.    */
         /*******************************************************/
-        TypeClass myClass = new TypeClass(parentType, name, null);
-        int functionCounter = myClass.functionCounter;
+        TypeClass thisClass = new TypeClass(parentType, name, null);
+        thisClass.astBody = body;
+        int functionCounter = thisClass.functionCounter;
 
         /*******************************************************/
         /* [3] Enter Class into Global Scope                   */
@@ -104,7 +105,7 @@ public class AstClassDec extends AstDec
             System.out.format(">> ERROR [%d] class %s already exists\n", lineNumber, name);
             abort();
         }
-        SymbolTable.getInstance().enter(name, myClass);
+        SymbolTable.getInstance().enter(name, thisClass);
 
         /*******************************************************/
         /* [4] Begin Class Scope                               */
@@ -113,7 +114,7 @@ public class AstClassDec extends AstDec
 
         // Register the current class so children can find it and add themselves
         // Note: Using "$CURRENT-CLASS" as a consistent key
-        SymbolTable.getInstance().enter("$CURRENT-CLASS", myClass);
+        SymbolTable.getInstance().enter("$CURRENT-CLASS", thisClass);
 
         /*******************************************************/
         /* [5] Process Body (Children add themselves)          */
@@ -133,7 +134,7 @@ public class AstClassDec extends AstDec
                 }
             }
         }
-        myClass.functionCounter = functionCounter;
+        thisClass.functionCounter = functionCounter;
 
         /*******************************************************/
         /* [6] End Scope                                       */
