@@ -11,21 +11,22 @@ package ir;
 /* PROJECT IMPORTS */
 /*******************/
 import temp.*;
+import types.TypeFunction;
 
 public class IrCommandCallVoid extends IrCommand
 {
-	public String functionName;
+	public TypeFunction function;
     public TempList args;
 	
-	public IrCommandCallVoid(String functionName, TempList args)
+	public IrCommandCallVoid(TypeFunction function, TempList args)
 	{
-		this.functionName = functionName;
+		this.function = function;
         this.args = args;
 	}
 
 	public void printMe() {
 		System.out.println("IrCommandCallVoid");
-		System.out.println("functionName: " + functionName);
+		System.out.println("function: " + function);
 		System.out.println("args: " + args);
 	}
 }

@@ -3,6 +3,8 @@
 /***********/
 package ir;
 
+import symboltable.SymbolTableEntry;
+
 /*******************/
 /* GENERAL IMPORTS */
 /*******************/
@@ -16,19 +18,19 @@ public class IrCommandFieldSet extends IrCommand
 {
 	public Temp src;
 	public Temp inst;
-    public String fieldName;
+    public SymbolTableEntry fieldEntry;
 	
-	public IrCommandFieldSet(Temp src, Temp inst, String fieldName)
+	public IrCommandFieldSet(Temp src, Temp inst, SymbolTableEntry fieldEntry)
 	{
         this.src = src;
 		this.inst = inst;
-		this.fieldName = fieldName;
+		this.fieldEntry = fieldEntry;
 	}
 
 	public void printMe() {
 		System.out.println("IrCommandFieldSet");
 		System.out.println("src: " + src);
 		System.out.println("inst: " + inst);
-		System.out.println("fieldName: " + fieldName);
+		System.out.println("fieldEntry: " + fieldEntry);
 	}
 }

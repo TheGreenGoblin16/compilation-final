@@ -10,7 +10,6 @@ public class AstClassDec extends AstDec
     public String name;
     public String parent;
 	public AstDecList body;
-    public int functionCount = 0;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -94,7 +93,7 @@ public class AstClassDec extends AstDec
         /* (body) will add themselves to this object later.    */
         /*******************************************************/
         TypeClass myClass = new TypeClass(parentType, name, null);
-        functionCount = myClass.functionCount;
+        int functionCounter = myClass.functionCounter;
 
         /*******************************************************/
         /* [3] Enter Class into Global Scope                   */
@@ -130,11 +129,11 @@ public class AstClassDec extends AstDec
             for (AstDecList it = body; it != null; it = it.tail) {
                 if (it.head instanceof AstFuncDec) {
                     AstFuncDec func = (AstFuncDec) it.head;
-                    functionCount = func.semantMe(functionCount);
+                    functionCounter = func.semantMe(functionCounter);
                 }
             }
         }
-        myClass.functionCount = functionCount;
+        myClass.functionCounter = functionCounter;
 
         /*******************************************************/
         /* [6] End Scope                                       */

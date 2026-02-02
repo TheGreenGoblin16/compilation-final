@@ -10,6 +10,7 @@ public class AstNewExp extends AstExp
 {
 	public String typeName;
     public AstExp exp;
+	public Type type;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -55,7 +56,7 @@ public class AstNewExp extends AstExp
 	public Type semantMe()
 	{
 		// 1. Resolve the Type from the Symbol Table
-		Type t = validateTypeName(typeName);
+		type = validateTypeName(typeName);
 
 		// 2. Handle Array Allocation: new int[size]
 		if (exp != null)
@@ -78,18 +79,18 @@ public class AstNewExp extends AstExp
 
 			// Return a new Array Instance of this type
 			// Note: If t is "int", we return "int[]"
-			return new TypeArray(t, "$NEW").getInstance();
+			return new TypeArray(type, "$NEW").getInstance();
 		}
 
 		// 3. Handle Class Allocation: new MyClass
-		if (!t.isClass())
+		if (!type.isClass())
 		{
-			System.out.format(">> ERROR [ %d ] cannot instantiate non-class type %s\n", lineNumber, t.name);
+			System.out.format(">> ERROR [ %d ] cannot instantiate non-class type %s\n", lineNumber, type.name);
 			abort();
 		}
 
 		// Return the class instance
-		return ((TypeClassInstance)t);
+		return ((TypeClassInstance) type);
 	}
 
 	public Temp irMe()
@@ -102,7 +103,7 @@ public class AstNewExp extends AstExp
 			Ir.getInstance().AddIrCommand(new IrCommandNewArray(t, size));
 		} else {
 			// Class allocation
-			Ir.getInstance().AddIrCommand(new IrCommandNewClass(t, typeName));
+			Ir.getInstance().AddIrCommand(new IrCommandNewClass(t, ((TypeClassInstance) type).cls));
 		}
 		return t;
 	}

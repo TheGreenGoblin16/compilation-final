@@ -78,7 +78,7 @@ public class AstFuncDec extends AstDec
 	{
 		Type returnType;
 		TypeList paramsTypes = null;
-		TypeFunction thisFunc;
+		TypeFunction thisFunction;
 		TypeClass currentClass = (TypeClass) SymbolTable.getInstance().find("$CURRENT-CLASS");
 
 		/***********************************/
@@ -94,7 +94,7 @@ public class AstFuncDec extends AstDec
 			paramsTypes = params.semantMe();
 		}
 
-		thisFunc = new TypeFunction(returnType, name, paramsTypes);
+		thisFunction = new TypeFunction(returnType, name, paramsTypes);
 
 		/**************************************/
 		/* [1] Check for previous appearances */
@@ -113,7 +113,7 @@ public class AstFuncDec extends AstDec
 					if (it.head.name.equals(name)) {
 						if (it.head.type instanceof TypeFunction && isProper) { // Is a function in a proper superlcass
 							overridingFunction = (TypeFunction) it.head.type;
-							if (!TypeFunction.signaturesEqual(thisFunc, overridingFunction)) {
+							if (!TypeFunction.signaturesEqual(thisFunction, overridingFunction)) {
                             	System.out.format(">> ERROR [%d] found a previous member with the same name and not the same signature in hierarchy\n", lineNumber);
 								abort();
 							}
@@ -136,7 +136,7 @@ public class AstFuncDec extends AstDec
 		/* [2] Begin function scope */
 		/****************************/
 		// We want to already push the function so it can call itself
-		SymbolTable.getInstance().enter(name, thisFunc);
+		SymbolTable.getInstance().enter(name, thisFunction);
 
 		/******************************************************/
 		/* [3] Add the identifier to currentClass.dataMembers */
@@ -145,7 +145,7 @@ public class AstFuncDec extends AstDec
 		if (currentClass != null) {
 			TypedIdentifierList til = currentClass.dataMembers;
 			currentClass.dataMembers = new TypedIdentifierList(
-					new TypedIdentifier(thisFunc, name), til);
+					new TypedIdentifier(thisFunction, name, null), til);
 		}
 
 		/*******************************************/
@@ -154,7 +154,7 @@ public class AstFuncDec extends AstDec
 
 		SymbolTable.getInstance().beginScope();
 
-		SymbolTable.getInstance().enter("$CURRENT-FUNCTION", thisFunc);
+		SymbolTable.getInstance().enter("$CURRENT-FUNCTION", thisFunction);
 
 		SymbolTable.getInstance().enter("$RETURN-TYPE", returnType);
 
@@ -162,7 +162,7 @@ public class AstFuncDec extends AstDec
 		/* [5] Push params */
 		/*******************/
 		if (params != null) {
-			params.semantMe(thisFunc);
+			params.semantMe(thisFunction);
 		}
 
 		/*******************/
@@ -179,7 +179,7 @@ public class AstFuncDec extends AstDec
 		/* [8] Store and return func index */
 		/***********************************/
 		functionIndex = (overridingFunction == null) ? i : overridingFunction.functionIndex;
-		thisFunc.functionIndex = functionIndex;
+		thisFunction.functionIndex = functionIndex;
 		return (overridingFunction == null) ? i+1 : i;
 	}
 

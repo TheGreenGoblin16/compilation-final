@@ -10,6 +10,7 @@ public class AstVarField extends AstVar
 {
 	public AstVar var;
 	public String fieldName;
+	public SymbolTableEntry fieldEntry;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -101,6 +102,7 @@ public class AstVarField extends AstVar
 						System.out.format(">> ERROR [ %d ] member %s is a method, not a field\n",lineNumber,fieldName);
 						abort();
 					}
+					fieldEntry = it.head.entry;
 					return it.head.type;
 				}
 			}
@@ -118,7 +120,7 @@ public class AstVarField extends AstVar
 	public Temp irMe(){
 		Temp dst = TempFactory.getInstance().getFreshTemp();
 		Temp src = var.irMe();
-		Ir.getInstance().AddIrCommand(new IrCommandFieldAccess(dst,src,fieldName));
+		Ir.getInstance().AddIrCommand(new IrCommandFieldAccess(dst, src, fieldEntry));
 		return dst;
 	}
 }

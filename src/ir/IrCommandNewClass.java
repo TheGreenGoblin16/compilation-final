@@ -11,21 +11,22 @@ package ir;
 /* PROJECT IMPORTS */
 /*******************/
 import temp.*;
+import types.*;
 
 public class IrCommandNewClass extends IrCommand
 {
 	public Temp dst;
-	public String typeName;
+	public TypeClass cls;
 	
-	public IrCommandNewClass(Temp dst, String typeName)
+	public IrCommandNewClass(Temp dst, TypeClass cls)
 	{
 		this.dst = dst;
-		this.typeName = typeName;
+		this.cls = cls;
 	}
 
 	public void printMe() {
 		System.out.println("IrCommandNewClass");
 		System.out.println("dst: " + dst);
-		System.out.println("typeName: " + typeName);
+		System.out.println("cls: " + cls);
 	}
 }

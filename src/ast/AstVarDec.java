@@ -76,13 +76,7 @@ public class AstVarDec extends AstDec
 		/**************************************/
 		/* [2] Check for previous appearances */
 		/**************************************/
-		if (currentClass == null || currentFunction != null) { // Is not a class field
-			if (SymbolTable.getInstance().findLocal(name) != null) {
-				// We can't allow a variable with the same name in local scope
-				System.out.format(">> ERROR [%d] found a previous member with the same name in local scope\n", lineNumber);
-				abort();
-			}
-		} else { // Is a class field
+		if (currentClass != null && currentFunction == null) { // Is a class field
 			TypeClass tc = currentClass;
 			while (tc != null) { // Move upwards the hierarchy
 				for (TypedIdentifierList it = tc.dataMembers; it != null; it = it.tail) { // Traverse data members
@@ -92,6 +86,12 @@ public class AstVarDec extends AstDec
 					}
 				}
 				tc = tc.parent;
+			}
+		} else { // Is not a class field
+			if (SymbolTable.getInstance().findLocal(name) != null) {
+				// We can't allow a variable with the same name in local scope
+				System.out.format(">> ERROR [%d] found a previous member with the same name in local scope\n", lineNumber);
+				abort();
 			}
 		}
 
@@ -117,7 +117,7 @@ public class AstVarDec extends AstDec
 		if (currentClass != null && currentFunction == null) { // Is a class field
 			TypedIdentifierList til = currentClass.dataMembers;
 			currentClass.dataMembers = new TypedIdentifierList(
-				new TypedIdentifier(t, name), til);
+				new TypedIdentifier(t, name, entry), til);
 
 			entry.kind = VariableKind.CLASS_FIELD;
 			entry.position = currentClass.fieldCounter;

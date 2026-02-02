@@ -59,7 +59,7 @@ public class AstVarSimple extends AstVar
                             System.out.format(">> ERROR [%d] member %s is a method, not a field\n", lineNumber, name);
                             abort();
                         }
-                        // TODO: set entry
+                        entry = it.head.entry;
                         return it.head.type;
                     }
                 }

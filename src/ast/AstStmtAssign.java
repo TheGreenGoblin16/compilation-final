@@ -117,8 +117,8 @@ public class AstStmtAssign extends AstStmt
 			Ir.getInstance().AddIrCommand(new IrCommandArraySet(src, arr, index));
 		}
 		else if (var instanceof AstVarField){
-			Temp arr = ((AstVarField) var).var.irMe();
-			Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, arr , ((AstVarField)var).fieldName ));
+			Temp inst = ((AstVarField) var).var.irMe();
+			Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, inst, ((AstVarField) var).fieldEntry));
 		}
 
 		return null;

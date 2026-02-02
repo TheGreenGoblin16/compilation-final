@@ -20,7 +20,7 @@ public class TypeClass extends Type
 	/* declaration counters */
 	/************************/
 	public int fieldCounter = 0;
-	public int functionCount = 0;
+	public int functionCounter = 0;
 	
 	/****************/
 	/* CTROR(S) ... */
@@ -33,7 +33,7 @@ public class TypeClass extends Type
 
 		if (parent != null) {
 			this.fieldCounter = parent.fieldCounter;
-			this.functionCount = parent.functionCount;
+			this.functionCounter = parent.functionCounter;
 		}
 	}
 

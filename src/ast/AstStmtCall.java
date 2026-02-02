@@ -83,7 +83,7 @@ public class AstStmtCall extends AstStmt
 
     public Temp irMe() {
         AstVar var = e.var;
-	    String functionName = e.name;
+	    TypeFunction function = e.function;
 	    AstExpList args = e.args;
 
         TempList argTemps = null;
@@ -92,17 +92,17 @@ public class AstStmtCall extends AstStmt
             argTemps = args.irMe();
         }
 
-		if (e.IsMethodCall && var != null) {
-			Temp t = var.irMe();
-			Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(t, functionName, argTemps));
+		if (e.isMethodCall && var != null) {
+			Temp objTemp = var.irMe();
+			Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(objTemp, function, argTemps));
 		}
-        else if (e.IsMethodCall && var == null){
-            Temp ths = TempFactory.getInstance().getFreshTemp();
-            Ir.getInstance().AddIrCommand(new IrCommandGetThis(ths));
-            Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(ths, functionName, argTemps));
+        else if (e.isMethodCall && var == null){
+            Temp thisTemp = TempFactory.getInstance().getFreshTemp();
+            Ir.getInstance().AddIrCommand(new IrCommandGetThis(thisTemp));
+            Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(thisTemp, function, argTemps));
         }
         else {
-			Ir.getInstance().AddIrCommand(new IrCommandCallVoid(functionName, argTemps));
+			Ir.getInstance().AddIrCommand(new IrCommandCallVoid(function, argTemps));
 		}
 
         return null;

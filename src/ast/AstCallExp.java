@@ -10,9 +10,10 @@ public class AstCallExp extends AstExp
 	public AstVar var;
 	public String name;
 	public AstExpList args;
+	public TypeFunction function;
 
 	//true iff its call to class method
-	public boolean IsMethodCall;
+	public boolean isMethodCall;
 
 	
 	/******************/
@@ -32,7 +33,7 @@ public class AstCallExp extends AstExp
 		this.var = var;
 		this.name = name;
 		this.args = args;
-		this.IsMethodCall = (var != null);
+		this.isMethodCall = (var != null);
 	}
 
 	/************************************************/
@@ -113,7 +114,7 @@ public class AstCallExp extends AstExp
 						if (it_tl.head.name.equals(name)) {
 							t = it_tl.head.type;
 							found = true;
-							this.IsMethodCall = true;
+							this.isMethodCall = true;
 							break;
 						}
 					}
@@ -137,8 +138,8 @@ public class AstCallExp extends AstExp
 			abort();
 		}
 
-		TypeFunction funcType = (TypeFunction) t;
-		TypeList expectedParams = funcType.paramsTypes;
+		function = (TypeFunction) t;
+		TypeList expectedParams = function.paramsTypes;
 		TypeList actualArgsTypes = (args != null) ? (TypeList) args.semantMe() : null;
 
 		TypeList paramIter = expectedParams;
@@ -169,7 +170,7 @@ public class AstCallExp extends AstExp
 			}
 		}
 
-		return funcType.returnType;
+		return function.returnType;
 	}
 
 
@@ -183,19 +184,19 @@ public class AstCallExp extends AstExp
 		}
 		
 		// Case 1: Method call on an object instance (e.g. obj.method())
-		if (IsMethodCall && var != null) {
+		if (isMethodCall && var != null) {
 			Temp objTemp = var.irMe();
-			Ir.getInstance().AddIrCommand(new IrCommandVirtualCall(t, objTemp, name, argTemps));
+			Ir.getInstance().AddIrCommand(new IrCommandVirtualCall(t, objTemp, function, argTemps));
 		}
 		// case 2: Function is class method called inside the class, this.f(...)
-		else if (IsMethodCall && var == null) {
-			Temp ths = TempFactory.getInstance().getFreshTemp();
-			Ir.getInstance().AddIrCommand(new IrCommandGetThis(ths));
-			Ir.getInstance().AddIrCommand(new IrCommandVirtualCall(t, ths, name, argTemps));
+		else if (isMethodCall && var == null) {
+			Temp thisTemp = TempFactory.getInstance().getFreshTemp();
+			Ir.getInstance().AddIrCommand(new IrCommandGetThis(thisTemp));
+			Ir.getInstance().AddIrCommand(new IrCommandVirtualCall(t, thisTemp, function, argTemps));
 		}
 		// Case 3: Function call or method call within a class
 		else { 
-			Ir.getInstance().AddIrCommand(new IrCommandCall(t, name, argTemps));
+			Ir.getInstance().AddIrCommand(new IrCommandCall(t, function, argTemps));
 		}
 
 		return t;
