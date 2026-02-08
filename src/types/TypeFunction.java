@@ -3,15 +3,18 @@ package types;
 public class TypeFunction extends Type
 {
 	/***********************************/
-	/* The return type of the function */
+	/* the return type of the function */
 	/***********************************/
 	public Type returnType;
 
 	/*************************/
-	/* types of input params */
+	/* the types of the input params */
 	/*************************/
 	public TypeList paramsTypes;
 
+	/**********************************************/
+	/* index of the function in the virtual table */
+	/**********************************************/
 	public int functionIndex = -1;
 
 	/************************/
@@ -19,6 +22,11 @@ public class TypeFunction extends Type
 	/************************/
 	public int paramCounter = 0;
 	public int localVarCounter = 0;
+
+	/********************************************************/
+	/* the label which we will need to jump to when calling */
+	/********************************************************/
+	public String labelFunction;
 	
 	/****************/
 	/* CTROR(S) ... */

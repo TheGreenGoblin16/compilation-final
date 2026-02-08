@@ -10,25 +10,15 @@ class MyClass{
     }
 }
 
-class Seconde extends MyClass{
+class Second extends MyClass{
     void excuse(){
-        PrintString("what");
-    }
-    void me(){
         PrintString("what");
     }
     void what(){
         PrintString("wow");
     }
-}
-
-
-int IsPrime(int p)
-{
-    int i := 2;
-    int j := 2;
-    int x := 1;
-    int y := 1;
-    int z := 1;
-	int b := x + (x + (x + (x + (x + (x + (y + (x + (y + (x + (x + (y + z)))))))))));
+    void me(){
+        excuse();
+        PrintString("what");
+    }
 }

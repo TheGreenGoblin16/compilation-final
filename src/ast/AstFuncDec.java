@@ -12,8 +12,8 @@ public class AstFuncDec extends AstDec
     public String name;
 	public AstParamList params;
 	public AstStmtList body;
-	public String labelFunction;
 	public int functionIndex = -1;
+	public TypeFunction thisFunction;
 	public TypeFunction overridingFunction = null;
 	
 	/******************/
@@ -78,7 +78,6 @@ public class AstFuncDec extends AstDec
 	{
 		Type returnType;
 		TypeList paramsTypes = null;
-		TypeFunction thisFunction;
 		TypeClass currentClass = (TypeClass) SymbolTable.getInstance().find("$CURRENT-CLASS");
 
 		/***********************************/
@@ -185,9 +184,15 @@ public class AstFuncDec extends AstDec
 
 	public void irMe() {
 		String functionLablelName = (functionIndex >= 0) ? ("Function_" + functionIndex + "_" + name) : ("Function_" + name);
-		labelFunction = IrCommand.getFreshLabel(functionLablelName);
+		String labelFunction = IrCommand.getFreshLabel(functionLablelName);
+		String labelEpilog = IrCommand.getFreshLabel("epilog_"+functionLablelName);
+		
 		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelFunction));
+		Ir.getInstance().AddIrCommand(new IrCommandProlog(thisFunction));
 		body.irMe();
 		Ir.getInstance().AddIrCommand(new IrCommandReturn(null));
+		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelEpilog));
+		Ir.getInstance().AddIrCommand(new IrCommandEpilog(thisFunction));
+		
 	}
 }
