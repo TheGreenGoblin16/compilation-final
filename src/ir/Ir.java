@@ -13,6 +13,8 @@ package ir;
 
 public class Ir
 {
+	public String dataSegment = "";
+
 	public IrCommand head = null;
 	public IrCommandList tail = null;
 

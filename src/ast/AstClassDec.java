@@ -10,6 +10,7 @@ public class AstClassDec extends AstDec
     public String name;
     public String parent;
 	public AstDecList body;
+    public TypeClass thisClass;
 	
 	/******************/
 	/* CONSTRUCTOR(S) */
@@ -92,7 +93,7 @@ public class AstClassDec extends AstDec
         /* We pass 'null' for members because the children     */
         /* (body) will add themselves to this object later.    */
         /*******************************************************/
-        TypeClass thisClass = new TypeClass(parentType, name, null);
+        thisClass = new TypeClass(parentType, name, null);
         thisClass.astBody = body;
         int functionCounter = thisClass.functionCounter;
 
@@ -145,6 +146,29 @@ public class AstClassDec extends AstDec
     }
 
     public void irMe() {
+        String labelVirtualTable = IrCommand.getFreshLabel("vt_" + name);
+        thisClass.labelVirtualTable = labelVirtualTable;
+        Ir.getInstance().dataSegment += "\t" + labelVirtualTable + ":\n";
+
+        for (int i = 0; i < thisClass.functionCounter; i++) {
+            // ----
+            boolean finishedCurrentIndex = false;
+            TypeClass tc = thisClass;
+			while (tc != null && !finishedCurrentIndex) { // Move upwards the hierarchy
+				for (TypedIdentifierList it = tc.dataMembers; it != null; it = it.tail) { // Traverse data members
+					if (it.head.type instanceof TypeFunction) {
+                        TypeFunction tf = (TypeFunction) it.head.type;
+						if (tf.functionIndex == i) {
+                            Ir.getInstance().dataSegment += "\t .word" + tf.labelFunction + "\n";
+                            finishedCurrentIndex = true;
+                        }
+					}
+				}
+                tc = tc.parent;
+			}
+            // ----
+        }
+
 		for (AstDecList it = body; it != null; it = it.tail) {
 			if (it.head instanceof AstFuncDec) {
 				AstFuncDec func = (AstFuncDec) it.head;

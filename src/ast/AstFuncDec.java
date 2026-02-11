@@ -12,7 +12,6 @@ public class AstFuncDec extends AstDec
     public String name;
 	public AstParamList params;
 	public AstStmtList body;
-	public int functionIndex = -1;
 	public TypeFunction thisFunction;
 	public TypeFunction overridingFunction = null;
 	
@@ -177,15 +176,13 @@ public class AstFuncDec extends AstDec
 		/***********************************/
 		/* [8] Store and return func index */
 		/***********************************/
-		functionIndex = (overridingFunction == null) ? i : overridingFunction.functionIndex;
-		thisFunction.functionIndex = functionIndex;
+		thisFunction.functionIndex = (overridingFunction == null) ? i : overridingFunction.functionIndex;
 		return (overridingFunction == null) ? i+1 : i;
 	}
 
 	public void irMe() {
-		String functionLablelName = (functionIndex >= 0) ? ("Function_" + functionIndex + "_" + name) : ("Function_" + name);
-		String labelFunction = IrCommand.getFreshLabel(functionLablelName);
-		String labelEpilog = IrCommand.getFreshLabel("epilog_"+functionLablelName);
+		String labelFunction = IrCommand.getFreshLabel("function_" + name);
+		String labelEpilog = IrCommand.getFreshLabel("epilog_" + name);
 		
 		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelFunction));
 		Ir.getInstance().AddIrCommand(new IrCommandProlog(thisFunction));

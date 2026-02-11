@@ -14,19 +14,19 @@ import types.TypeFunction;
 
 public class IrCommandProlog extends IrCommand
 {
-	public TypeFunction functionType;
+	public TypeFunction function;
 	
-	public IrCommandProlog(TypeFunction functionType)
+	public IrCommandProlog(TypeFunction function)
 	{
-		this.functionType = functionType;
+		this.function = function;
 	}
 
 	public void printMe() {
-		if (functionType != null) {
+		if (function != null) {
 			System.out.format("IrCommandProlog for function %s with %d locals and %d params\n",
-				functionType.name,
-				functionType.localVarCounter,
-				functionType.paramCounter
+				function.name,
+				function.localVarCounter,
+				function.paramCounter
 			);
 		} else {
 			System.out.println("IrCommandProlog with null function type");

@@ -48,7 +48,8 @@ public class SymbolTableEntry
 	/* For variable entries */
 	/************************/
 	public VariableKind kind;
-	public int position; // stack index or class field index.
+	public int position; // stack index for locals or object layout index for class fields.
+	public String label; // label for globals.
 	
 	/******************/
 	/* CONSTRUCTOR(S) */

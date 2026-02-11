@@ -25,6 +25,8 @@ public class TypeClass extends Type
 	/************************/
 	public int fieldCounter = 0;
 	public int functionCounter = 0;
+
+	public String labelVirtualTable;
 	
 	/****************/
 	/* CTROR(S) ... */

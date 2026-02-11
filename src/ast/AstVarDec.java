@@ -135,6 +135,12 @@ public class AstVarDec extends AstDec
 	}
 
 	public void irMe() { // For global and local variables, exactly as in AstStmtAssign
+		if (entry.kind == VariableKind.GLOBAL) {
+			String label = IrCommand.getFreshLabel("global_" + name);
+			entry.label = label;
+			Ir.getInstance().dataSegment += "\t" + label + ":\n\t .word 0\n";
+		}
+
         if (exp != null) {
             Temp src = exp.irMe();
 			Ir.getInstance().AddIrCommand(new IrCommandWriteVar(entry, src));

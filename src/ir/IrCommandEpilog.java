@@ -14,19 +14,19 @@ import types.TypeFunction;
 
 public class IrCommandEpilog extends IrCommand
 {
-	public TypeFunction functionType;
+	public TypeFunction function;
 	
-	public IrCommandEpilog(TypeFunction functionType)
+	public IrCommandEpilog(TypeFunction function)
 	{
-		this.functionType = functionType;
+		this.function = function;
 	}
 
 	public void printMe() {
-		if (functionType != null) {
+		if (function != null) {
 			System.out.format("IrCommandEpilog for function %s with %d locals and %d params\n",
-				functionType.name,
-				functionType.localVarCounter,
-				functionType.paramCounter
+				function.name,
+				function.localVarCounter,
+				function.paramCounter
 			);
 		} else {
 			System.out.println("IrCommandEpilog with null function type");
