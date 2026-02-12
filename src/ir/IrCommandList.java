@@ -31,4 +31,12 @@ public class IrCommandList
 			tail.printMe();
 		}
 	}
+	public void mipsMe() {
+		if (head != null) {
+			head.mipsMe();
+		}
+		if (tail != null) {
+			tail.mipsMe();
+		}
+	}
 }

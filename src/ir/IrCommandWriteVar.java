@@ -29,4 +29,6 @@ public class IrCommandWriteVar extends IrCommand
 		System.out.println("varEntry: " + varEntry);
 		System.out.println("src: " + src);
 	}
+
+	public void mipsMe(){}
 }

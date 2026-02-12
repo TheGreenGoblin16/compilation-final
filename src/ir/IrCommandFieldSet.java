@@ -33,4 +33,6 @@ public class IrCommandFieldSet extends IrCommand
 		System.out.println("inst: " + inst);
 		System.out.println("fieldEntry: " + fieldEntry);
 	}
+
+	public void mipsMe(){}
 }

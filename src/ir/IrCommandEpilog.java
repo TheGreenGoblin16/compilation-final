@@ -32,4 +32,6 @@ public class IrCommandEpilog extends IrCommand
 			System.out.println("IrCommandEpilog with null function type");
 		}
 	}
+
+	public void mipsMe(){}
 }

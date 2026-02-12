@@ -15,4 +15,5 @@ public class IrCommandGetThis extends IrCommand{
         System.out.println("dst: " + dst);
     }
 
+    public void mipsMe(){}
 }

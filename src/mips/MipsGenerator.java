@@ -22,6 +22,10 @@ public class MipsGenerator
 	/***********************/
 	private PrintWriter fileWriter;
 
+	public int _max = (1<<15) - 1;
+	public int _min = -(1<<15);
+	public int _end_label_index = 0;
+
 	/***********************/
 	/* The file writer ... */
 	/***********************/
@@ -61,10 +65,15 @@ public class MipsGenerator
 		int idxdst=dst.getSerialNumber();
 		fileWriter.format("\tlw Temp_%d,global_%s\n",idxdst,varName);
 	}
+	public void loadString(Temp dst, String varName)
+	{
+		int idxdst = dst.getRegIndex();
+		fileWriter.format("\tla $t%d, global_%s\n",idxdst,varName);
+	}
 	public void store(String varName, Temp src)
 	{
 		int idxsrc=src.getSerialNumber();
-		fileWriter.format("\tsw Temp_%d,global_%s\n",idxsrc,varName);
+		fileWriter.format("\tsw Temp_%d, global_%s\n",idxsrc,varName);
 	}
 	public void li(Temp t, int value)
 	{
@@ -73,19 +82,51 @@ public class MipsGenerator
 	}
 	public void add(Temp dst, Temp oprnd1, Temp oprnd2)
 	{
-		int i1 =oprnd1.getSerialNumber();
-		int i2 =oprnd2.getSerialNumber();
-		int dstidx=dst.getSerialNumber();
+		int i1 =oprnd1.getRegIndex();
+		int i2 =oprnd2.getRegIndex();
+		int dstidx=dst.getRegIndex();
 
-		fileWriter.format("\tadd Temp_%d,Temp_%d,Temp_%d\n",dstidx,i1,i2);
+		fileWriter.format("\tadd $t%d, $t%d, $t%d\n",dstidx,i1,i2);
+		fileWriter.format("\tble $t%d, %d, end%d\n",dstidx,_max,++_end_label_index);
+		fileWriter.format("\tli $t%d, %d\n",dstidx,_max);
+		fileWriter.format("\tend%d:\n",_end_label_index);
+	}
+	public void sub(Temp dst, Temp oprnd1, Temp oprnd2)
+	{
+		int i1 =oprnd1.getRegIndex();
+		int i2 =oprnd2.getRegIndex();
+		int dstidx=dst.getRegIndex();
+
+		fileWriter.format("\tsub $t%d, $t%d, $t%d\n",dstidx,i1,i2);
+		fileWriter.format("\tbge $t%d, %d, end%d\n",dstidx,_min,++_end_label_index);
+		fileWriter.format("\tli $t%d, %d\n",dstidx,_min);
+		fileWriter.format("\tend%d:\n",_end_label_index);
 	}
 	public void mul(Temp dst, Temp oprnd1, Temp oprnd2)
 	{
-		int i1 =oprnd1.getSerialNumber();
-		int i2 =oprnd2.getSerialNumber();
-		int dstidx=dst.getSerialNumber();
+		int i1 =oprnd1.getRegIndex();
+		int i2 =oprnd2.getRegIndex();
+		int dstidx=dst.getRegIndex();
 
-		fileWriter.format("\tmul Temp_%d,Temp_%d,Temp_%d\n",dstidx,i1,i2);
+		fileWriter.format("\tmul $t%d, $t%d, $t%d\n",dstidx,i1,i2);
+		fileWriter.format("\tble $t%d, %d, end%d\n",dstidx,_max,++_end_label_index);
+		fileWriter.format("\tli $t%d, %d\n",dstidx,_max);
+		fileWriter.format("\tend%d:\n",_end_label_index);
+		fileWriter.format("\tbge $t%d, %d, end%d\n",dstidx,_min,++_end_label_index);
+		fileWriter.format("\tli $t%d, %d\n",dstidx,_min);
+		fileWriter.format("\tend%d:\n",_end_label_index);
+	}
+	public void div(Temp dst, Temp oprnd1, Temp oprnd2)
+	{
+		int i1 =oprnd1.getRegIndex();
+		int i2 =oprnd2.getRegIndex();
+		int dstidx=dst.getRegIndex();
+
+		fileWriter.format("\tbne $t%d, %zero, end%d\n",i2,_max,++_end_label_index);
+		fileWriter.format("\tla $t0, string_illegal_div_by_0"); // not working, need redo
+		// now exit...
+		fileWriter.format("\tend%d:\n",_end_label_index);
+		fileWriter.format("\tdiv $t%d, $t%d, $t%d\n",dstidx,i1,i2);
 	}
 	public void label(String inlabel)
 	{
@@ -105,37 +146,37 @@ public class MipsGenerator
 	}	
 	public void blt(Temp oprnd1, Temp oprnd2, String label)
 	{
-		int i1 =oprnd1.getSerialNumber();
-		int i2 =oprnd2.getSerialNumber();
+		int i1 =oprnd1.getRegIndex();
+		int i2 =oprnd2.getRegIndex();
 		
-		fileWriter.format("\tblt Temp_%d,Temp_%d,%s\n",i1,i2,label);				
+		fileWriter.format("\tblt $t%d, $t%d, %s\n",i1,i2,label);				
 	}
 	public void bge(Temp oprnd1, Temp oprnd2, String label)
 	{
-		int i1 =oprnd1.getSerialNumber();
-		int i2 =oprnd2.getSerialNumber();
+		int i1 =oprnd1.getRegIndex();
+		int i2 =oprnd2.getRegIndex();
 		
-		fileWriter.format("\tbge Temp_%d,Temp_%d,%s\n",i1,i2,label);				
+		fileWriter.format("\tbge $t%d, $t%d, %s\n",i1,i2,label);				
 	}
 	public void bne(Temp oprnd1, Temp oprnd2, String label)
 	{
-		int i1 =oprnd1.getSerialNumber();
-		int i2 =oprnd2.getSerialNumber();
+		int i1 =oprnd1.getRegIndex();
+		int i2 =oprnd2.getRegIndex();
 		
-		fileWriter.format("\tbne Temp_%d,Temp_%d,%s\n",i1,i2,label);				
+		fileWriter.format("\tbne $t%d, $t%d, %s\n",i1,i2,label);				
 	}
 	public void beq(Temp oprnd1, Temp oprnd2, String label)
 	{
-		int i1 =oprnd1.getSerialNumber();
-		int i2 =oprnd2.getSerialNumber();
+		int i1 =oprnd1.getRegIndex();
+		int i2 =oprnd2.getRegIndex();
 		
-		fileWriter.format("\tbeq Temp_%d,Temp_%d,%s\n",i1,i2,label);				
+		fileWriter.format("\tbeq $t%d, $t%d, %s\n",i1,i2,label);				
 	}
 	public void beqz(Temp oprnd1, String label)
 	{
-		int i1 =oprnd1.getSerialNumber();
+		int i1 =oprnd1.getRegIndex();
 				
-		fileWriter.format("\tbeq Temp_%d,$zero,%s\n",i1,label);				
+		fileWriter.format("\tbeq $t%d, $zero, %s\n",i1,label);		
 	}
 	
 	/**************************************/

@@ -10,6 +10,7 @@ package ir;
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
+import mips.*;
 import temp.*;
 
 public class IrCommandBinopSubIntegers extends IrCommand
@@ -30,5 +31,10 @@ public class IrCommandBinopSubIntegers extends IrCommand
 		System.out.println("t1: " + t1);
 		System.out.println("t2: " + t2);
 		System.out.println("dst: " + dst);
+	}
+
+	public void mipsMe()
+	{
+		MipsGenerator.getInstance().sub(dst,t1,t2);
 	}
 }

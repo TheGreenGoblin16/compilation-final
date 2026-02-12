@@ -11,6 +11,7 @@ package ir;
 /* PROJECT IMPORTS */
 /*******************/
 import temp.*;
+import mips.*;
 
 public class IrCommandLoadString extends IrCommand
 {
@@ -27,5 +28,9 @@ public class IrCommandLoadString extends IrCommand
 		System.out.println("IrCommandConstInt");
 		System.out.println("t: " + t);
 		System.out.println("labelName: " + label);
+	}
+
+	public void mipsMe(){
+		MipsGenerator.getInstance().loadString(t, label);
 	}
 }

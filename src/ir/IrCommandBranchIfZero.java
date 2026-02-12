@@ -28,4 +28,6 @@ public class IrCommandBranchIfZero extends IrCommand
 		System.out.println("t: " + t);
 		System.out.println("labelName: " + labelName);
 	}
+
+	public void mipsMe(){}
 }

@@ -32,4 +32,6 @@ public class IrCommandProlog extends IrCommand
 			System.out.println("IrCommandProlog with null function type");
 		}
 	}
+
+	public void mipsMe(){}
 }

@@ -29,4 +29,6 @@ public class IrCommandNewClass extends IrCommand
 		System.out.println("dst: " + dst);
 		System.out.println("cls: " + cls);
 	}
+
+	public void mipsMe(){}
 }

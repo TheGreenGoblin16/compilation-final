@@ -32,4 +32,6 @@ public class IrCommandVirtualCallVoid extends IrCommand
 		System.out.println("function: " + function);
 		System.out.println("args: " + args);
 	}
+
+	public void mipsMe(){}
 }

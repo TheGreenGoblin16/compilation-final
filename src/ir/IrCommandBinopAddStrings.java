@@ -31,4 +31,6 @@ public class IrCommandBinopAddStrings extends IrCommand
 		System.out.println("t2: " + t2);
 		System.out.println("dst: " + dst);
 	}
+
+	public void mipsMe(){}
 }

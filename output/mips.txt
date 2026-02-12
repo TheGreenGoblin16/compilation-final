@@ -1,6 +1,22 @@
 .data
-string_access_violation: .asciiz "Access Violation"
-string_illegal_div_by_0: .asciiz "Illegal Division By Zero"
-string_invalid_ptr_dref: .asciiz "Invalid Pointer Dereference"
+	string_access_violation: .asciiz "Access Violation"
+	string_illegal_div_by_0: .asciiz "Illegal Division By Zero"
+	string_invalid_ptr_dref: .asciiz "Invalid Pointer Dereference"
+	Label_1_global_x:
+	 .word 0
+	Label_2_global_y:
+	 .word 0
+	Label_3_global_z:
+	 .word 0
+	Label_4_global_t:
+	 .word 0
+	add $t0, $t1, $t0
+	ble $t0, 32767, end1
+	li $t0, 32767
+	end1:
+	sub $t0, $t1, $t0
+	bge $t0, -32768, end2
+	li $t0, -32768
+	end2:
 	li $v0,10
 	syscall

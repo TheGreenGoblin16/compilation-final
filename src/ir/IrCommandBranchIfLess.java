@@ -31,4 +31,6 @@ public class IrCommandBranchIfLess extends IrCommand
 		System.out.println("t2: " + t2);
 		System.out.println("labelName: " + labelName);
 	}
+
+	public void mipsMe(){}
 }

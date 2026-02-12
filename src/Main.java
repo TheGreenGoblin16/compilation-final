@@ -82,7 +82,7 @@ public class Main
 
 			Ir.getInstance().printMe();
 
-
+			Ir.getInstance().mipsMe();
 
 			// NEW: Run Dataflow Analysis
 			//controlFlow.controlFlow(Ir.getInstance().head, fileWriter); // Pass head and output path

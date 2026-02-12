@@ -24,4 +24,6 @@ public class IrCommandLabel extends IrCommand
 		System.out.println("IrCommandLabel");
 		System.out.println("labelName: " + labelName);
 	}
+
+	public void mipsMe(){}
 }

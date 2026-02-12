@@ -25,4 +25,6 @@ public class IrCommandReturn extends IrCommand
 		System.out.println("IrCommandReturn");
 		System.out.println("src: " + src);
 	}
+
+	public void mipsMe(){}
 }

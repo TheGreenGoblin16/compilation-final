@@ -28,4 +28,6 @@ public class IrCommandNewArray extends IrCommand
 		System.out.println("dst: " + dst);
 		System.out.println("size: " + size);
 	}
+
+	public void mipsMe(){}
 }

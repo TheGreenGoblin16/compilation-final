@@ -29,4 +29,6 @@ public class IrCommandReadVar extends IrCommand
 		System.out.println("dst: " + dst);
 		System.out.println("varEntry: " + varEntry);
 	}
+
+	public void mipsMe(){}
 }

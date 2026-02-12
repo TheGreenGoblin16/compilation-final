@@ -14,6 +14,7 @@ package ir;
 public abstract class IrCommand
 {
 	public abstract void printMe();
+	public abstract void mipsMe();
 
 	/*****************/
 	/* Label Factory */

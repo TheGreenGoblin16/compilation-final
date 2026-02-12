@@ -24,4 +24,6 @@ public class IrCommandBranch extends IrCommand
 		System.out.println("IrCommandBranch");
 		System.out.println("labelName: " + labelName);
 	}
+
+	public void mipsMe(){}
 }

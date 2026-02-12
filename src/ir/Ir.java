@@ -28,6 +28,15 @@ public class Ir
 		}
 	}
 
+	public void mipsMe() {
+		if (head != null) {
+			head.mipsMe();
+		}
+		if (tail != null) {
+			tail.mipsMe();
+		}
+	}
+
 	/******************/
 	/* Add Ir command */
 	/******************/

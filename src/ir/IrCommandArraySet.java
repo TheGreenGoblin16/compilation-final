@@ -31,4 +31,6 @@ public class IrCommandArraySet extends IrCommand
 		System.out.println("arr: " + arr);
 		System.out.println("index: " + index);
 	}
+
+	public void mipsMe(){}
 }

@@ -28,4 +28,6 @@ public class IrCommandConstInt extends IrCommand
 		System.out.println("t: " + t);
 		System.out.println("value: " + value);
 	}
+
+	public void mipsMe(){}
 }
