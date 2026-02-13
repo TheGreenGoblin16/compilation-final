@@ -69,9 +69,16 @@ public class MipsGenerator
 	}
 	public void load(Temp dst, String varName)
 	{
-		int idxdst=dst.getSerialNumber();
+		int idxdst=dst.getRegIndex();
 		fileWriter.format("\tlw Temp_%d,global_%s\n",idxdst,varName);
 	}
+
+	//lw $t0 , 4($s0)
+	public void load(String dst, int offset , String src)
+	{
+		fileWriter.format("\tlw %s , %d(%s)\n",dst,offset,src);
+	}
+
 	public void loadString(Temp dst, String varName)
 	{
 		int idxdst = dst.getRegIndex();
@@ -81,6 +88,12 @@ public class MipsGenerator
 	{
 		int idxsrc=src.getSerialNumber();
 		fileWriter.format("\tsw Temp_%d, global_%s\n",idxsrc,varName);
+	}
+
+	// sw src offset(dst)
+	public void store(String src, int offset , String dst)
+	{
+		fileWriter.format("\tsw %s, %d(%s)\n",src, offset ,dst);
 	}
 	public void li(Temp t, int value)
 	{
@@ -95,6 +108,17 @@ public class MipsGenerator
 
 		fileWriter.format("\tadd $t%d, $t%d, $t%d\n",dstidx,i1,i2);
 	}
+
+	public void add(String dst, String oprnd1, String oprnd2)
+	{
+		fileWriter.format("\tadd %s, %s, %s \n",dst,oprnd1 , oprnd2);
+	}
+
+	public void addu(String dst, String oprnd1, String oprnd2)
+	{
+		fileWriter.format("\tadd %s, %s, %s \n",dst,oprnd1 , oprnd2);
+	}
+
 	public void addi(Temp dst, Temp oprnd1, int num)
 	{
 		int i1 =oprnd1.getRegIndex();
@@ -102,6 +126,13 @@ public class MipsGenerator
 
 		fileWriter.format("\taddi $t%d, $t%d, %d\n",dstidx,i1,num);
 	}
+
+	public void addi(String dst, String oprnd1, int num)
+	{
+
+		fileWriter.format("\taddi %s, %s, %d\n",dst , oprnd1 ,num);
+	}
+
 	public void sub(Temp dst, Temp oprnd1, Temp oprnd2)
 	{
 		int i1 =oprnd1.getRegIndex();
@@ -118,6 +149,20 @@ public class MipsGenerator
 
 		fileWriter.format("\tmul $t%d, $t%d, $t%d\n",dstidx,i1,i2);
 	}
+
+	public void muli(Temp dst, Temp oprnd1, int num)
+	{
+		int i1 =oprnd1.getRegIndex();
+		int dstidx=dst.getRegIndex();
+
+		fileWriter.format("\tmul $t%d, $t%d, %d\n",dstidx,i1,num);
+	}
+
+	public void muli(String dst, String oprnd1, int num)
+	{
+		fileWriter.format("\tmul %s, %s, %d\n",dst , oprnd1 ,num);
+	}
+
 	public void div(Temp dst, Temp oprnd1, Temp oprnd2)
 	{
 		int i1 =oprnd1.getRegIndex();
@@ -168,6 +213,12 @@ public class MipsGenerator
 		
 		fileWriter.format("\tbge $t%d, $t%d, %s\n",i1,i2,label);				
 	}
+
+	public void bge(String oprnd1, String oprnd2, String label)
+	{
+		fileWriter.format("\tbge %s, %s, %s\n",oprnd1,oprnd2,label);
+	}
+
 	public void ble(Temp oprnd1, Temp oprnd2, String label)
 	{
 		int i1 =oprnd1.getRegIndex();
@@ -200,6 +251,17 @@ public class MipsGenerator
 		int i1 =oprnd1.getRegIndex();
 				
 		fileWriter.format("\tbne $t%d, $zero, %s\n",i1,label);
+	}
+
+	public void move(Temp dst , Temp src){
+		int i1 = dst.getRegIndex();
+		int i2 = src.getRegIndex();
+
+		fileWriter.format("\t move $t%d , $t%d \n" , i1 , i2);
+	}
+
+	public void move(String dst , String src){
+		fileWriter.format("\t move %s , %s \n" , dst , src);
 	}
 	
 	/**************************************/

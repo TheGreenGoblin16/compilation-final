@@ -11,7 +11,8 @@ package ir;
 /* PROJECT IMPORTS */
 /*******************/
 import temp.*;
-
+import mips.*;
+import ir.*;
 public class IrCommandArrayAccess extends IrCommand
 {
 	public Temp dst;
@@ -32,5 +33,30 @@ public class IrCommandArrayAccess extends IrCommand
 		System.out.println("index: " + index);
 	}
 
-	public void mipsMe(){}
+	public void mipsMe(){
+		String index_string = index.toString();
+		String arr_string = arr.toString();
+		String dst_string = dst.toString();
+		String s0 =  "$s0";
+
+		String abort = IrCommand.getFreshLabel("abort!_invalid_array_index");
+		String next = IrCommand.getFreshLabel("next instruction");
+
+		MipsGenerator.getInstance().bltz(index , abort);
+		MipsGenerator.getInstance().load(s0 , 0 , arr_string);
+		MipsGenerator.getInstance().bge(index_string , s0 , abort);
+
+		MipsGenerator.getInstance().move(s0 , index_string);
+		MipsGenerator.getInstance().addi(s0 , s0 , 1);
+		MipsGenerator.getInstance().muli(s0 , s0 , 4);
+		MipsGenerator.getInstance().addu(s0 , arr_string , s0 );
+		MipsGenerator.getInstance().load(dst_string , 0 , s0);
+		MipsGenerator.getInstance().jump(next);
+
+		MipsGenerator.getInstance().label(abort);
+		MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
+		MipsGenerator.getInstance().Exit();
+		MipsGenerator.getInstance().label(next);
+
+	}
 }

@@ -40,7 +40,7 @@ public class Temp
 	@Override
 	public String toString() {
 		// Debug helper: shows T(serial) mapped to $t(regIndex)
-		if (regIndex != -1) return "Temp_" + serial + "($t" + regIndex + ")";
+		if (regIndex != -1) return "$t" + regIndex;
 		return "Temp_" + serial;
 	}
 }
