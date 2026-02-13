@@ -18,6 +18,7 @@ public class IrCommandBinopAddIntegers extends IrCommand
 	public Temp t1;
 	public Temp t2;
 	public Temp dst;
+	public int max = (1<<15)-1;
 	
 	public IrCommandBinopAddIntegers(Temp dst, Temp t1, Temp t2)
 	{
@@ -35,6 +36,12 @@ public class IrCommandBinopAddIntegers extends IrCommand
 
 	public void mipsMe()
 	{
+		String label = IrCommand.getFreshLabel("end");
 		MipsGenerator.getInstance().add(dst,t1,t2);
+		MipsGenerator.getInstance().addi(dst,dst,-max);
+		MipsGenerator.getInstance().bgez(dst,label);
+		MipsGenerator.getInstance().li(dst,0);
+		MipsGenerator.getInstance().label(label);
+		MipsGenerator.getInstance().addi(dst,dst,max);
 	}
 }

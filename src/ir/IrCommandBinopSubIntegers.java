@@ -18,6 +18,7 @@ public class IrCommandBinopSubIntegers extends IrCommand
 	public Temp t1;
 	public Temp t2;
 	public Temp dst;
+	public int min = -(1<<15);
 	
 	public IrCommandBinopSubIntegers(Temp dst, Temp t1, Temp t2)
 	{
@@ -35,6 +36,13 @@ public class IrCommandBinopSubIntegers extends IrCommand
 
 	public void mipsMe()
 	{
+		String label = IrCommand.getFreshLabel("end");
 		MipsGenerator.getInstance().sub(dst,t1,t2);
+		MipsGenerator.getInstance().addi(dst,dst,-min-1);
+		MipsGenerator.getInstance().addi(dst,dst,1);
+		MipsGenerator.getInstance().bltz(dst,label);
+		MipsGenerator.getInstance().li(dst,0);
+		MipsGenerator.getInstance().label(label);
+		MipsGenerator.getInstance().addi(dst,dst,min);
 	}
 }

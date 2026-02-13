@@ -10,13 +10,43 @@
 	 .word 0
 	Label_4_global_t:
 	 .word 0
-	add $t0, $t1, $t0
-	ble $t0, 32767, end1
-	li $t0, 32767
-	end1:
+	Label_5_global_h:
+	 .word 0
+	Label_6_global_r:
+	 .word 0
 	sub $t0, $t1, $t0
-	bge $t0, -32768, end2
-	li $t0, -32768
-	end2:
+	addi $t0, $t0, 32767
+	addi $t0, $t0, 1
+	blt $t0, $zero, Label_7_end
+	li $t0,0
+Label_7_end:
+	addi $t0, $t0, -32768
+	add $t0, $t0, $t1
+	addi $t0, $t0, -32767
+	bge $t0, $zero, Label_8_end
+	li $t0,0
+Label_8_end:
+	addi $t0, $t0, 32767
+	mul $t0, $t1, $t0
+	add $t0, $t1, $t0
+	addi $t0, $t0, -32767
+	bge $t0, $zero, Label_9_end
+	li $t0,0
+Label_9_end:
+	addi $t0, $t0, 32767
+	addi $t0, $t0, 32767
+	addi $t0, $t0, 1
+	blt $t0, $zero, Label_10_end
+	li $t0,0
+Label_10_end:
+	addi $t0, $t0, -32768
+	bne $t1, $zero, Label_11_end
+	la $a0, string_illegal_div_by_0
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_11_end:
+	div $t0, $t0, $t1
 	li $v0,10
 	syscall

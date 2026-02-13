@@ -34,6 +34,11 @@ public class IrCommandBinopDivIntegers extends IrCommand
 	}
 
 	public void mipsMe(){
+		String label = IrCommand.getFreshLabel("end");
+		MipsGenerator.getInstance().bnez(t2, label);
+		MipsGenerator.getInstance().printString("string_illegal_div_by_0");
+		MipsGenerator.getInstance().Exit();
+		MipsGenerator.getInstance().label(label);
 		MipsGenerator.getInstance().div(dst,t1,t2);
 	}
 }
