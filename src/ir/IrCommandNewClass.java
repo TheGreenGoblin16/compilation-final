@@ -10,6 +10,7 @@ package ir;
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
+import mips.MipsGenerator;
 import temp.*;
 import types.*;
 
@@ -30,5 +31,11 @@ public class IrCommandNewClass extends IrCommand
 		System.out.println("cls: " + cls);
 	}
 
-	public void mipsMe(){}
+	public void mipsMe(){
+		int instanceSize = (cls.fieldCounter+1)*4;
+		MipsGenerator.getInstance().li("$s0" , instanceSize);
+		MipsGenerator.getInstance().allocate(dst , "$s0");
+		MipsGenerator.getInstance().la("$s0" , cls.labelVirtualTable);
+		MipsGenerator.getInstance().sw("$s0", 0 , dst.toString());
+	}
 }

@@ -10,8 +10,10 @@ package ir;
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
+import mips.MipsGenerator;
 import temp.*;
 import symboltable.*;
+import types.VariableKind;
 
 public class IrCommandWriteVar extends IrCommand
 {
@@ -30,5 +32,23 @@ public class IrCommandWriteVar extends IrCommand
 		System.out.println("src: " + src);
 	}
 
-	public void mipsMe(){}
+	public void mipsMe(){
+
+		VariableKind kind = varEntry.kind;
+
+		if (kind == VariableKind.GLOBAL){
+			String labelOfGlobal = varEntry.label;
+			MipsGenerator.getInstance().sw(src , labelOfGlobal);
+		} else if (kind == VariableKind.PARAMETER) {
+			int parameterPosition = varEntry.position;
+			int stackIndexFromFp = (2+parameterPosition)*4;
+			MipsGenerator.getInstance().sw(src.toString() , stackIndexFromFp , "$fp");
+		} else if (kind == VariableKind.LOCAL) {
+			int parameterPosition = varEntry.position;
+			int stackIndexFromFp = ((-11) - (varEntry.position))*4;
+			MipsGenerator.getInstance().sw(src.toString() , stackIndexFromFp , "$fp");
+		}
+
+
+	}
 }

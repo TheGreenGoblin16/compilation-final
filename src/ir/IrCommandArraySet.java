@@ -50,7 +50,7 @@ public class IrCommandArraySet extends IrCommand
 		MipsGenerator.getInstance().addi(s0 , s0 , 1);
 		MipsGenerator.getInstance().muli(s0 , s0 , 4);
 		MipsGenerator.getInstance().addu(s0 , arr_string , s0 );
-		MipsGenerator.getInstance().store(src_string , 0 , s0);
+		MipsGenerator.getInstance().sw(src_string , 0 , s0);
 		MipsGenerator.getInstance().jump(next);
 
 		MipsGenerator.getInstance().label(abort);

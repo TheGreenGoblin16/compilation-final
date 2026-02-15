@@ -3,6 +3,7 @@
 /***********/
 package ir;
 
+import mips.MipsGenerator;
 import symboltable.SymbolTableEntry;
 
 /*******************/
@@ -34,5 +35,24 @@ public class IrCommandFieldSet extends IrCommand
 		System.out.println("fieldEntry: " + fieldEntry);
 	}
 
-	public void mipsMe(){}
+	public void mipsMe(){
+
+		String src_string = src.toString();
+		String inst_string = inst.toString();
+
+		String abort = IrCommand.getFreshLabel("abort!_null_pointer");
+		String next = IrCommand.getFreshLabel("next_instruction");
+
+
+		MipsGenerator.getInstance().beqz(inst , abort);
+
+		MipsGenerator.getInstance().sw(src_string , 4*(fieldEntry.position+1) , inst_string );
+		MipsGenerator.getInstance().jump(next);
+
+		MipsGenerator.getInstance().label(abort);
+		MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
+		MipsGenerator.getInstance().Exit();
+		MipsGenerator.getInstance().label(next);
+
+	}
 }

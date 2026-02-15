@@ -78,7 +78,7 @@ public class MipsGenerator
 	public void load(Temp dst, String varName)
 	{
 		int idxdst=dst.getRegIndex();
-		fileWriter.format("\tlw $t%d,global_%s\n",idxdst,varName);
+		fileWriter.format("\tlw $t%d,%s\n",idxdst,varName);
 	}
 
 	//lw $t0 , 4($s0)
@@ -92,22 +92,30 @@ public class MipsGenerator
 		int idxdst = dst.getRegIndex();
 		fileWriter.format("\tla $t%d, %s\n",idxdst,varName);
 	}
-	public void la(String dst, Temp src)
+	public void la(String dst, String label)
 	{
-		int idxdst = src.getRegIndex();
-		fileWriter.format("\tla %s, $t%d\n",dst,idxdst);
+		fileWriter.format("\tla %s, %s\n",dst,label);
 	}
-	public void store(String varName, Temp src)
+
+	public void sw(Temp src , String label)
 	{
-		int idxsrc=src.getSerialNumber();
-		fileWriter.format("\tsw Temp_%d, global_%s\n",idxsrc,varName);
+		int idxsrc=src.getRegIndex();
+		fileWriter.format("\tsw $t%d, %s\n",idxsrc,label);
 	}
 
 	// sw src offset(dst)
-	public void store(String src, int offset , String dst)
+	public void sw(String src, int offset , String dst)
 	{
 		fileWriter.format("\tsw %s, %d(%s)\n",src, offset ,dst);
 	}
+
+	public void sw(Temp src, int offset , Temp dst)
+	{
+		int idxsrc = src.getRegIndex();
+		int idxdst = dst.getRegIndex();
+		fileWriter.format("\tsw $t%d, %d( $t%d )\n",idxsrc, offset ,idxdst);
+	}
+
 	public void sb(String src, int offset , String dst)
 	{
 		fileWriter.format("\tsb %s, %d(%s)\n",src, offset ,dst);
@@ -123,6 +131,9 @@ public class MipsGenerator
 	{
 		fileWriter.format("\tli %s,%d\n",src,value);
 	}
+
+
+
 
 	public void lb(String src, int offset, String dst)
 	{

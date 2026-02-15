@@ -160,6 +160,10 @@ public class AstFuncDec extends AstDec
 		/* [5] Push params */
 		/*******************/
 		if (params != null) {
+			//if this is class method the first param is "this"
+			if (currentClass!=null){
+				thisFunction.paramCounter = 1;
+			}
 			params.semantMe(thisFunction);
 		}
 
