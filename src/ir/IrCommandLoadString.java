@@ -31,6 +31,6 @@ public class IrCommandLoadString extends IrCommand
 	}
 
 	public void mipsMe(){
-		MipsGenerator.getInstance().loadString(t, label);
+		MipsGenerator.getInstance().la(t, label);
 	}
 }

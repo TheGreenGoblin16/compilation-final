@@ -159,12 +159,13 @@ public class AstExpBinop extends AstExp
 			} else if (op == 6) {
 				String label = IrCommand.getFreshLabel("end");
 				Ir.getInstance().AddIrCommand(new IrCommandConstInt(dst, 1));
-				Ir.getInstance().AddIrCommand(new IrCommandBranchIfEqualsStrings(t1,t2, label));
+				Ir.getInstance().AddIrCommand(new IrCommandBranchIfEqualsStrings(t1,t2,label));
 				Ir.getInstance().AddIrCommand(new IrCommandConstInt(dst, 0));
 				Ir.getInstance().AddIrCommand(new IrCommandLabel(label));
 			}
+			return dst;
 		}
-
+		
 		if (op == 0)
 		{
 			Ir.getInstance().AddIrCommand(new IrCommandBinopAddIntegers(dst,t1,t2));

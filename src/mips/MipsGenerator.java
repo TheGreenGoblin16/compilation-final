@@ -67,6 +67,14 @@ public class MipsGenerator
 		fileWriter.format(".data\n");
 		fileWriter.format("\tglobal_%s: .word 721\n",varName);
 	}
+	public void allocate(Temp t, String value)
+	{
+		int idx = t.getRegIndex();
+		fileWriter.format("\tmove $v0, 9\n");
+		fileWriter.format("\tmove $a0, %s\n", value);
+		fileWriter.format("\tsyscall\n");
+		fileWriter.format("\tmove $t%d, $v0\n", idx);
+	}
 	public void load(Temp dst, String varName)
 	{
 		int idxdst=dst.getRegIndex();
@@ -76,13 +84,18 @@ public class MipsGenerator
 	//lw $t0 , 4($s0)
 	public void load(String dst, int offset , String src)
 	{
-		fileWriter.format("\tlw %s , %d(%s)\n",dst,offset,src);
+		fileWriter.format("\tlw %s, %d(%s)\n",dst,offset,src);
 	}
 
-	public void loadString(Temp dst, String varName)
+	public void la(Temp dst, String varName)
 	{
 		int idxdst = dst.getRegIndex();
 		fileWriter.format("\tla $t%d, %s\n",idxdst,varName);
+	}
+	public void la(String dst, Temp src)
+	{
+		int idxdst = src.getRegIndex();
+		fileWriter.format("\tla %s, $t%d\n",dst,idxdst);
 	}
 	public void store(String varName, Temp src)
 	{
@@ -95,6 +108,11 @@ public class MipsGenerator
 	{
 		fileWriter.format("\tsw %s, %d(%s)\n",src, offset ,dst);
 	}
+	public void sb(String src, int offset , String dst)
+	{
+		fileWriter.format("\tsb %s, %d(%s)\n",src, offset ,dst);
+	}
+
 	public void li(Temp t, int value)
 	{
 		int idx=t.getRegIndex();
@@ -104,6 +122,11 @@ public class MipsGenerator
 	public void li(String src, int value)
 	{
 		fileWriter.format("\tli %s,%d\n",src,value);
+	}
+
+	public void lb(String src, int offset, String dst)
+	{
+		fileWriter.format("\tlb %s,%d(%s)\n",src,offset,dst);
 	}
 	public void add(Temp dst, Temp oprnd1, Temp oprnd2)
 	{
@@ -264,6 +287,10 @@ public class MipsGenerator
 				
 		fileWriter.format("\tbeq $t%d, $zero, %s\n",i1,label);
 	}
+	public void beqz(String oprnd1, String label)
+	{
+		fileWriter.format("\tbeq %s, $zero, %s\n",oprnd1,label);
+	}
 	public void bnez(Temp oprnd1, String label)
 	{
 		int i1 =oprnd1.getRegIndex();
@@ -275,11 +302,22 @@ public class MipsGenerator
 		int i1 = dst.getRegIndex();
 		int i2 = src.getRegIndex();
 
-		fileWriter.format("\t move $t%d , $t%d \n" , i1 , i2);
+		fileWriter.format("\t move $t%d, $t%d \n" , i1 , i2);
 	}
 
-	public void move(String dst , String src){
-		fileWriter.format("\t move %s , %s \n" , dst , src);
+	public void move(Temp dst, String src){
+		int i1 = dst.getRegIndex();
+
+		fileWriter.format("\t move $t%d, $s \n",i1, src);
+	}
+	public void move(String dst, Temp src){
+		int i1 = src.getRegIndex();
+
+		fileWriter.format("\t move $s, $t%d\n",dst,i1);
+	}
+
+	public void move(String dst, String src){
+		fileWriter.format("\t move %s, %s \n" , dst , src);
 	}
 	
 	/**************************************/

@@ -4,3 +4,4 @@ int z := x - y;
 int t := z + y;
 int h := x * y;
 int r := x / y;
+string l := "ab" + "cd";

@@ -14,33 +14,46 @@
 	 .word 0
 	Label_6_global_r:
 	 .word 0
-	sub $t0, $t1, $t0
+	Label_7_global_l:
+	 .word 0
+	Label_8_string_ab:
+	 .asciiz "ab"
+	Label_9_string_cd:
+	 .asciiz "cd"
+	sub $t1, $t2, $t1
 	li $s0,-32768
-	bge $t0, $s0, Label_7_end
-	li $t0,-32768
-Label_7_end:
-	add $t0, $t0, $t1
-	li $s0,32767
-	ble $t0, $s0, Label_8_end
-	li $t0,32767
-Label_8_end:
-	mul $t0, $t1, $t0
-	li $s0,-32768
-	bge $t0, $s0, Label_9_end
-	li $t0,-32768
-	j Label_10_end
-Label_9_end:
-	li $s0,32767
-	ble $t0, $s0, Label_10_end
-	li $t0,32767
+	bge $t1, $s0, Label_10_end
+	li $t1,-32768
 Label_10_end:
-	bne $t1, $zero, Label_11_end
+	add $t1, $t1, $t2
+	li $s0,32767
+	ble $t1, $s0, Label_11_end
+	li $t1,32767
+Label_11_end:
+	mul $t1, $t1, $t2
+	li $s0,-32768
+	bge $t1, $s0, Label_12_end
+	li $t1,-32768
+	j Label_13_end
+Label_12_end:
+	li $s0,32767
+	ble $t1, $s0, Label_13_end
+	li $t1,32767
+Label_13_end:
+	bne $t2, $zero, Label_14_end
 	la $a0, string_illegal_div_by_0
 	li $v0,4
 	syscall
 	li $v0,10
 	syscall
-Label_11_end:
-	div $t0, $t0, $t1
+Label_14_end:
+	div $t1, $t1, $t2
+	la $t0, Label_8_string_ab
+	la $t0, Label_9_string_cd
+	add $t0, $t0, $t0
+	li $s0,32767
+	ble $t0, $s0, Label_15_end
+	li $t0,32767
+Label_15_end:
 	li $v0,10
 	syscall
