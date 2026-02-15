@@ -38,10 +38,9 @@ public class IrCommandBinopAddIntegers extends IrCommand
 	{
 		String label = IrCommand.getFreshLabel("end");
 		MipsGenerator.getInstance().add(dst,t1,t2);
-		MipsGenerator.getInstance().addi(dst,dst,-max);
-		MipsGenerator.getInstance().bgez(dst,label);
-		MipsGenerator.getInstance().li(dst,0);
+		MipsGenerator.getInstance().li("$s0",max);
+		MipsGenerator.getInstance().ble(dst,"$s0",label);
+		MipsGenerator.getInstance().li(dst,max);
 		MipsGenerator.getInstance().label(label);
-		MipsGenerator.getInstance().addi(dst,dst,max);
 	}
 }

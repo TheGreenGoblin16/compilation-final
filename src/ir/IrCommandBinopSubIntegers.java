@@ -38,11 +38,9 @@ public class IrCommandBinopSubIntegers extends IrCommand
 	{
 		String label = IrCommand.getFreshLabel("end");
 		MipsGenerator.getInstance().sub(dst,t1,t2);
-		MipsGenerator.getInstance().addi(dst,dst,-min-1);
-		MipsGenerator.getInstance().addi(dst,dst,1);
-		MipsGenerator.getInstance().bltz(dst,label);
-		MipsGenerator.getInstance().li(dst,0);
+		MipsGenerator.getInstance().li("$s0",min);
+		MipsGenerator.getInstance().bge(dst,"$s0",label);
+		MipsGenerator.getInstance().li(dst,min);
 		MipsGenerator.getInstance().label(label);
-		MipsGenerator.getInstance().addi(dst,dst,min);
 	}
 }
