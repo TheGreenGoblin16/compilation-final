@@ -82,6 +82,8 @@ public class Main
 
 			Ir.getInstance().printMe();
 
+			System.out.println("______________________________________________________________________");
+
 			Ir.getInstance().mipsMe();
 
 			// NEW: Run Dataflow Analysis

@@ -25,7 +25,7 @@ public class IrCommandLoadString extends IrCommand
 	}
 
 	public void printMe() {
-		System.out.println("IrCommandConstInt");
+		System.out.println("IrCommandLoadString");
 		System.out.println("t: " + t);
 		System.out.println("labelName: " + label);
 	}

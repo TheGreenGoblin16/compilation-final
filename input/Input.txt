@@ -1,7 +1,3 @@
-int x := 3;
-int y := 5;
-int z := x - y;
-int t := z + y;
-int h := x * y;
-int r := x / y;
-string l := "ab" + "cd";
+string l := "a";
+string r := "b";
+string d := l + r;

@@ -190,6 +190,9 @@ public class Liveness {
         else if (cmd instanceof IrCommandConstInt) {
             kill.add(((IrCommandConstInt) cmd).t);
         }
+        else if (cmd instanceof IrCommandLoadString) {
+            kill.add(((IrCommandLoadString) cmd).t);
+        }
         else if (cmd instanceof IrCommandReadVar) {
             kill.add(((IrCommandReadVar) cmd).dst);
         }

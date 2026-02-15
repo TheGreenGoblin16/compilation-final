@@ -291,6 +291,7 @@ public class RegisterAllocator {
             if (cmd instanceof IrCommandBinopMulIntegers) return ((IrCommandBinopMulIntegers)cmd).dst;
             if (cmd instanceof IrCommandBinopDivIntegers) return ((IrCommandBinopDivIntegers)cmd).dst;
             if (cmd instanceof IrCommandConstInt) return ((IrCommandConstInt)cmd).t;
+            if (cmd instanceof IrCommandLoadString) return ((IrCommandLoadString)cmd).t;
             if (cmd instanceof IrCommandReadVar) return ((IrCommandReadVar)cmd).dst;
             if (cmd instanceof IrCommandCall) return ((IrCommandCall)cmd).dst;
             if (cmd instanceof IrCommandVirtualCall) return ((IrCommandVirtualCall)cmd).dst;

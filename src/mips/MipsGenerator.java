@@ -67,11 +67,11 @@ public class MipsGenerator
 		fileWriter.format(".data\n");
 		fileWriter.format("\tglobal_%s: .word 721\n",varName);
 	}
-	public void allocate(Temp t, String value)
+	public void allocate(Temp t, String reg_value) // reg_value is a register for the value.
 	{
 		int idx = t.getRegIndex();
-		fileWriter.format("\tmove $v0, 9\n");
-		fileWriter.format("\tmove $a0, %s\n", value);
+		fileWriter.format("\tli $v0, 9\n");
+		fileWriter.format("\tmove $a0, %s\n", reg_value);
 		fileWriter.format("\tsyscall\n");
 		fileWriter.format("\tmove $t%d, $v0\n", idx);
 	}
@@ -302,18 +302,18 @@ public class MipsGenerator
 		int i1 = dst.getRegIndex();
 		int i2 = src.getRegIndex();
 
-		fileWriter.format("\t move $t%d, $t%d \n" , i1 , i2);
+		fileWriter.format("\tmove $t%d, $t%d \n" , i1 , i2);
 	}
 
 	public void move(Temp dst, String src){
 		int i1 = dst.getRegIndex();
 
-		fileWriter.format("\t move $t%d, $s \n",i1, src);
+		fileWriter.format("\tmove $t%d, %s \n",i1, src);
 	}
 	public void move(String dst, Temp src){
 		int i1 = src.getRegIndex();
 
-		fileWriter.format("\t move $s, $t%d\n",dst,i1);
+		fileWriter.format("\tmove %s, $t%d\n",dst,i1);
 	}
 
 	public void move(String dst, String src){
