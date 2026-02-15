@@ -1,9 +1,9 @@
 digraph
 {
 graph [ordering = "out"]
-v12 [label = "DEC
+v19 [label = "DEC
 LIST
 "];
-v12 -> v1;
-v12 -> v11;
+v19 -> v11;
+v19 -> v18;
 }

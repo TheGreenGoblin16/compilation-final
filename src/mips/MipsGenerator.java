@@ -16,7 +16,7 @@ import ir.*;
 
 public class MipsGenerator
 {
-	private static final int WORD_SIZE=4;
+	public static final int WORD_SIZE=4; // was private but i need it to be public so...
 	/***********************/
 	/* The file writer ... */
 	/***********************/
@@ -131,9 +131,6 @@ public class MipsGenerator
 	{
 		fileWriter.format("\tli %s,%d\n",src,value);
 	}
-
-
-
 
 	public void lb(String src, int offset, String dst)
 	{
@@ -328,7 +325,22 @@ public class MipsGenerator
 	}
 
 	public void move(String dst, String src){
-		fileWriter.format("\t move %s, %s \n" , dst , src);
+		fileWriter.format("\tmove %s, %s \n" , dst , src);
+	}
+
+	public void call(String label)
+	{
+		fileWriter.format("\tjal %s\n",label);
+	}
+	public void jalr(String reg)
+	{
+		fileWriter.format("\tjalr %s\n",reg);
+	}
+	public void push(Temp t)
+	{
+		int idx = t.getRegIndex();
+		fileWriter.format("\taddi $sp, $sp, -%d\n",WORD_SIZE);
+		fileWriter.format("\tsw $t%d, 0($sp)\n",idx);
 	}
 	
 	/**************************************/

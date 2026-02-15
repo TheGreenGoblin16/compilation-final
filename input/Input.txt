@@ -1,3 +1,7 @@
-string l := "a";
-string r := "b";
-string d := l + r;
+
+int f(int a, int b){
+    return a+b;
+}
+
+int g := f(1, 2);
+

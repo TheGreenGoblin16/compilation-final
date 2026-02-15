@@ -12,6 +12,7 @@ package ir;
 /*******************/
 import temp.*;
 import types.*;
+import mips.*;
 
 public class IrCommandVirtualCall extends IrCommand
 {
@@ -36,5 +37,29 @@ public class IrCommandVirtualCall extends IrCommand
 		System.out.println("args: " + args);
 	}
 
-	public void mipsMe(){}
+	public void mipsMe(){
+		// push args in reverse order
+		int argCount = 0;
+		for (TempList it = args; it != null; it = it.tail) { // there is a possibillity its the other way around, but we will see
+			MipsGenerator.getInstance().push(it.head);
+			argCount++;
+		}
+
+		// load function address from vtable
+		MipsGenerator.getInstance().load("$t0", 0, inst.toString()); // load vtable pointer
+		MipsGenerator.getInstance().load("$t1", function.functionIndex * MipsGenerator.WORD_SIZE, "$t0"); // load function address from vtable
+
+		// call function
+		MipsGenerator.getInstance().jalr("$t1");
+
+		// pop args
+		if (argCount > 0) {
+			MipsGenerator.getInstance().addi("$sp", "$sp", argCount * MipsGenerator.WORD_SIZE);
+		}
+
+		// move return value to dst
+		if (dst != null) {
+			MipsGenerator.getInstance().move(dst.toString(), "$v0");
+		}
+	}
 }
