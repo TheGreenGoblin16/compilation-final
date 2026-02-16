@@ -34,9 +34,13 @@ public class IrCommandCallVoid extends IrCommand
 	public void mipsMe(){
 		// push args in reverse order
 		int argCount = 0;
-		for (TempList it = args; it != null; it = it.tail) { // there is a possibillity its the other way around, but we will see
-			MipsGenerator.getInstance().push(it.head);
+		TempList reversed_args = null;
+		for (TempList it = args; it != null; it = it.tail) {
+			reversed_args = new TempList(it.head, reversed_args); // it is the right order?
 			argCount++;
+		}
+		for (TempList it = reversed_args; it != null; it = it.tail) {
+			MipsGenerator.getInstance().push(it.head);
 		}
 
 		// call function

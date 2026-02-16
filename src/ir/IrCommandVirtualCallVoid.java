@@ -36,18 +36,23 @@ public class IrCommandVirtualCallVoid extends IrCommand
 
 	public void mipsMe(){
 		// push args in reverse order
-		int argCount = 0;
-		for (TempList it = args; it != null; it = it.tail) { // there is a possibillity its the other way around, but we will see
-			MipsGenerator.getInstance().push(it.head);
+		int argCount = 1;
+		TempList reversed_args = null;
+		for (TempList it = args; it != null; it = it.tail) {
+			reversed_args = new TempList(it.head, reversed_args); // it is the right order?
 			argCount++;
 		}
+		for (TempList it = reversed_args; it != null; it = it.tail) {
+			MipsGenerator.getInstance().push(it.head);
+		}
+		MipsGenerator.getInstance().push(inst); // push the instance as the first argument
 
 		// load function address from vtable
-		MipsGenerator.getInstance().load("$t0", 0, inst.toString()); // load vtable pointer
-		MipsGenerator.getInstance().load("$t1", function.functionIndex * MipsGenerator.WORD_SIZE, "$t0"); // load function address from vtable
+		MipsGenerator.getInstance().load("$s0", 0, inst.toString()); // load vtable pointer
+		MipsGenerator.getInstance().load("$s1", function.functionIndex * MipsGenerator.WORD_SIZE, "$s0"); // load function address from vtable
 
 		// call function
-		MipsGenerator.getInstance().jalr("$t1");
+		MipsGenerator.getInstance().jalr("$s1");
 
 		// pop args
 		if (argCount > 0) {
