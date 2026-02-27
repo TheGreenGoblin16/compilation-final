@@ -124,11 +124,12 @@ public class AstVarSubscript extends AstVar
 	}
 
 
-	public Temp irMe(){
-		Temp dst = TempFactory.getInstance().getFreshTemp();
-		Temp arr = var.irMe();
-		Temp index = subscript.irMe();
-		Ir.getInstance().AddIrCommand(new IrCommandArrayAccess(dst,arr,index));
-		return dst;
+	public Temp irMe(Temp newTemp) {
+		// newTemp is only relevant for constructors, otherwise just ignore it
+		Temp t = TempFactory.getInstance().getFreshTemp();
+		Temp arr = var.irMe(newTemp);
+		Temp index = subscript.irMe(newTemp);
+		Ir.getInstance().AddIrCommand(new IrCommandArrayAccess(t,arr,index));
+		return t;
 	}
 }

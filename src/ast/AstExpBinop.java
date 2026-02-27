@@ -144,14 +144,15 @@ public class AstExpBinop extends AstExp
 		return null; // Should not be reached
 	}
 
-	public Temp irMe()
+	public Temp irMe(Temp newTemp)
 	{
+		// newTemp is only relevant for constructors, otherwise just ignore it
 		Temp t1 = null;
 		Temp t2 = null;
 		Temp dst = TempFactory.getInstance().getFreshTemp();
 
-		if (left  != null) t1 = left.irMe();
-		if (right != null) t2 = right.irMe();
+		if (left  != null) t1 = left.irMe(newTemp);
+		if (right != null) t2 = right.irMe(newTemp);
 
 		if (this.leftType == TypeString.getInstance() && this.rightType == TypeString.getInstance()){
 			if (op == 0) {

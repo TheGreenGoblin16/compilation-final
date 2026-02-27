@@ -62,8 +62,9 @@ public class AstExpVar extends AstExp
 	{
 		return var.semantMe();
 	}
-	public Temp irMe()
+	public Temp irMe(Temp newTemp)
 	{
-		return var.irMe();
+		// newTemp is only relevant for constructors, otherwise just ignore it
+		return var.irMe(newTemp);
 	}
 }

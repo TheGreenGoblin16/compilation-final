@@ -82,11 +82,21 @@ public class AstVarSimple extends AstVar
         return null;
     }
 
-    
-    public Temp irMe()
-	{
-		Temp t = TempFactory.getInstance().getFreshTemp();
-		Ir.getInstance().AddIrCommand(new IrCommandReadVar(t, entry));
-		return t;
-	}
+    public Temp irMe(Temp newTemp) {
+        Temp t = TempFactory.getInstance().getFreshTemp();
+        
+        if (entry.kind == VariableKind.CLASS_FIELD) { // a field we need to access
+            if (newTemp == null) { // not inside a constructor, so get this object
+                Temp thisTemp = TempFactory.getInstance().getFreshTemp();
+                Ir.getInstance().AddIrCommand(new IrCommandGetThis(thisTemp));
+                Ir.getInstance().AddIrCommand(new IrCommandFieldAccess(t, thisTemp, entry));
+            } else { // inside a constructor, so use given object
+                Ir.getInstance().AddIrCommand(new IrCommandFieldAccess(t, newTemp, entry));
+            }
+        } else { // a global/local/param var, simply read it
+            Ir.getInstance().AddIrCommand(new IrCommandReadVar(t, entry));
+        }
+
+        return t;
+    }
 }

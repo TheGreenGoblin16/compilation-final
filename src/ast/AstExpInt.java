@@ -54,8 +54,9 @@ public class AstExpInt extends AstExp
 		return TypeInt.getInstance();
 	}
 
-	public Temp irMe()
+	public Temp irMe(Temp newTemp)
 	{
+		// ignore newTemp
 		Temp t = TempFactory.getInstance().getFreshTemp();
 		Ir.getInstance().AddIrCommand(new IrCommandConstInt(t,value));
 		return t;

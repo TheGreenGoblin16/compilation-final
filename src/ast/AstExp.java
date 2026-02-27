@@ -15,7 +15,12 @@ public abstract class AstExp extends AstNode
 	{
 		return null;
 	}
-	public Temp irMe(){
+
+	public Temp irMe(Temp newTemp) {
 		return null;
+	}
+
+	public Temp irMe() {
+		return irMe(null);
 	}
 }

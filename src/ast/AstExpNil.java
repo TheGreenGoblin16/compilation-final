@@ -53,8 +53,9 @@ public class AstExpNil extends AstExp
 		return TypeVoid.getInstance();
 	}
 
-	public Temp irMe()
+	public Temp irMe(Temp newTemp)
 	{
+		// ignore newTemp
 		Temp t = TempFactory.getInstance().getFreshTemp();
 		return t;
 	}

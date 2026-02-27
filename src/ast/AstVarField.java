@@ -117,10 +117,11 @@ public class AstVarField extends AstVar
 		return null;
 	}
 
-	public Temp irMe(){
-		Temp dst = TempFactory.getInstance().getFreshTemp();
-		Temp src = var.irMe();
-		Ir.getInstance().AddIrCommand(new IrCommandFieldAccess(dst, src, fieldEntry));
-		return dst;
+	public Temp irMe(Temp newTemp) {
+		// newTemp is only relevant for constructors, otherwise just ignore it
+		Temp t = TempFactory.getInstance().getFreshTemp();
+		Temp inst = var.irMe(newTemp);
+		Ir.getInstance().AddIrCommand(new IrCommandFieldAccess(t, inst, fieldEntry));
+		return t;
 	}
 }

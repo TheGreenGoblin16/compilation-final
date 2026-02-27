@@ -54,8 +54,9 @@ public class AstExpString extends AstExp
 		return TypeString.getInstance();
 	}
 
-	public Temp irMe()
+	public Temp irMe(Temp newTemp)
 	{
+		// ignore newTemp
 		String label = IrCommand.getFreshLabel("string_" + str);
 
 		Ir.getInstance().dataSegment += "\t" + label + ":\n\t .asciiz \"" + str + "\"\n";

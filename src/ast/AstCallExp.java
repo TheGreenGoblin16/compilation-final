@@ -174,21 +174,22 @@ public class AstCallExp extends AstExp
 	}
 
 
-	public Temp irMe()
+	public Temp irMe(Temp newTemp)
 	{
+		// newTemp is only relevant for constructors, otherwise just ignore it
 		Temp t = TempFactory.getInstance().getFreshTemp();
 		TempList argTemps = null;
 
 		if (args != null) {
-			argTemps = args.irMe();
+			argTemps = args.irMe(newTemp);
 		}
 		
 		// Case 1: Method call on an object instance (e.g. obj.method())
 		if (isMethodCall && var != null) {
-			Temp objTemp = var.irMe();
+			Temp objTemp = var.irMe(newTemp);
 			Ir.getInstance().AddIrCommand(new IrCommandVirtualCall(t, objTemp, function, argTemps));
 		}
-		// case 2: Function is class method called inside the class, this.f(...)
+		// Case 2: Function is class method called inside the class, this.f(...)
 		else if (isMethodCall && var == null) {
 			Temp thisTemp = TempFactory.getInstance().getFreshTemp();
 			Ir.getInstance().AddIrCommand(new IrCommandGetThis(thisTemp));

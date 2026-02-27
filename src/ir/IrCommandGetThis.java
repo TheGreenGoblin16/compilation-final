@@ -17,7 +17,7 @@ public class IrCommandGetThis extends IrCommand{
     }
 
     public void mipsMe(){
-        //"this" is the first param
+        // "this" is the first param
         int thisIndexFromFp = (2+0)*4;
         MipsGenerator.getInstance().load(dst.toString() , thisIndexFromFp , "$fp");
     }

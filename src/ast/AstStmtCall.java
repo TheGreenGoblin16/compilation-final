@@ -92,15 +92,18 @@ public class AstStmtCall extends AstStmt
             argTemps = args.irMe();
         }
 
+        // Case 1: Method call on an object instance (e.g. obj.method())
 		if (e.isMethodCall && var != null) {
 			Temp objTemp = var.irMe();
 			Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(objTemp, function, argTemps));
 		}
+		// Case 2: Function is class method called inside the class, this.f(...)
         else if (e.isMethodCall && var == null){
             Temp thisTemp = TempFactory.getInstance().getFreshTemp();
             Ir.getInstance().AddIrCommand(new IrCommandGetThis(thisTemp));
             Ir.getInstance().AddIrCommand(new IrCommandVirtualCallVoid(thisTemp, function, argTemps));
         }
+		// Case 3: Function call or method call within a class
         else {
 			Ir.getInstance().AddIrCommand(new IrCommandCallVoid(function, argTemps));
 		}

@@ -70,15 +70,16 @@ public class AstExpList extends AstNode
 		return new TypeList(headType, tailTypes);
 	}
 
-	public TempList irMe()
+	public TempList irMe(Temp newTemp)
 	{
+		// newTemp is only relevant for constructors, otherwise just ignore it
 		if (exp == null) {
 			return null;
 		}
-		Temp headTemp = exp.irMe();
+		Temp headTemp = exp.irMe(newTemp);
 		TempList tailTemps = null;
 		if (next != null) {
-			tailTemps = next.irMe();
+			tailTemps = next.irMe(newTemp);
 		}
 		return new TempList(headTemp, tailTemps);
 	}

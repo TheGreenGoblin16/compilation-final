@@ -43,8 +43,7 @@ public class IrCommandReadVar extends IrCommand
 			int parameterPosition = varEntry.position;
 			int stackIndexFromFp = (2+parameterPosition)*4;
 			MipsGenerator.getInstance().load(dst.toString() , stackIndexFromFp , "$fp");
-		 } else if (kind == VariableKind.LOCAL) {
-			int parameterPosition = varEntry.position;
+		} else if (kind == VariableKind.LOCAL) {
 			int stackIndexFromFp = ((-11) - (varEntry.position))*4;
 			MipsGenerator.getInstance().load(dst.toString() , stackIndexFromFp , "$fp");
 		}

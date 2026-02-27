@@ -143,14 +143,20 @@ public class AstVarDec extends AstDec
 
         if (exp != null) {
             Temp src = exp.irMe();
-			Ir.getInstance().AddIrCommand(new IrCommandWriteVar(entry, src));
+			if (entry.kind == VariableKind.CLASS_FIELD) {
+				Temp thisTemp = TempFactory.getInstance().getFreshTemp();
+            	Ir.getInstance().AddIrCommand(new IrCommandGetThis(thisTemp));
+				Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, thisTemp, entry));
+			} else {
+				Ir.getInstance().AddIrCommand(new IrCommandWriteVar(entry, src));
+			}
         }
 	}
 
-	public void irMe(Temp objTemp) { // Only for class fields after class instance creation, like a constructor
+	public void irMe(Temp newTemp) { // Only for class fields after class instance creation, like a constructor
 		if (exp != null) {
             Temp src = exp.irMe();
-			Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, objTemp, entry));
+			Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, newTemp, entry));
         }
 	}
 }

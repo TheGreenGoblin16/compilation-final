@@ -13,5 +13,9 @@ public abstract class AstVar extends AstNode
 
     public abstract Type semantMe();
 
-    public abstract Temp irMe();
+    public abstract Temp irMe(Temp newTemp);
+
+    public Temp irMe() {
+        return irMe(null);
+    }
 }
