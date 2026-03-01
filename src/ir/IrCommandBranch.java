@@ -3,6 +3,8 @@
 /***********/
 package ir;
 
+import mips.MipsGenerator;
+
 /*******************/
 /* GENERAL IMPORTS */
 /*******************/
@@ -25,5 +27,7 @@ public class IrCommandBranch extends IrCommand
 		System.out.println("labelName: " + labelName);
 	}
 
-	public void mipsMe(){}
+	public void mipsMe() {
+		MipsGenerator.getInstance().jump(labelName);
+	}
 }

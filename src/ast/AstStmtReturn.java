@@ -9,6 +9,7 @@ import temp.*;
 public class AstStmtReturn extends AstStmt
 {
     public AstExp e;
+    public TypeFunction insideFunction;
 
     /*******************/
     /* CONSTRUCTOR(S) */
@@ -78,6 +79,7 @@ public class AstStmtReturn extends AstStmt
         /* This was put here by AstFuncDec.semantMe()         */
         /******************************************************/
         expectedType = SymbolTable.getInstance().find("$RETURN-TYPE");
+        insideFunction = (TypeFunction) SymbolTable.getInstance().find("$CURRENT-FUNCTION");
 
         // Sanity check: This should theoretically never happen if parser works
         if (expectedType == null)
@@ -138,7 +140,7 @@ public class AstStmtReturn extends AstStmt
     public Temp irMe()
 	{
 		Temp src = e.irMe();
-		Ir.getInstance().AddIrCommand(new IrCommandReturn(src));
+		Ir.getInstance().AddIrCommand(new IrCommandReturn(insideFunction, src));
 		return null;
 	}
 }

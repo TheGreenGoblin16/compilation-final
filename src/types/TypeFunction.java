@@ -26,7 +26,8 @@ public class TypeFunction extends Type
 	/********************************************************/
 	/* the label which we will need to jump to when calling */
 	/********************************************************/
-	public String labelFunction;
+	public String labelProlog;
+	public String labelEpilog;
 	
 	/****************/
 	/* CTROR(S) ... */

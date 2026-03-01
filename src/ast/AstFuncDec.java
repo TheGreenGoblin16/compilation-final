@@ -185,14 +185,14 @@ public class AstFuncDec extends AstDec
 	}
 
 	public void irMe() {
-		String labelFunction = IrCommand.getFreshLabel("function_" + name);
-		String labelEpilog = IrCommand.getFreshLabel("epilog_" + name);
+		thisFunction.labelProlog = IrCommand.getFreshLabel("prolog_" + name);
+		thisFunction.labelEpilog = IrCommand.getFreshLabel("epilog_" + name);
 		
-		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelFunction));
+		Ir.getInstance().AddIrCommand(new IrCommandLabel(thisFunction.labelProlog));
 		Ir.getInstance().AddIrCommand(new IrCommandProlog(thisFunction));
 		body.irMe();
-		Ir.getInstance().AddIrCommand(new IrCommandReturn(null));
-		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelEpilog));
+		Ir.getInstance().AddIrCommand(new IrCommandReturn(thisFunction, null));
+		Ir.getInstance().AddIrCommand(new IrCommandLabel(thisFunction.labelEpilog));
 		Ir.getInstance().AddIrCommand(new IrCommandEpilog(thisFunction));
 		
 	}

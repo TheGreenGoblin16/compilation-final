@@ -3,6 +3,7 @@
 /***********/
 package ir;
 
+import mips.MipsGenerator;
 /*******************/
 /* GENERAL IMPORTS */
 /*******************/
@@ -33,5 +34,18 @@ public class IrCommandProlog extends IrCommand
 		}
 	}
 
-	public void mipsMe(){}
+	public void mipsMe() {
+		// Push return address and previous frame pointer
+		MipsGenerator.getInstance().push("$ra"); 
+		MipsGenerator.getInstance().push("$fp");
+		MipsGenerator.getInstance().move("$fp", "$sp");
+
+		// Push register backup
+		for (int i = 0; i < 10; i++) {
+			MipsGenerator.getInstance().push("$t" + i);
+		}
+
+		// Reserve space for locals
+		MipsGenerator.getInstance().addi("%sp", "%sp", -function.localVarCounter * MipsGenerator.WORD_SIZE);
+	}
 }

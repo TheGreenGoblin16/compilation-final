@@ -3,6 +3,8 @@
 /***********/
 package ir;
 
+import mips.MipsGenerator;
+
 /*******************/
 /* GENERAL IMPORTS */
 /*******************/
@@ -32,5 +34,7 @@ public class IrCommandBranchIfEquals extends IrCommand
 		System.out.println("labelName: " + labelName);
 	}
 
-	public void mipsMe(){}
+	public void mipsMe() {
+		MipsGenerator.getInstance().beq(t1, t2, labelName);
+	}
 }

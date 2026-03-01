@@ -47,7 +47,7 @@ public class IrCommandCall extends IrCommand
 		}
 
 		// call function
-		MipsGenerator.getInstance().call(function.name);
+		MipsGenerator.getInstance().jal(function.labelProlog);
 
 		// pop args
 		if (argCount > 0) {

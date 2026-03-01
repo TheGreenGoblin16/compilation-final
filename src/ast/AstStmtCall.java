@@ -89,7 +89,7 @@ public class AstStmtCall extends AstStmt
         TempList argTemps = null;
 
         if (args != null) {
-            argTemps = args.irMe();
+            argTemps = args.irMe(null);
         }
 
         // Case 1: Method call on an object instance (e.g. obj.method())

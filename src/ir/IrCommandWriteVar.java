@@ -44,7 +44,6 @@ public class IrCommandWriteVar extends IrCommand
 			int stackIndexFromFp = (2+parameterPosition)*4;
 			MipsGenerator.getInstance().sw(src.toString() , stackIndexFromFp , "$fp");
 		} else if (kind == VariableKind.LOCAL) {
-			int parameterPosition = varEntry.position;
 			int stackIndexFromFp = ((-11) - (varEntry.position))*4;
 			MipsGenerator.getInstance().sw(src.toString() , stackIndexFromFp , "$fp");
 		}

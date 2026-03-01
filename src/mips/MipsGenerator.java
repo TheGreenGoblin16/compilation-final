@@ -282,12 +282,23 @@ public class MipsGenerator
 		
 		fileWriter.format("\tbne $t%d, $t%d, %s\n",i1,i2,label);				
 	}
+	public void bne(String oprnd1, String oprnd2, String label)
+	{
+		fileWriter.format("\tbne %s, %s, %s\n",oprnd1,oprnd2,label);				
+	}
+
 	public void beq(Temp oprnd1, Temp oprnd2, String label)
 	{
 		int i1 =oprnd1.getRegIndex();
 		int i2 =oprnd2.getRegIndex();
 		
 		fileWriter.format("\tbeq $t%d, $t%d, %s\n",i1,i2,label);				
+	}
+	public void beq(Temp oprnd1, String oprnd2, String label)
+	{
+		int i1 =oprnd1.getRegIndex();
+		
+		fileWriter.format("\tbeq $t%d, %s, %s\n",i1,oprnd2,label);				
 	}
 	public void beqz(Temp oprnd1, String label)
 	{
@@ -304,6 +315,10 @@ public class MipsGenerator
 		int i1 =oprnd1.getRegIndex();
 				
 		fileWriter.format("\tbne $t%d, $zero, %s\n",i1,label);
+	}
+	public void bnez(String oprnd1, String label)
+	{				
+		fileWriter.format("\tbne $t%d, $zero, %s\n",oprnd1,label);
 	}
 
 	public void move(Temp dst , Temp src){
@@ -328,19 +343,43 @@ public class MipsGenerator
 		fileWriter.format("\tmove %s, %s \n" , dst , src);
 	}
 
-	public void call(String label)
+	public void jal(String label)
 	{
 		fileWriter.format("\tjal %s\n",label);
 	}
+
 	public void jalr(String reg)
 	{
 		fileWriter.format("\tjalr %s\n",reg);
 	}
-	public void push(Temp t)
+
+	public void jr(String reg)
 	{
-		int idx = t.getRegIndex();
+		fileWriter.format("\tjr %s\n",reg);
+	}
+
+	public void push(Temp src)
+	{
+		int idx = src.getRegIndex();
 		fileWriter.format("\taddi $sp, $sp, -%d\n",WORD_SIZE);
 		fileWriter.format("\tsw $t%d, 0($sp)\n",idx);
+	}
+	public void push(String src)
+	{
+		fileWriter.format("\taddi $sp, $sp, -%d\n",WORD_SIZE);
+		fileWriter.format("\tsw %s, 0($sp)\n",src);
+	}
+
+	public void pop(Temp dst)
+	{
+		int idx = dst.getRegIndex();
+		fileWriter.format("\tlw $t%d, 0($sp)\n",idx);
+		fileWriter.format("\taddi $sp, $sp, %d\n",WORD_SIZE);
+	}
+	public void pop(String dst)
+	{
+		fileWriter.format("\tlw %s, 0($sp)\n",dst);
+		fileWriter.format("\taddi $sp, $sp, %d\n",WORD_SIZE);
 	}
 	
 	/**************************************/

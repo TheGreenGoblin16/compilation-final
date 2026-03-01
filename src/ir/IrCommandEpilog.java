@@ -3,6 +3,8 @@
 /***********/
 package ir;
 
+import mips.MipsGenerator;
+
 /*******************/
 /* GENERAL IMPORTS */
 /*******************/
@@ -33,5 +35,18 @@ public class IrCommandEpilog extends IrCommand
 		}
 	}
 
-	public void mipsMe(){}
+	public void mipsMe() {
+		// Fold up locals
+		MipsGenerator.getInstance().addi("%sp", "%sp", +function.localVarCounter * MipsGenerator.WORD_SIZE);
+
+		// Pop register backup and restore
+		for (int i = 9; i >= 0; i--) {
+			MipsGenerator.getInstance().pop("$t" + i);
+		}
+
+		// Pop return address and previous frame pointer
+		MipsGenerator.getInstance().pop("$fp");
+		MipsGenerator.getInstance().pop("$ra"); 
+		MipsGenerator.getInstance().jr("$ra");
+	}
 }
