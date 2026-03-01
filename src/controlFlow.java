@@ -5,7 +5,7 @@ import temp.*;
 import symboltable.SymbolTableEntry;
 import java.lang.reflect.Field; 
 
-public class controlFlow {
+public class ControlFlow {
 
     // -------------------------------------------------------------------------
     // Inner Classes
