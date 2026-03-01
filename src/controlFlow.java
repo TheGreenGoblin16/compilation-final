@@ -298,7 +298,7 @@ public class ControlFlow {
             return "Temp_" + ((Temp) o).getSerialNumber();
         }
         if (o instanceof SymbolTableEntry) {
-            return ((SymbolTableEntry) o).toString();
+            return ((SymbolTableEntry) o).name + ";SymbolTableEntry_"+ ((SymbolTableEntry) o).id;
         }
         return o.toString();
     }

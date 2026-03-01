@@ -82,7 +82,7 @@ public class MipsGenerator
 	}
 
 	//lw $t0 , 4($s0)
-	public void load(String dst, int offset , String src)
+	public void load(String dst, int offset, String src)
 	{
 		fileWriter.format("\tlw %s, %d(%s)\n",dst,offset,src);
 	}

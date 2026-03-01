@@ -70,9 +70,4 @@ public class SymbolTableEntry
 		this.prevtopIndex = prevtopIndex;
 		this.id = idCounter++;
 	}
-
-	@Override
-	public String toString() {
-		return name+";SymbolTableEntry_"+ Integer.toString(id);
-	}
 }
