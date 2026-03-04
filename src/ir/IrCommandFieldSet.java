@@ -44,14 +44,14 @@ public class IrCommandFieldSet extends IrCommand
 		String next = IrCommand.getFreshLabel("next_instruction");
 
 
-		MipsGenerator.getInstance().beqz(inst , abort);
+		MipsGenerator.getInstance().beqz(inst, abort);
 
-		MipsGenerator.getInstance().sw(src_string , 4*(fieldEntry.position+1) , inst_string );
+		MipsGenerator.getInstance().sw(src_string, 4*(fieldEntry.position+1) , inst_string );
 		MipsGenerator.getInstance().jump(next);
 
 		MipsGenerator.getInstance().label(abort);
 		MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
-		MipsGenerator.getInstance().Exit();
+		MipsGenerator.getInstance().ExitAsm();
 		MipsGenerator.getInstance().label(next);
 
 	}

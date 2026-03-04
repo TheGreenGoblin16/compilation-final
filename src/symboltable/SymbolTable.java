@@ -26,6 +26,11 @@ public class SymbolTable
 	private SymbolTableEntry[] table = new SymbolTableEntry[hashArraySize];
 	private SymbolTableEntry top;
 	private int topIndex = 0;
+
+	/*************************/
+	/* The builtin functions */
+	/*************************/
+	public TypeFunction printIntFunction, printStringFunction = null;
 	
 	/**************************************************************/
 	/* A very primitive hash function for exposition purposes ... */
@@ -302,27 +307,21 @@ public class SymbolTable
 			/* [1] Enter library function PrintInt */
 			/* void PrintInt(int i)                */
 			/***************************************/
-			instance.enter(
+			instance.printIntFunction = new TypeFunction(
+				TypeVoid.getInstance(),
 				"PrintInt",
-				new TypeFunction(
-					TypeVoid.getInstance(),
-					"PrintInt",
-					new TypeList(
-						TypeInt.getInstance(),
-						null)));
+				new TypeList(TypeInt.getInstance(),null));
+			instance.enter("PrintInt", instance.printIntFunction);
 
 			/******************************************/
 			/* [2] Enter library function PrintString */
 			/* void PrintString(string s)             */
 			/******************************************/
-			instance.enter(
+			instance.printStringFunction = new TypeFunction(
+				TypeVoid.getInstance(),
 				"PrintString",
-				new TypeFunction(
-					TypeVoid.getInstance(),
-					"PrintString",
-					new TypeList(
-						TypeString.getInstance(),
-						null)));
+				new TypeList(TypeString.getInstance(),null));
+			instance.enter("PrintString", instance.printStringFunction);
 		}
 		return instance;
 	}

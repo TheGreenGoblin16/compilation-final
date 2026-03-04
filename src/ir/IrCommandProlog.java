@@ -46,6 +46,6 @@ public class IrCommandProlog extends IrCommand
 		}
 
 		// Reserve space for locals
-		MipsGenerator.getInstance().addi("%sp", "%sp", -function.localVarCounter * MipsGenerator.WORD_SIZE);
+		MipsGenerator.getInstance().addi("$sp", "$sp", -function.localVarCounter * MipsGenerator.WORD_SIZE);
 	}
 }

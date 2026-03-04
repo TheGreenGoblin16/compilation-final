@@ -55,7 +55,7 @@ public class IrCommandArrayAccess extends IrCommand
 
 		MipsGenerator.getInstance().label(abort);
 		MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
-		MipsGenerator.getInstance().Exit();
+		MipsGenerator.getInstance().ExitAsm();
 		MipsGenerator.getInstance().label(next);
 
 	}

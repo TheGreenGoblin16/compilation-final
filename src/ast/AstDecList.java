@@ -61,8 +61,7 @@ public class AstDecList extends AstNode
 	}
 
 	public void irMe() {
-		String labelPreMain = IrCommand.getFreshLabel("pre_main");
-		Ir.getInstance().AddIrCommand(new IrCommandLabel(labelPreMain));
+		Ir.getInstance().AddIrCommand(new IrCommandLabel("main"));
 		for (AstDecList it = this; it != null; it = it.tail) {
 			if (it.head instanceof AstVarDec) {
 				AstVarDec dec = (AstVarDec) it.head;
@@ -70,6 +69,15 @@ public class AstDecList extends AstNode
 			}
 		}
 		
+		TypeFunction mainFunction = null;
+		for (AstDecList it = this; it != null; it = it.tail) {
+			if (it.head instanceof AstFuncDec && ((AstFuncDec)it.head).name.equals("main")) {
+				mainFunction = ((AstFuncDec)it.head).thisFunction;
+			}
+		}
+		Ir.getInstance().AddIrCommand(new IrCommandCallVoid(mainFunction, null));
+		Ir.getInstance().AddIrCommand(new IrCommandExitAsm());
+
 		for (AstDecList it = this; it != null; it = it.tail) {
 			if (it.head instanceof AstFuncDec) {
 				AstFuncDec func = (AstFuncDec) it.head;

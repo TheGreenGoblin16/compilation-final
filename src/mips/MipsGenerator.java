@@ -31,25 +31,33 @@ public class MipsGenerator
 		fileWriter.print("\tsyscall\n");
 		fileWriter.close();
 	}
-	public void Exit()
+	public void ExitAsm()
 	{
 		fileWriter.print("\tli $v0,10\n");
 		fileWriter.print("\tsyscall\n");
 	}
 	public void printInt(Temp t)
 	{
-		int idx=t.getSerialNumber();
+		int idx=t.getRegIndex();
 		// fileWriter.format("\taddi $a0,Temp_%d,0\n",idx);
-		fileWriter.format("\tmove $a0,Temp_%d\n",idx);
+		fileWriter.format("\tmove $a0, $t%d\n",idx);
 		fileWriter.format("\tli $v0,1\n");
 		fileWriter.format("\tsyscall\n");
-		fileWriter.format("\tli $a0,32\n");
-		fileWriter.format("\tli $v0,11\n");
-		fileWriter.format("\tsyscall\n");
+		// fileWriter.format("\tli $a0,32\n");
+		// fileWriter.format("\tli $v0,11\n");
+		// fileWriter.format("\tsyscall\n");
 	}
 	public void printString(String label)
 	{
 		fileWriter.format("\tla $a0, %s\n",label);
+		fileWriter.format("\tli $v0,4\n");
+		fileWriter.format("\tsyscall\n");
+	}
+	public void printString(Temp t)
+	{
+		int idx=t.getRegIndex();
+
+		fileWriter.format("\tmove $a0, $t%d\n",idx);
 		fileWriter.format("\tli $v0,4\n");
 		fileWriter.format("\tsyscall\n");
 	}

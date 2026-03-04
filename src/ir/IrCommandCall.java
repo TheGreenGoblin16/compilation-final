@@ -10,6 +10,7 @@ package ir;
 /*******************/
 /* PROJECT IMPORTS */
 /*******************/
+import symboltable.*;
 import temp.*;
 import types.*;
 import mips.*;

@@ -37,7 +37,7 @@ public class IrCommandEpilog extends IrCommand
 
 	public void mipsMe() {
 		// Fold up locals
-		MipsGenerator.getInstance().addi("%sp", "%sp", +function.localVarCounter * MipsGenerator.WORD_SIZE);
+		MipsGenerator.getInstance().addi("$sp", "$sp", +function.localVarCounter * MipsGenerator.WORD_SIZE);
 
 		// Pop register backup and restore
 		for (int i = 9; i >= 0; i--) {

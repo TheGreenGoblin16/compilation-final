@@ -12,6 +12,7 @@ package ir;
 /*******************/
 import temp.*;
 import types.TypeFunction;
+import symboltable.SymbolTable;
 import mips.*;
 
 public class IrCommandCallVoid extends IrCommand
@@ -32,6 +33,14 @@ public class IrCommandCallVoid extends IrCommand
 	}
 
 	public void mipsMe(){
+		if (function == SymbolTable.getInstance().printIntFunction) {
+			MipsGenerator.getInstance().printInt(args.head);
+			return;
+		} else if (function == SymbolTable.getInstance().printStringFunction) {
+			MipsGenerator.getInstance().printString(args.head);
+			return;
+		}
+
 		// push args in reverse order
 		int argCount = 0;
 		TempList reversed_args = null;

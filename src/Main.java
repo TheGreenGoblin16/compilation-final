@@ -82,7 +82,14 @@ public class Main
 
 			Ir.getInstance().printMe();
 
+			System.out.println("______________________________________________________________________");
+			System.out.println("______________________________________________________________________");
+			System.out.println("______________________________________________________________________");
+			System.out.println("______________________________________________________________________");
+
 			Ir.getInstance().mipsMe();
+
+			System.out.println("_______________________()()()()()()()()()_____________________________");
 
 			// NEW: Run Dataflow Analysis
 			//controlFlow.controlFlow(Ir.getInstance().head, fileWriter); // Pass head and output path
