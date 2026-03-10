@@ -43,9 +43,9 @@ public class MipsGenerator
 		fileWriter.format("\tmove $a0, $t%d\n",idx);
 		fileWriter.format("\tli $v0,1\n");
 		fileWriter.format("\tsyscall\n");
-		// fileWriter.format("\tli $a0,32\n");
-		// fileWriter.format("\tli $v0,11\n");
-		// fileWriter.format("\tsyscall\n");
+		fileWriter.format("\tli $a0,32\n");
+		fileWriter.format("\tli $v0,11\n");
+		fileWriter.format("\tsyscall\n");
 	}
 	public void printString(String label)
 	{

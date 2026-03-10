@@ -2,16 +2,12 @@
 	string_access_violation: .asciiz "Access Violation"
 	string_illegal_div_by_0: .asciiz "Illegal Division By Zero"
 	string_invalid_ptr_dref: .asciiz "Invalid Pointer Dereference"
-	Label_0_global_b:
-	 .word 0
 .text
 main:
-	li $t0,5
-	sw $t0, Label_0_global_b
-	jal Label_1_prolog_main
+	jal Label_16_prolog_main
 	li $v0,10
 	syscall
-Label_1_prolog_main:
+Label_0_prolog_IsPrime:
 	addi $sp, $sp, -4
 	sw $ra, 0($sp)
 	addi $sp, $sp, -4
@@ -37,32 +33,236 @@ Label_1_prolog_main:
 	sw $t8, 0($sp)
 	addi $sp, $sp, -4
 	sw $t9, 0($sp)
-	addi $sp, $sp, -12
-	li $t0,1
+	addi $sp, $sp, -8
+	li $t0,2
 	sw $t0, -44($fp)
-	li $t0,3
+	li $t0,2
 	sw $t0, -48($fp)
+Label_3_start:
+	lw $t2, -44($fp)
+	lw $t0, 8($fp)
+	li $t1,1
+	blt $t2, $t0, Label_4_end
+	li $t1,0
+Label_4_end:
+	beq $t1, $zero, Label_2_end
+	li $t0,2
+	sw $t0, -48($fp)
+Label_6_start:
+	lw $t2, -48($fp)
+	lw $t1, 8($fp)
+	li $t0,1
+	blt $t2, $t1, Label_7_end
+	li $t0,0
+Label_7_end:
+	beq $t0, $zero, Label_5_end
+	lw $t1, -44($fp)
+	lw $t0, -48($fp)
+	mul $t2, $t1, $t0
+	li $s0,-32768
+	bge $t2, $s0, Label_18_end
+	li $t2,-32768
+	j Label_19_end
+Label_18_end:
+	li $s0,32767
+	ble $t2, $s0, Label_19_end
+	li $t2,32767
+Label_19_end:
+	lw $t0, 8($fp)
+	li $t1,1
+	beq $t2, $t0, Label_9_end
+	li $t1,0
+Label_9_end:
+	beq $t1, $zero, Label_8_end
+	li $t0,0
+	move $v0, $t0
+	j Label_1_epilog_IsPrime
+Label_8_end:
+	lw $t1, -48($fp)
+	li $t0,1
+	add $t0, $t1, $t0
+	li $s0,32767
+	ble $t0, $s0, Label_20_end
+	li $t0,32767
+Label_20_end:
+	sw $t0, -48($fp)
+	j Label_6_start
+Label_5_end:
 	lw $t0, -44($fp)
-	lw $t1,Label_0_global_b
+	li $t1,1
 	add $t0, $t0, $t1
 	li $s0,32767
-	ble $t0, $s0, Label_3_end
+	ble $t0, $s0, Label_21_end
 	li $t0,32767
-Label_3_end:
-	sw $t0, -52($fp)
-	lw $t0, -52($fp)
-	li $t1,1000
-	sub $t0, $t0, $t1
-	li $s0,-32768
-	bge $t0, $s0, Label_4_end
-	li $t0,-32768
-Label_4_end:
+Label_21_end:
+	sw $t0, -44($fp)
+	j Label_3_start
+Label_2_end:
+	li $t0,1
+	move $v0, $t0
+	j Label_1_epilog_IsPrime
+	j Label_1_epilog_IsPrime
+Label_1_epilog_IsPrime:
+	addi $sp, $sp, 8
+	lw $t9, 0($sp)
+	addi $sp, $sp, 4
+	lw $t8, 0($sp)
+	addi $sp, $sp, 4
+	lw $t7, 0($sp)
+	addi $sp, $sp, 4
+	lw $t6, 0($sp)
+	addi $sp, $sp, 4
+	lw $t5, 0($sp)
+	addi $sp, $sp, 4
+	lw $t4, 0($sp)
+	addi $sp, $sp, 4
+	lw $t3, 0($sp)
+	addi $sp, $sp, 4
+	lw $t2, 0($sp)
+	addi $sp, $sp, 4
+	lw $t1, 0($sp)
+	addi $sp, $sp, 4
+	lw $t0, 0($sp)
+	addi $sp, $sp, 4
+	lw $fp, 0($sp)
+	addi $sp, $sp, 4
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+	jr $ra
+Label_10_prolog_PrintPrimes:
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+	addi $sp, $sp, -4
+	sw $fp, 0($sp)
+	move $fp, $sp 
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	addi $sp, $sp, -4
+	sw $t1, 0($sp)
+	addi $sp, $sp, -4
+	sw $t2, 0($sp)
+	addi $sp, $sp, -4
+	sw $t3, 0($sp)
+	addi $sp, $sp, -4
+	sw $t4, 0($sp)
+	addi $sp, $sp, -4
+	sw $t5, 0($sp)
+	addi $sp, $sp, -4
+	sw $t6, 0($sp)
+	addi $sp, $sp, -4
+	sw $t7, 0($sp)
+	addi $sp, $sp, -4
+	sw $t8, 0($sp)
+	addi $sp, $sp, -4
+	sw $t9, 0($sp)
+	addi $sp, $sp, -4
+	lw $t0, 8($fp)
+	sw $t0, -44($fp)
+Label_13_start:
+	lw $t2, -44($fp)
+	lw $t1, 12($fp)
+	li $t0,1
+	add $t1, $t1, $t0
+	li $s0,32767
+	ble $t1, $s0, Label_22_end
+	li $t1,32767
+Label_22_end:
+	li $t0,1
+	blt $t2, $t1, Label_14_end
+	li $t0,0
+Label_14_end:
+	beq $t0, $zero, Label_12_end
+	lw $t0, -44($fp)
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	jal Label_0_prolog_IsPrime
+	addi $sp, $sp, 4
+	move $t0, $v0 
+	beq $t0, $zero, Label_15_end
+	lw $t0, -44($fp)
 	move $a0, $t0
 	li $v0,1
 	syscall
-	j Label_2_epilog_main
-Label_2_epilog_main:
-	addi $sp, $sp, 12
+	li $a0,32
+	li $v0,11
+	syscall
+Label_15_end:
+	lw $t0, -44($fp)
+	li $t1,1
+	add $t0, $t0, $t1
+	li $s0,32767
+	ble $t0, $s0, Label_23_end
+	li $t0,32767
+Label_23_end:
+	sw $t0, -44($fp)
+	j Label_13_start
+Label_12_end:
+	j Label_11_epilog_PrintPrimes
+Label_11_epilog_PrintPrimes:
+	addi $sp, $sp, 4
+	lw $t9, 0($sp)
+	addi $sp, $sp, 4
+	lw $t8, 0($sp)
+	addi $sp, $sp, 4
+	lw $t7, 0($sp)
+	addi $sp, $sp, 4
+	lw $t6, 0($sp)
+	addi $sp, $sp, 4
+	lw $t5, 0($sp)
+	addi $sp, $sp, 4
+	lw $t4, 0($sp)
+	addi $sp, $sp, 4
+	lw $t3, 0($sp)
+	addi $sp, $sp, 4
+	lw $t2, 0($sp)
+	addi $sp, $sp, 4
+	lw $t1, 0($sp)
+	addi $sp, $sp, 4
+	lw $t0, 0($sp)
+	addi $sp, $sp, 4
+	lw $fp, 0($sp)
+	addi $sp, $sp, 4
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+	jr $ra
+Label_16_prolog_main:
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+	addi $sp, $sp, -4
+	sw $fp, 0($sp)
+	move $fp, $sp 
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	addi $sp, $sp, -4
+	sw $t1, 0($sp)
+	addi $sp, $sp, -4
+	sw $t2, 0($sp)
+	addi $sp, $sp, -4
+	sw $t3, 0($sp)
+	addi $sp, $sp, -4
+	sw $t4, 0($sp)
+	addi $sp, $sp, -4
+	sw $t5, 0($sp)
+	addi $sp, $sp, -4
+	sw $t6, 0($sp)
+	addi $sp, $sp, -4
+	sw $t7, 0($sp)
+	addi $sp, $sp, -4
+	sw $t8, 0($sp)
+	addi $sp, $sp, -4
+	sw $t9, 0($sp)
+	addi $sp, $sp, 0
+	li $t1,2
+	li $t0,100
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	addi $sp, $sp, -4
+	sw $t1, 0($sp)
+	jal Label_10_prolog_PrintPrimes
+	addi $sp, $sp, 8
+	j Label_17_epilog_main
+Label_17_epilog_main:
+	addi $sp, $sp, 0
 	lw $t9, 0($sp)
 	addi $sp, $sp, 4
 	lw $t8, 0($sp)
