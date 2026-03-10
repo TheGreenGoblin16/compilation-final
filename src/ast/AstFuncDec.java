@@ -176,18 +176,21 @@ public class AstFuncDec extends AstDec
 		/* [7] End scope */
 		/*****************/
 		SymbolTable.getInstance().endScope();
+
+		/*******************************************/
+		/* [8] Set labels (need to do before irMe) */
+		/*******************************************/
+		thisFunction.labelProlog = IrCommand.getFreshLabel("prolog_" + name);
+		thisFunction.labelEpilog = IrCommand.getFreshLabel("epilog_" + name);
 		
 		/***********************************/
-		/* [8] Store and return func index */
+		/* [9] Store and return func index */
 		/***********************************/
 		thisFunction.functionIndex = (overridingFunction == null) ? i : overridingFunction.functionIndex;
 		return (overridingFunction == null) ? i+1 : i;
 	}
 
 	public void irMe() {
-		thisFunction.labelProlog = IrCommand.getFreshLabel("prolog_" + name);
-		thisFunction.labelEpilog = IrCommand.getFreshLabel("epilog_" + name);
-		
 		Ir.getInstance().AddIrCommand(new IrCommandLabel(thisFunction.labelProlog));
 		Ir.getInstance().AddIrCommand(new IrCommandProlog(thisFunction));
 		body.irMe();

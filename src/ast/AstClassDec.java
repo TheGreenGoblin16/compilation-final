@@ -159,7 +159,7 @@ public class AstClassDec extends AstDec
 					if (it.head.type instanceof TypeFunction) {
                         TypeFunction tf = (TypeFunction) it.head.type;
 						if (tf.functionIndex == i) {
-                            Ir.getInstance().dataSegment += "\t .word" + tf.labelProlog + "\n";
+                            Ir.getInstance().dataSegment += "\t .word " + tf.labelProlog + "\n";
                             finishedCurrentIndex = true;
                         }
 					}

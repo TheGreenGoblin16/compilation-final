@@ -1,9 +1,4 @@
 digraph
 {
 graph [ordering = "out"]
-v107 [label = "DEC
-LIST
-"];
-v107 -> v58;
-v107 -> v106;
 }

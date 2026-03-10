@@ -54,8 +54,7 @@ public class Main
 			/**********************************************************/
 			/* [6] Print the AST to console (Optional Debugging Step) */
 			/**********************************************************/
-			ast.printMe();
-
+			
 			/***********************************************************/
 			/* [7] Semant the AST                                      */
 			/* This is the critical step. It recursively checks the    */
@@ -80,16 +79,7 @@ public class Main
 			System.out.println("Register Allocation Complete.");
 			System.out.println("______________________________________________________________________");
 
-			Ir.getInstance().printMe();
-
-			System.out.println("______________________________________________________________________");
-			System.out.println("______________________________________________________________________");
-			System.out.println("______________________________________________________________________");
-			System.out.println("______________________________________________________________________");
-
 			Ir.getInstance().mipsMe();
-
-			System.out.println("_______________________()()()()()()()()()_____________________________");
 
 			// NEW: Run Dataflow Analysis
 			//controlFlow.controlFlow(Ir.getInstance().head, fileWriter); // Pass head and output path

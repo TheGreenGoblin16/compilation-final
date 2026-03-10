@@ -39,7 +39,7 @@ public class IrCommandArraySet extends IrCommand
 		String src_string = src.toString();
 		String s0 =  "$s0";
 
-		String abort = IrCommand.getFreshLabel("abort!_invalid_array_index");
+		String abort = IrCommand.getFreshLabel("abort_invalid_array_index");
 		String next = IrCommand.getFreshLabel("next_instruction");
 
 		MipsGenerator.getInstance().bltz(index , abort);
@@ -54,7 +54,7 @@ public class IrCommandArraySet extends IrCommand
 		MipsGenerator.getInstance().jump(next);
 
 		MipsGenerator.getInstance().label(abort);
-		MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
+		MipsGenerator.getInstance().printString("string_access_violation");
 		MipsGenerator.getInstance().ExitAsm();
 		MipsGenerator.getInstance().label(next);
 

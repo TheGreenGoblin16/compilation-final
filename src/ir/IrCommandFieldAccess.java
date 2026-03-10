@@ -40,7 +40,7 @@ public class IrCommandFieldAccess extends IrCommand
 		String dst_string = dst.toString();
 		String inst_string = inst.toString();
 
-		String abort = IrCommand.getFreshLabel("abort!_null_pointer");
+		String abort = IrCommand.getFreshLabel("abort_null_pointer");
 		String next = IrCommand.getFreshLabel("next_instruction");
 
 
@@ -50,7 +50,7 @@ public class IrCommandFieldAccess extends IrCommand
 		MipsGenerator.getInstance().jump(next);
 
 		MipsGenerator.getInstance().label(abort);
-		MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
+		MipsGenerator.getInstance().printString("string_access_violation");
 		MipsGenerator.getInstance().ExitAsm();
 		MipsGenerator.getInstance().label(next);
 

@@ -33,7 +33,6 @@ public class IrCommandList
 	}
 	public void mipsMe() {
 		if (head != null) {
-			System.out.println("PKUDA!");
 			System.out.println(head.getClass());
 			head.mipsMe();
 		}
