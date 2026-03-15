@@ -79,6 +79,7 @@ public class Main
 			System.out.println("Register Allocation Complete.");
 			System.out.println("______________________________________________________________________");
 
+			MipsGenerator.fileWriter = fileWriter;
 			Ir.getInstance().mipsMe();
 
 			// NEW: Run Dataflow Analysis

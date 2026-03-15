@@ -4,10 +4,10 @@
 	string_invalid_ptr_dref: .asciiz "Invalid Pointer Dereference"
 .text
 main:
-	jal Label_2_prolog_main
+	jal Label_4_prolog_main
 	li $v0,10
 	syscall
-Label_0_prolog_boof:
+Label_0_prolog_IsPrime:
 	addi $sp, $sp, -4
 	sw $ra, 0($sp)
 	addi $sp, $sp, -4
@@ -34,60 +34,85 @@ Label_0_prolog_boof:
 	addi $sp, $sp, -4
 	sw $t9, 0($sp)
 	addi $sp, $sp, -8
-	li $t0,-5
-	sw $t0, -44($fp)
-	li $t0,-32767
-	sw $t0, -48($fp)
-Label_5_start:
-	lw $t0, -44($fp)
-	lw $t1, -48($fp)
-	li $t2,1
-	sub $t1, $t1, $t2
-	li $s0,-32768
-	bge $t1, $s0, Label_7_end
-	li $t1,-32768
-	j Label_8_end
-Label_7_end:
-	li $s0,32767
-	ble $t1, $s0, Label_8_end
-	li $t1,32767
-Label_8_end:
-	li $t2,1
-	blt $t1, $t0, Label_6_end
-	li $t2,0
-Label_6_end:
-	beq $t2, $zero, Label_4_end
-	lw $t0, -44($fp)
-	li $t1,505
-	sub $t0, $t0, $t1
-	li $s0,-32768
-	bge $t0, $s0, Label_9_end
-	li $t0,-32768
-	j Label_10_end
-Label_9_end:
-	li $s0,32767
-	ble $t0, $s0, Label_10_end
-	li $t0,32767
-Label_10_end:
-	sw $t0, -44($fp)
-	j Label_5_start
-Label_4_end:
-	lw $t1, -44($fp)
 	li $t0,2
+	sw $t0, -44($fp)
+	li $t0,2
+	sw $t0, -48($fp)
+Label_7_start:
+	lw $t2, -44($fp)
+	lw $t0, 8($fp)
+	li $t1,1
+	blt $t2, $t0, Label_8_end
+	li $t1,0
+Label_8_end:
+	beq $t1, $zero, Label_6_end
+	li $t0,2
+	sw $t0, -48($fp)
+Label_10_start:
+	lw $t0, -48($fp)
+	lw $t1, 8($fp)
+	li $t2,1
+	blt $t0, $t1, Label_11_end
+	li $t2,0
+Label_11_end:
+	beq $t2, $zero, Label_9_end
+	lw $t1, -44($fp)
+	lw $t0, -48($fp)
+	mul $t1, $t1, $t0
+	li $s0,-32768
+	bge $t1, $s0, Label_18_end
+	li $t1,-32768
+	j Label_19_end
+Label_18_end:
+	li $s0,32767
+	ble $t1, $s0, Label_19_end
+	li $t1,32767
+Label_19_end:
+	lw $t2, 8($fp)
+	li $t0,1
+	beq $t1, $t2, Label_13_end
+	li $t0,0
+Label_13_end:
+	beq $t0, $zero, Label_12_end
+	li $t0,0
+	move $v0, $t0
+	j Label_1_epilog_IsPrime
+Label_12_end:
+	lw $t0, -48($fp)
+	li $t1,1
+	add $t0, $t0, $t1
+	li $s0,-32768
+	bge $t0, $s0, Label_20_end
+	li $t0,-32768
+	j Label_21_end
+Label_20_end:
+	li $s0,32767
+	ble $t0, $s0, Label_21_end
+	li $t0,32767
+Label_21_end:
+	sw $t0, -48($fp)
+	j Label_10_start
+Label_9_end:
+	lw $t1, -44($fp)
+	li $t0,1
 	add $t0, $t1, $t0
 	li $s0,-32768
-	bge $t0, $s0, Label_11_end
+	bge $t0, $s0, Label_22_end
 	li $t0,-32768
-	j Label_12_end
-Label_11_end:
+	j Label_23_end
+Label_22_end:
 	li $s0,32767
-	ble $t0, $s0, Label_12_end
+	ble $t0, $s0, Label_23_end
 	li $t0,32767
-Label_12_end:
+Label_23_end:
+	sw $t0, -44($fp)
+	j Label_7_start
+Label_6_end:
+	li $t0,1
 	move $v0, $t0
-	j Label_1_epilog_boof
-	j Label_1_epilog_boof
-Label_1_epilog_boof:
+	j Label_1_epilog_IsPrime
+	j Label_1_epilog_IsPrime
+Label_1_epilog_IsPrime:
 	addi $sp, $sp, 8
 	lw $t9, 0($sp)
 	addi $sp, $sp, 4
@@ -114,7 +139,113 @@ Label_1_epilog_boof:
 	lw $ra, 0($sp)
 	addi $sp, $sp, 4
 	jr $ra
-Label_2_prolog_main:
+Label_2_prolog_PrintPrimes:
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+	addi $sp, $sp, -4
+	sw $fp, 0($sp)
+	move $fp, $sp 
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	addi $sp, $sp, -4
+	sw $t1, 0($sp)
+	addi $sp, $sp, -4
+	sw $t2, 0($sp)
+	addi $sp, $sp, -4
+	sw $t3, 0($sp)
+	addi $sp, $sp, -4
+	sw $t4, 0($sp)
+	addi $sp, $sp, -4
+	sw $t5, 0($sp)
+	addi $sp, $sp, -4
+	sw $t6, 0($sp)
+	addi $sp, $sp, -4
+	sw $t7, 0($sp)
+	addi $sp, $sp, -4
+	sw $t8, 0($sp)
+	addi $sp, $sp, -4
+	sw $t9, 0($sp)
+	addi $sp, $sp, -4
+	lw $t0, 8($fp)
+	sw $t0, -44($fp)
+Label_15_start:
+	lw $t0, -44($fp)
+	lw $t2, 12($fp)
+	li $t1,1
+	add $t2, $t2, $t1
+	li $s0,-32768
+	bge $t2, $s0, Label_24_end
+	li $t2,-32768
+	j Label_25_end
+Label_24_end:
+	li $s0,32767
+	ble $t2, $s0, Label_25_end
+	li $t2,32767
+Label_25_end:
+	li $t1,1
+	blt $t0, $t2, Label_16_end
+	li $t1,0
+Label_16_end:
+	beq $t1, $zero, Label_14_end
+	lw $t0, -44($fp)
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	jal Label_0_prolog_IsPrime
+	addi $sp, $sp, 4
+	move $t0, $v0 
+	beq $t0, $zero, Label_17_end
+	lw $t0, -44($fp)
+	move $a0, $t0
+	li $v0,1
+	syscall
+	li $a0,32
+	li $v0,11
+	syscall
+Label_17_end:
+	lw $t1, -44($fp)
+	li $t0,1
+	add $t0, $t1, $t0
+	li $s0,-32768
+	bge $t0, $s0, Label_26_end
+	li $t0,-32768
+	j Label_27_end
+Label_26_end:
+	li $s0,32767
+	ble $t0, $s0, Label_27_end
+	li $t0,32767
+Label_27_end:
+	sw $t0, -44($fp)
+	j Label_15_start
+Label_14_end:
+	j Label_3_epilog_PrintPrimes
+Label_3_epilog_PrintPrimes:
+	addi $sp, $sp, 4
+	lw $t9, 0($sp)
+	addi $sp, $sp, 4
+	lw $t8, 0($sp)
+	addi $sp, $sp, 4
+	lw $t7, 0($sp)
+	addi $sp, $sp, 4
+	lw $t6, 0($sp)
+	addi $sp, $sp, 4
+	lw $t5, 0($sp)
+	addi $sp, $sp, 4
+	lw $t4, 0($sp)
+	addi $sp, $sp, 4
+	lw $t3, 0($sp)
+	addi $sp, $sp, 4
+	lw $t2, 0($sp)
+	addi $sp, $sp, 4
+	lw $t1, 0($sp)
+	addi $sp, $sp, 4
+	lw $t0, 0($sp)
+	addi $sp, $sp, 4
+	lw $fp, 0($sp)
+	addi $sp, $sp, 4
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+	jr $ra
+Label_4_prolog_main:
 	addi $sp, $sp, -4
 	sw $ra, 0($sp)
 	addi $sp, $sp, -4
@@ -141,40 +272,16 @@ Label_2_prolog_main:
 	addi $sp, $sp, -4
 	sw $t9, 0($sp)
 	addi $sp, $sp, 0
-	jal Label_0_prolog_boof
-	move $t1, $v0 
-	jal Label_0_prolog_boof
-	move $t0, $v0 
-	add $t1, $t1, $t0
-	li $s0,-32768
-	bge $t1, $s0, Label_13_end
-	li $t1,-32768
-	j Label_14_end
-Label_13_end:
-	li $s0,32767
-	ble $t1, $s0, Label_14_end
-	li $t1,32767
-Label_14_end:
-	jal Label_0_prolog_boof
-	move $t0, $v0 
-	add $t0, $t1, $t0
-	li $s0,-32768
-	bge $t0, $s0, Label_15_end
-	li $t0,-32768
-	j Label_16_end
-Label_15_end:
-	li $s0,32767
-	ble $t0, $s0, Label_16_end
-	li $t0,32767
-Label_16_end:
-	move $a0, $t0
-	li $v0,1
-	syscall
-	li $a0,32
-	li $v0,11
-	syscall
-	j Label_3_epilog_main
-Label_3_epilog_main:
+	li $t0,2
+	li $t1,100
+	addi $sp, $sp, -4
+	sw $t1, 0($sp)
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	jal Label_2_prolog_PrintPrimes
+	addi $sp, $sp, 8
+	j Label_5_epilog_main
+Label_5_epilog_main:
 	addi $sp, $sp, 0
 	lw $t9, 0($sp)
 	addi $sp, $sp, 4

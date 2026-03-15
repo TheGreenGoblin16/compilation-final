@@ -20,7 +20,7 @@ public class MipsGenerator
 	/***********************/
 	/* The file writer ... */
 	/***********************/
-	private PrintWriter fileWriter;
+	public static PrintWriter fileWriter;
 
 	/***********************/
 	/* The file writer ... */
@@ -61,15 +61,7 @@ public class MipsGenerator
 		fileWriter.format("\tli $v0,4\n");
 		fileWriter.format("\tsyscall\n");
 	}
-//	public Temp addressLocalVar(int serialLocalVarNum)
-//	{
-//		Temp t  = TempFactory.getInstance().getFreshTemp();
-//		int idx = t.getSerialNumber();
-//
-//		fileWriter.format("\taddi Temp_%d,$fp,%d\n",idx,-serialLocalVarNum*WORD_SIZE);
-//
-//		return t;
-//	}
+
 	public void allocate(String varName)
 	{
 		fileWriter.format(".data\n");
@@ -411,24 +403,6 @@ public class MipsGenerator
 			/* [0] The instance itself ... */
 			/*******************************/
 			instance = new MipsGenerator();
-
-			try
-			{
-				/*********************************************************************************/
-				/* [1] Open the MIPS text file and write data section with error message strings */
-				/*********************************************************************************/
-				String dirname="./output/";
-				String filename=String.format("MIPS.txt");
-
-				/***************************************/
-				/* [2] Open MIPS text file for writing */
-				/***************************************/
-				instance.fileWriter = new PrintWriter(dirname+filename);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
 
 			/*****************************************************/
 			/* [3] Print data section with error message strings */

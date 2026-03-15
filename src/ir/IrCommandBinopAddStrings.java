@@ -65,7 +65,7 @@ public class IrCommandBinopAddStrings extends IrCommand
 
 		MipsGenerator.getInstance().allocate(dst,"$s2");
 		MipsGenerator.getInstance().move("$s3",dst);
-		MipsGenerator.getInstance().lb("$s0",0,t1.toString());
+		MipsGenerator.getInstance().move("$s0",t1.toString());
 		MipsGenerator.getInstance().label(label_copy);
 		MipsGenerator.getInstance().lb("$s1",0,"$s0");
 		MipsGenerator.getInstance().beqz("$s1",label_copy_end);
@@ -75,7 +75,7 @@ public class IrCommandBinopAddStrings extends IrCommand
 		MipsGenerator.getInstance().jump(label_copy);
 		MipsGenerator.getInstance().label(label_copy_end);
 
-		MipsGenerator.getInstance().lb("$s0",0,t2.toString());
+		MipsGenerator.getInstance().move("$s0",t2.toString());
 		MipsGenerator.getInstance().label(label_copy2);
 		MipsGenerator.getInstance().lb("$s1",0,"$s0");
 		MipsGenerator.getInstance().beqz("$s1",label_copy_end2);

@@ -50,7 +50,7 @@ public class IrCommandBranchIfEqualsStrings extends IrCommand
 		MipsGenerator.getInstance().beqz("$s2", labelEnd);
 		MipsGenerator.getInstance().addi("$s0", "$s0", 1);
 		MipsGenerator.getInstance().addi("$s1", "$s1", 1);
-		MipsGenerator.getInstance().jump(labelEnd);
+		MipsGenerator.getInstance().jump(labelLoop);
 
 		MipsGenerator.getInstance().label(labelReject);
 		MipsGenerator.getInstance().li("$s4", 0);
