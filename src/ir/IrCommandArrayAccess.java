@@ -47,7 +47,7 @@ public void mipsMe(){
         MipsGenerator.getInstance().beqz(arr_string, abort_null);
 
         // 2. BOUNDS CHECKS
-        MipsGenerator.getInstance().bltz(index_string, abort_bounds);
+        MipsGenerator.getInstance().bltz(index, abort_bounds);
         MipsGenerator.getInstance().load(s0 , 0 , arr_string); // Now safe to load size
         MipsGenerator.getInstance().bge(index_string , s0 , abort_bounds);
 

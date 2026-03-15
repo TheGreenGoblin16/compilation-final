@@ -104,26 +104,36 @@ public class AstStmtAssign extends AstStmt
 		return null;
 	}
 
-	public Temp irMe()
+public Temp irMe()
 	{
+		Temp arr = null, index = null, inst = null;
+
+		// 1. Evaluate LHS FIRST
+		if (var instanceof AstVarSubscript){
+			arr = ((AstVarSubscript) var).var.irMe();
+			index = ((AstVarSubscript) var).subscript.irMe();
+		}
+		else if (var instanceof AstVarField){
+			inst = ((AstVarField) var).var.irMe();
+		}
+
+		// 2. Evaluate RHS SECOND
 		Temp src = exp.irMe();
 
+		// 3. Dispatch the Assignment
 		if (var instanceof AstVarSimple){
 			if (((AstVarSimple) var).entry.kind == VariableKind.CLASS_FIELD) {
 				Temp thisTemp = TempFactory.getInstance().getFreshTemp();
-            	Ir.getInstance().AddIrCommand(new IrCommandGetThis(thisTemp));
+				Ir.getInstance().AddIrCommand(new IrCommandGetThis(thisTemp));
 				Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, thisTemp, ((AstVarSimple) var).entry));
 			} else {
 				Ir.getInstance().AddIrCommand(new IrCommandWriteVar(((AstVarSimple) var).entry, src));
 			}
 		}
 		else if (var instanceof AstVarSubscript){
-			Temp arr = ((AstVarSubscript) var).var.irMe();
-			Temp index = ((AstVarSubscript) var).subscript.irMe();
 			Ir.getInstance().AddIrCommand(new IrCommandArraySet(src, arr, index));
 		}
 		else if (var instanceof AstVarField){
-			Temp inst = ((AstVarField) var).var.irMe();
 			Ir.getInstance().AddIrCommand(new IrCommandFieldSet(src, inst, ((AstVarField) var).fieldEntry));
 		}
 
