@@ -1,87 +1,24 @@
-array IntArray = int[];
-
-int monthJuly()
-{
-	int july := 7;
-	return july;
+int f(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12, int a13, int a14, int a15, int a16, int a17) {
+    int b0 := a0;
+    int b1 := a1;
+    int b2 := a2;
+    int b3 := a3;
+    int b4 := a4;
+    int b5 := a5;
+    int b6 := a6;
+    int b7 := a7;
+    int b8 := a8;
+    int b9 := a9;
+    int b10 := a10;
+    int b11 := a11;
+    int b12 := a12;
+    int b13 := a13;
+    int b14 := a14;
+    int b15 := a15;
+    int b16 := a16;
+    int b17 := a17;
+    return (a0 + b1 + a2 + b3 + a4 + b5 + a6 + b7 + a8 + b9 + a10 + b11 + a12 + b13 + a14 + b15 + a16 + b17);
 }
-class Person
-{
-	int ID;
-	int age := 10;
-
-	IntArray lastYearSalaries;
-
-	int getAge()  { return age;               }
-	int birthday(){ age := age+1; return age; }
-}
-
-class Student extends Person
-{
-	IntArray grades;
-	int getAverage()
-	{
-		int i := 0;
-		int sum := 0;
-		while (i<10)
-		{
-			sum := sum+grades[i];
-			i := i+1;
-		}
-		return sum/10;
-	}
-}
-
-void main()
-{
-	Student moish := new Student;
-	moish.grades := new int[10];
-	moish.lastYearSalaries := new int[13];
-
-	moish.lastYearSalaries[ 0] := 7400;
-	moish.lastYearSalaries[ 1] := 7400;
-	moish.lastYearSalaries[ 2] := 7400;
-	moish.lastYearSalaries[ 3] := 7400;
-	moish.lastYearSalaries[ 4] := 7400;
-	moish.lastYearSalaries[ 5] := 7400;
-	moish.lastYearSalaries[ 6] := 7400;
-	moish.lastYearSalaries[ 7] := 7400;
-	moish.lastYearSalaries[ 8] := 7400;
-	moish.lastYearSalaries[ 9] := 7400;
-	moish.lastYearSalaries[10] := 7400;
-	moish.lastYearSalaries[11] := 7400;
-	moish.lastYearSalaries[12] := 7400;
-
-	int LinearAlgebra1 := 0;
-	int LinearAlgebra2 := 1;
-	int Calculus1      := 2;
-	int Calculus2      := 3;
-	int Calculus3      := 4;
-	int COMPILATION    := 5;
-	int ODE            := 6;
-	int PDE            := 7;
-	int Scheme         := 8;
-	int CPP            := 9;
-
-	moish.grades[LinearAlgebra1] :=  96;
-	moish.grades[LinearAlgebra2] := 100;
-	moish.grades[Calculus1]      :=  95;
-	moish.grades[Calculus2]      :=  81;
-	moish.grades[Calculus3]      :=  95;
-	moish.grades[COMPILATION]    :=  95;
-	moish.grades[ODE]            := 100;
-	moish.grades[PDE]            := 100;
-	moish.grades[Scheme]         :=  74;
-	moish.grades[CPP]            :=  99;
-
-	if (moish.getAverage() > 60)
-	{
-		// mysterious raise pattern ... 
-		moish.lastYearSalaries[moish.age] :=
-		moish.lastYearSalaries[moish.birthday()] + 1000;
-		moish.lastYearSalaries[moish.age] :=
-		moish.lastYearSalaries[moish.birthday()] + 1000;
-		PrintInt(moish.lastYearSalaries[10]);
-		PrintInt(moish.lastYearSalaries[11]);
-	}
+void main() {
+    PrintInt(f(0,1,2,3,4,5,6,7,8,9,8,7,6,5,4,3,2,1));
 }

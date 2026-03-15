@@ -74,6 +74,7 @@ public class Main
 			// This calculates liveness, builds the graph, colors it,
 			// and updates the 'regIndex' inside every Temp object.
 			System.out.println("Running Register Allocation...");
+			RegisterAllocator.fileWriter = fileWriter;
 			ir.RegisterAllocator allocator = new ir.RegisterAllocator();
 			allocator.allocate(Ir.getInstance());
 			System.out.println("Register Allocation Complete.");

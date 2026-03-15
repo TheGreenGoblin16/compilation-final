@@ -2,8 +2,11 @@ package ir;
 
 import java.util.*;
 import temp.*;
+import java.io.PrintWriter;
 
 public class RegisterAllocator {
+
+    public static PrintWriter fileWriter;
 
     public void allocate(Ir ir) {
         // 1. Run Liveness Analysis
@@ -24,7 +27,9 @@ public class RegisterAllocator {
                 graph.removeNode(node);
             } else {
                 // Spill detected
-                System.out.println("Register Allocation Failed1");
+                fileWriter.println("Register Allocation Failed");
+                System.out.println("Register Allocation Failed");
+                fileWriter.flush();
                 System.exit(0);
             }
         }
@@ -56,7 +61,9 @@ public class RegisterAllocator {
             }
 
             if (chosen == -1) {
-                System.out.println("Register Allocation Failed2");
+                System.out.println("Register Allocation Failed");
+                fileWriter.println("Register Allocation Failed");
+                fileWriter.flush();
                 System.exit(0);
             }
 
