@@ -36,14 +36,18 @@ void main()
 {
 	int i := 0;
 	Student moish := new Student;
+	PrintInt(2);
 	moish.grades := new int[10];
+	PrintInt(3);
 	moish.lastYearSalaries := new int[12];
+	PrintInt(4);
 
 	while (i < i+1)
 	{
 		moish.lastYearSalaries[i] := i;
 		i := i + 7400;
 	}
+	PrintInt(1);
 
 	int LinearAlgebra1 := 0;
 	int LinearAlgebra2 := 1;
@@ -55,6 +59,7 @@ void main()
 	int PDE            := 7;
 	int Scheme         := 8;
 	int CPP            := 9;
+	PrintInt(5);
 
 	moish.grades[LinearAlgebra1] :=  96;
 	moish.grades[LinearAlgebra2] := 100;
@@ -66,14 +71,17 @@ void main()
 	moish.grades[PDE]            := 100;
 	moish.grades[Scheme]         :=  74;
 	moish.grades[CPP]            :=  99;
+	PrintInt(6);
 
 	if (moish.getAverage() > 60)
 	{
+		PrintInt(17);
 		// mysterious raise pattern ... 
 		moish.lastYearSalaries[moish.age] :=
 		moish.lastYearSalaries[moish.birthday()] + 1000;
 		moish.lastYearSalaries[moish.age] :=
 		moish.lastYearSalaries[moish.birthday()] + 1000;
+		PrintInt(1);
 		PrintInt(moish.lastYearSalaries[10]);
 		PrintInt(moish.lastYearSalaries[11]);
 	}

@@ -81,6 +81,12 @@ public class MipsGenerator
 		fileWriter.format("\tlw $t%d,%s\n",idxdst,varName);
 	}
 
+	public void load(Temp dst, int offset, String src)
+	{
+		int idxdst = dst.getRegIndex();
+		fileWriter.format("\tlw $t%d, %d(%s)\n",idxdst,offset,src);
+	}
+
 	//lw $t0 , 4($s0)
 	public void load(String dst, int offset, String src)
 	{
@@ -107,6 +113,12 @@ public class MipsGenerator
 	public void sw(String src, int offset , String dst)
 	{
 		fileWriter.format("\tsw %s, %d(%s)\n",src, offset ,dst);
+	}
+
+	public void sw(String src, int offset, Temp dst)
+	{
+		int idxdst = dst.getRegIndex();
+		fileWriter.format("\tsw %s, %d($t%d)\n", src, offset, idxdst);
 	}
 
 	public void sw(Temp src, int offset , Temp dst)
@@ -232,7 +244,7 @@ public class MipsGenerator
 	}
 	public void bltz(Temp oprnd1, String label)
 	{
-		int i1 =oprnd1.getRegIndex();
+		int i1 = oprnd1.getRegIndex();
 		
 		fileWriter.format("\tblt $t%d, $zero, %s\n",i1,label);
 	}

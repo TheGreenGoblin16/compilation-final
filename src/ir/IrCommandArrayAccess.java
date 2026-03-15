@@ -33,25 +33,22 @@ public class IrCommandArrayAccess extends IrCommand
 		System.out.println("index: " + index);
 	}
 
-public void mipsMe(){
+    public void mipsMe(){
+
         String index_string = index.toString();
         String arr_string = arr.toString();
         String dst_string = dst.toString();
-        String s0 = "$s0";
+        String s0 =  "$s0";
 
-        String abort_bounds = IrCommand.getFreshLabel("abort_invalid_array_index");
-        String abort_null = IrCommand.getFreshLabel("abort_null_ptr"); // NEW: Null pointer label
+
+        String abort = IrCommand.getFreshLabel("abort_invalid_array_index");
         String next = IrCommand.getFreshLabel("next_instruction");
 
-        // 1. NULL POINTER CHECK (Must happen first!)
-        MipsGenerator.getInstance().beqz(arr_string, abort_null);
+        MipsGenerator.getInstance().bltz(index , abort);
+        MipsGenerator.getInstance().load(s0 , 0 , arr_string);
+        MipsGenerator.getInstance().bge(index_string , s0 , abort);
 
-        // 2. BOUNDS CHECKS
-        MipsGenerator.getInstance().bltz(index, abort_bounds);
-        MipsGenerator.getInstance().load(s0 , 0 , arr_string); // Now safe to load size
-        MipsGenerator.getInstance().bge(index_string , s0 , abort_bounds);
 
-        // 3. ACTUAL ARRAY ACCESS
         MipsGenerator.getInstance().move(s0 , index_string);
         MipsGenerator.getInstance().addi(s0 , s0 , 1);
         MipsGenerator.getInstance().muli(s0 , s0 , 4);
@@ -59,16 +56,11 @@ public void mipsMe(){
         MipsGenerator.getInstance().load(dst_string , 0 , s0);
         MipsGenerator.getInstance().jump(next);
 
-        // 4. GRACEFUL EXIT: OUT OF BOUNDS
-        MipsGenerator.getInstance().label(abort_bounds);
+
+        MipsGenerator.getInstance().label(abort);
         MipsGenerator.getInstance().printString("string_access_violation");
         MipsGenerator.getInstance().ExitAsm();
-
-        // 5. GRACEFUL EXIT: NULL POINTER (NEW)
-        MipsGenerator.getInstance().label(abort_null);
-        MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
-        MipsGenerator.getInstance().ExitAsm();
-
         MipsGenerator.getInstance().label(next);
+
     }
 }

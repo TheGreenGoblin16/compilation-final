@@ -64,7 +64,7 @@ public class IrCommandVirtualCall extends IrCommand
 
 		// move return value to dst
 		if (dst != null) {
-			MipsGenerator.getInstance().move(dst.toString(), "$v0");
+			MipsGenerator.getInstance().move(dst, "$v0");
 		}
 	}
 }

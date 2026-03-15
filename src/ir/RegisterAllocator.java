@@ -24,7 +24,7 @@ public class RegisterAllocator {
                 graph.removeNode(node);
             } else {
                 // Spill detected
-                System.out.println("Register Allocation Failed");
+                System.out.println("Register Allocation Failed1");
                 System.exit(0);
             }
         }
@@ -56,7 +56,7 @@ public class RegisterAllocator {
             }
 
             if (chosen == -1) {
-                System.out.println("Register Allocation Failed");
+                System.out.println("Register Allocation Failed2");
                 System.exit(0);
             }
 

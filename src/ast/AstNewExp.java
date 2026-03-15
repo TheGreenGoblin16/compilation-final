@@ -5,6 +5,7 @@ import symboltable.*;
 
 import ir.*;
 import temp.*;
+import java.util.*;
 
 public class AstNewExp extends AstExp
 {
@@ -105,10 +106,20 @@ public class AstNewExp extends AstExp
 			// Class allocation and construction
 			TypeClass cls = ((TypeClassInstance) type).cls;
 			Ir.getInstance().AddIrCommand(new IrCommandNewClass(t, cls));
-			for (AstDecList it = cls.astBody; it != null; it = it.tail) {
-				if (it.head instanceof AstVarDec) {
-					AstVarDec dec = (AstVarDec) it.head;
-					dec.irMe(t);
+
+			// Put the parents in reversed order
+			List<TypeClass> hierarchy = new ArrayList<>();
+			while (cls != null) {
+				hierarchy.add(0, cls);
+				cls = cls.parent;
+			}
+			// Append the constructors in this order
+			for (TypeClass parent : hierarchy) {
+				for (AstDecList it = parent.astBody; it != null; it = it.tail) { // Go over all variable declarations
+					if (it.head instanceof AstVarDec) {
+						AstVarDec dec = (AstVarDec) it.head;
+						dec.irMe(t);
+					}
 				}
 			}
 		}

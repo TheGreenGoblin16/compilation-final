@@ -42,10 +42,10 @@ public class IrCommandReadVar extends IrCommand
 		} else if (kind == VariableKind.PARAMETER) {
 			int parameterPosition = varEntry.position;
 			int stackIndexFromFp = (2+parameterPosition)*4;
-			MipsGenerator.getInstance().load(dst.toString() , stackIndexFromFp , "$fp");
+			MipsGenerator.getInstance().load(dst, stackIndexFromFp , "$fp");
 		} else if (kind == VariableKind.LOCAL) {
 			int stackIndexFromFp = ((-11) - (varEntry.position))*4;
-			MipsGenerator.getInstance().load(dst.toString() , stackIndexFromFp , "$fp");
+			MipsGenerator.getInstance().load(dst, stackIndexFromFp , "$fp");
 		}
 
 

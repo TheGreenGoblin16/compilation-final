@@ -36,6 +36,6 @@ public class IrCommandNewClass extends IrCommand
 		MipsGenerator.getInstance().li("$s0" , instanceSize);
 		MipsGenerator.getInstance().allocate(dst , "$s0");
 		MipsGenerator.getInstance().la("$s0" , cls.labelVirtualTable);
-		MipsGenerator.getInstance().sw("$s0", 0 , dst.toString());
+		MipsGenerator.getInstance().sw("$s0", 0 , dst);
 	}
 }

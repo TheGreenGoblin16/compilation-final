@@ -36,7 +36,6 @@ public class IrCommandFieldSet extends IrCommand
 	}
 
 	public void mipsMe(){
-
 		String src_string = src.toString();
 		String inst_string = inst.toString();
 
@@ -46,9 +45,9 @@ public class IrCommandFieldSet extends IrCommand
 
 		MipsGenerator.getInstance().beqz(inst, abort);
 
-		MipsGenerator.getInstance().sw(src_string, 4*(fieldEntry.position+1) , inst_string );
+		MipsGenerator.getInstance().sw(src_string, 4*(fieldEntry.position+1) , inst_string);
 		MipsGenerator.getInstance().jump(next);
-
+	
 		MipsGenerator.getInstance().label(abort);
 		MipsGenerator.getInstance().printString("string_access_violation");
 		MipsGenerator.getInstance().ExitAsm();
