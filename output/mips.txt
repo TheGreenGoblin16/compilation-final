@@ -39,26 +39,26 @@ Label_0_prolog_IsPrime:
 	li $t0,2
 	sw $t0, -48($fp)
 Label_7_start:
-	lw $t2, -44($fp)
-	lw $t0, 8($fp)
-	li $t1,1
-	blt $t2, $t0, Label_8_end
-	li $t1,0
+	lw $t0, -44($fp)
+	lw $t1, 8($fp)
+	li $t2,1
+	blt $t0, $t1, Label_8_end
+	li $t2,0
 Label_8_end:
-	beq $t1, $zero, Label_6_end
+	beq $t2, $zero, Label_6_end
 	li $t0,2
 	sw $t0, -48($fp)
 Label_10_start:
-	lw $t0, -48($fp)
-	lw $t1, 8($fp)
+	lw $t1, -48($fp)
+	lw $t0, 8($fp)
 	li $t2,1
-	blt $t0, $t1, Label_11_end
+	blt $t1, $t0, Label_11_end
 	li $t2,0
 Label_11_end:
 	beq $t2, $zero, Label_9_end
-	lw $t1, -44($fp)
-	lw $t0, -48($fp)
-	mul $t1, $t1, $t0
+	lw $t0, -44($fp)
+	lw $t1, -48($fp)
+	mul $t1, $t0, $t1
 	li $s0,-32768
 	bge $t1, $s0, Label_18_end
 	li $t1,-32768
@@ -93,9 +93,9 @@ Label_21_end:
 	sw $t0, -48($fp)
 	j Label_10_start
 Label_9_end:
-	lw $t1, -44($fp)
-	li $t0,1
-	add $t0, $t1, $t0
+	lw $t0, -44($fp)
+	li $t1,1
+	add $t0, $t0, $t1
 	li $s0,-32768
 	bge $t0, $s0, Label_22_end
 	li $t0,-32768
@@ -169,24 +169,24 @@ Label_2_prolog_PrintPrimes:
 	lw $t0, 8($fp)
 	sw $t0, -44($fp)
 Label_15_start:
-	lw $t0, -44($fp)
-	lw $t2, 12($fp)
-	li $t1,1
-	add $t2, $t2, $t1
+	lw $t1, -44($fp)
+	lw $t0, 12($fp)
+	li $t2,1
+	add $t0, $t0, $t2
 	li $s0,-32768
-	bge $t2, $s0, Label_24_end
-	li $t2,-32768
+	bge $t0, $s0, Label_24_end
+	li $t0,-32768
 	j Label_25_end
 Label_24_end:
 	li $s0,32767
-	ble $t2, $s0, Label_25_end
-	li $t2,32767
+	ble $t0, $s0, Label_25_end
+	li $t0,32767
 Label_25_end:
-	li $t1,1
-	blt $t0, $t2, Label_16_end
-	li $t1,0
+	li $t2,1
+	blt $t1, $t0, Label_16_end
+	li $t2,0
 Label_16_end:
-	beq $t1, $zero, Label_14_end
+	beq $t2, $zero, Label_14_end
 	lw $t0, -44($fp)
 	addi $sp, $sp, -4
 	sw $t0, 0($sp)
@@ -202,9 +202,9 @@ Label_16_end:
 	li $v0,11
 	syscall
 Label_17_end:
-	lw $t1, -44($fp)
-	li $t0,1
-	add $t0, $t1, $t0
+	lw $t0, -44($fp)
+	li $t1,1
+	add $t0, $t0, $t1
 	li $s0,-32768
 	bge $t0, $s0, Label_26_end
 	li $t0,-32768
@@ -272,12 +272,12 @@ Label_4_prolog_main:
 	addi $sp, $sp, -4
 	sw $t9, 0($sp)
 	addi $sp, $sp, 0
-	li $t0,2
-	li $t1,100
-	addi $sp, $sp, -4
-	sw $t1, 0($sp)
+	li $t1,2
+	li $t0,100
 	addi $sp, $sp, -4
 	sw $t0, 0($sp)
+	addi $sp, $sp, -4
+	sw $t1, 0($sp)
 	jal Label_2_prolog_PrintPrimes
 	addi $sp, $sp, 8
 	j Label_5_epilog_main
