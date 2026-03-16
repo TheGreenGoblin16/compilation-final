@@ -129,6 +129,9 @@ public class AstExpBinop extends AstExp
 				return TypeInt.getInstance();
 			}
 			if (this.leftType.isArray() || this.rightType.isArray()) {
+				if (this.leftType == TypeVoid.getInstance() || this.rightType == TypeVoid.getInstance()) { // Comparing array with nil
+					return TypeInt.getInstance();
+				}
 				if (this.leftType == this.rightType){
 					return TypeInt.getInstance();
 				}
