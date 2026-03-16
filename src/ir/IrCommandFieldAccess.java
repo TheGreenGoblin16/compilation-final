@@ -44,7 +44,7 @@ public class IrCommandFieldAccess extends IrCommand
 		String next = IrCommand.getFreshLabel("next_instruction");
 
 
-		MipsGenerator.getInstance().beqz(inst , abort);
+		MipsGenerator.getInstance().beqz(inst, abort);
 
 		MipsGenerator.getInstance().load(dst_string , 4*(fieldEntry.position+1) , inst_string );
 		MipsGenerator.getInstance().jump(next);

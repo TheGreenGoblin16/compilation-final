@@ -139,8 +139,11 @@ public class AstStmtReturn extends AstStmt
 
     public Temp irMe()
 	{
-		Temp src = e.irMe();
-		Ir.getInstance().AddIrCommand(new IrCommandReturn(insideFunction, src));
+        Temp src = null;
+        if (e != null) {
+            src = e.irMe();
+        }
+        Ir.getInstance().AddIrCommand(new IrCommandReturn(insideFunction, src));
 		return null;
 	}
 }

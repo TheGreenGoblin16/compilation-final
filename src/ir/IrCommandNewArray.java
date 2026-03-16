@@ -31,10 +31,12 @@ public class IrCommandNewArray extends IrCommand
 	}
 
 	public void mipsMe(){
-		MipsGenerator.getInstance().move("$s0" , size.toString());
+		MipsGenerator.getInstance().move("$s1", size);
+
+		MipsGenerator.getInstance().move("$s0", "$s1");
 		MipsGenerator.getInstance().addi("$s0", "$s0" , 1);
-		MipsGenerator.getInstance().muli("$s0" , "$s0" , 4);
-		MipsGenerator.getInstance().allocate(dst , "$s0");
-		MipsGenerator.getInstance().sw(size, 0 , dst);
+		MipsGenerator.getInstance().muli("$s0", "$s0" , 4);
+		MipsGenerator.getInstance().allocate(dst, "$s0");
+		MipsGenerator.getInstance().sw("$s1", 0, dst);
 	}
 }

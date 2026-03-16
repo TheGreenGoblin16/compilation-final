@@ -28,9 +28,9 @@ public class IrCommandBinopAddStrings extends IrCommand
 
 	public void printMe() {
 		System.out.println("IrCommandBinopAddStrings");
-		System.out.println("t1: " + t1);
-		System.out.println("t2: " + t2);
-		System.out.println("dst: " + dst);
+		System.out.println("t1: " + t1.toString());
+		System.out.println("t2: " + t2.toString());
+		System.out.println("dst: " + dst.toString());
 	}
 
 	public void mipsMe(){
@@ -43,9 +43,12 @@ public class IrCommandBinopAddStrings extends IrCommand
 		String label_copy2 = IrCommand.getFreshLabel("str_copy");
 		String label_copy_end2 = IrCommand.getFreshLabel("str_copy_end");
 
+		MipsGenerator.getInstance().move("$s4",t1);
+		MipsGenerator.getInstance().move("$s5",t2);
+
 		MipsGenerator.getInstance().li("$s2",1);
 
-		MipsGenerator.getInstance().move("$s0",t1);
+		MipsGenerator.getInstance().move("$s0","$s4");
 		MipsGenerator.getInstance().label(label1);
 		MipsGenerator.getInstance().lb("$s1",0,"$s0");
 		MipsGenerator.getInstance().beqz("$s1",label_end1);
@@ -54,7 +57,7 @@ public class IrCommandBinopAddStrings extends IrCommand
 		MipsGenerator.getInstance().jump(label1);
 		MipsGenerator.getInstance().label(label_end1);
 
-		MipsGenerator.getInstance().move("$s0",t2);
+		MipsGenerator.getInstance().move("$s0","$s5");
 		MipsGenerator.getInstance().label(label2);
 		MipsGenerator.getInstance().lb("$s1",0,"$s0");
 		MipsGenerator.getInstance().beqz("$s1",label_end2);
@@ -65,7 +68,7 @@ public class IrCommandBinopAddStrings extends IrCommand
 
 		MipsGenerator.getInstance().allocate(dst,"$s2");
 		MipsGenerator.getInstance().move("$s3",dst);
-		MipsGenerator.getInstance().move("$s0",t1);
+		MipsGenerator.getInstance().move("$s0","$s4");
 		MipsGenerator.getInstance().label(label_copy);
 		MipsGenerator.getInstance().lb("$s1",0,"$s0");
 		MipsGenerator.getInstance().beqz("$s1",label_copy_end);
@@ -75,7 +78,7 @@ public class IrCommandBinopAddStrings extends IrCommand
 		MipsGenerator.getInstance().jump(label_copy);
 		MipsGenerator.getInstance().label(label_copy_end);
 
-		MipsGenerator.getInstance().move("$s0",t2);
+		MipsGenerator.getInstance().move("$s0","$s5");
 		MipsGenerator.getInstance().label(label_copy2);
 		MipsGenerator.getInstance().lb("$s1",0,"$s0");
 		MipsGenerator.getInstance().beqz("$s1",label_copy_end2);

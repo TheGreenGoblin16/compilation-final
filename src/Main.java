@@ -78,6 +78,7 @@ public class Main
 			ir.RegisterAllocator allocator = new ir.RegisterAllocator();
 			allocator.allocate(Ir.getInstance());
 			System.out.println("Register Allocation Complete.");
+			Ir.getInstance().printMe();
 			System.out.println("______________________________________________________________________");
 
 			MipsGenerator.fileWriter = fileWriter;

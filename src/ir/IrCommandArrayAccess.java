@@ -41,12 +41,14 @@ public class IrCommandArrayAccess extends IrCommand
         String s0 =  "$s0";
 
 
-        String abort = IrCommand.getFreshLabel("abort_invalid_array_index");
+        String abortViolation = IrCommand.getFreshLabel("abort_access_violation");
+		String abortDereference = IrCommand.getFreshLabel("abort_invalid_array_index");
         String next = IrCommand.getFreshLabel("next_instruction");
 
-        MipsGenerator.getInstance().bltz(index , abort);
+        MipsGenerator.getInstance().beqz(arr, abortDereference);
+		MipsGenerator.getInstance().bltz(index , abortViolation);
         MipsGenerator.getInstance().load(s0 , 0 , arr_string);
-        MipsGenerator.getInstance().bge(index_string , s0 , abort);
+        MipsGenerator.getInstance().bge(index_string , s0 , abortViolation);
 
 
         MipsGenerator.getInstance().move(s0 , index_string);
@@ -57,9 +59,12 @@ public class IrCommandArrayAccess extends IrCommand
         MipsGenerator.getInstance().jump(next);
 
 
-        MipsGenerator.getInstance().label(abort);
-        MipsGenerator.getInstance().printString("string_access_violation");
-        MipsGenerator.getInstance().ExitAsm();
+        MipsGenerator.getInstance().label(abortDereference);
+		MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
+		MipsGenerator.getInstance().ExitAsm();
+		MipsGenerator.getInstance().label(abortViolation);
+		MipsGenerator.getInstance().printString("string_access_violation");
+		MipsGenerator.getInstance().ExitAsm();
         MipsGenerator.getInstance().label(next);
 
     }

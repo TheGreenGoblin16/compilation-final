@@ -1,1 +1,1142 @@
-Register Allocation Failed
+.data
+	string_access_violation: .asciiz "Access Violation"
+	string_illegal_div_by_0: .asciiz "Illegal Division By Zero"
+	string_invalid_ptr_dref: .asciiz "Invalid Pointer Dereference"
+	Label_4_vt_Tree:
+.text
+main:
+	jal Label_2_prolog_main
+	li $v0,10
+	syscall
+Label_0_prolog_sum:
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+	addi $sp, $sp, -4
+	sw $fp, 0($sp)
+	move $fp, $sp 
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	addi $sp, $sp, -4
+	sw $t1, 0($sp)
+	addi $sp, $sp, -4
+	sw $t2, 0($sp)
+	addi $sp, $sp, -4
+	sw $t3, 0($sp)
+	addi $sp, $sp, -4
+	sw $t4, 0($sp)
+	addi $sp, $sp, -4
+	sw $t5, 0($sp)
+	addi $sp, $sp, -4
+	sw $t6, 0($sp)
+	addi $sp, $sp, -4
+	sw $t7, 0($sp)
+	addi $sp, $sp, -4
+	sw $t8, 0($sp)
+	addi $sp, $sp, -4
+	sw $t9, 0($sp)
+	addi $sp, $sp, -16
+	lw $t0, 8($fp)
+	beq $t0, $zero, Label_12_abort_null_pointer
+	lw $t0, 4($t0)
+	j Label_13_next_instruction
+Label_12_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_13_next_instruction:
+	sw $t0, -44($fp)
+	lw $t0, 8($fp)
+	beq $t0, $zero, Label_14_abort_null_pointer
+	lw $t0, 8($t0)
+	j Label_15_next_instruction
+Label_14_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_15_next_instruction:
+	sw $t0, -48($fp)
+	lw $t0, 8($fp)
+	beq $t0, $zero, Label_16_abort_null_pointer
+	lw $t0, 12($t0)
+	j Label_17_next_instruction
+Label_16_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_17_next_instruction:
+	sw $t0, -52($fp)
+	lw $t0, -52($fp)
+	sw $t0, -56($fp)
+	li $t2,1
+	lw $t3, -44($fp)
+	li $t0,0
+	li $t1,1
+	beq $t3, $t0, Label_6_end
+	li $t1,0
+Label_6_end:
+	sub $t0, $t2, $t1
+	li $s0,-32768
+	bge $t0, $s0, Label_18_end
+	li $t0,-32768
+	j Label_19_end
+Label_18_end:
+	li $s0,32767
+	ble $t0, $s0, Label_19_end
+	li $t0,32767
+Label_19_end:
+	beq $t0, $zero, Label_5_end
+	lw $t0, -56($fp)
+	lw $t1, -44($fp)
+	addi $sp, $sp, -4
+	sw $t1, 0($sp)
+	jal Label_0_prolog_sum
+	addi $sp, $sp, 4
+	move $t1, $v0 
+	add $t0, $t0, $t1
+	li $s0,-32768
+	bge $t0, $s0, Label_20_end
+	li $t0,-32768
+	j Label_21_end
+Label_20_end:
+	li $s0,32767
+	ble $t0, $s0, Label_21_end
+	li $t0,32767
+Label_21_end:
+	sw $t0, -56($fp)
+Label_5_end:
+	li $t3,1
+	lw $t1, -48($fp)
+	li $t2,0
+	li $t0,1
+	beq $t1, $t2, Label_8_end
+	li $t0,0
+Label_8_end:
+	sub $t0, $t3, $t0
+	li $s0,-32768
+	bge $t0, $s0, Label_22_end
+	li $t0,-32768
+	j Label_23_end
+Label_22_end:
+	li $s0,32767
+	ble $t0, $s0, Label_23_end
+	li $t0,32767
+Label_23_end:
+	beq $t0, $zero, Label_7_end
+	lw $t1, -56($fp)
+	lw $t0, -48($fp)
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	jal Label_0_prolog_sum
+	addi $sp, $sp, 4
+	move $t0, $v0 
+	add $t0, $t1, $t0
+	li $s0,-32768
+	bge $t0, $s0, Label_24_end
+	li $t0,-32768
+	j Label_25_end
+Label_24_end:
+	li $s0,32767
+	ble $t0, $s0, Label_25_end
+	li $t0,32767
+Label_25_end:
+	sw $t0, -56($fp)
+Label_7_end:
+	lw $t0, -56($fp)
+	move $v0, $t0
+	j Label_1_epilog_sum
+	j Label_1_epilog_sum
+Label_1_epilog_sum:
+	addi $sp, $sp, 16
+	lw $t9, 0($sp)
+	addi $sp, $sp, 4
+	lw $t8, 0($sp)
+	addi $sp, $sp, 4
+	lw $t7, 0($sp)
+	addi $sp, $sp, 4
+	lw $t6, 0($sp)
+	addi $sp, $sp, 4
+	lw $t5, 0($sp)
+	addi $sp, $sp, 4
+	lw $t4, 0($sp)
+	addi $sp, $sp, 4
+	lw $t3, 0($sp)
+	addi $sp, $sp, 4
+	lw $t2, 0($sp)
+	addi $sp, $sp, 4
+	lw $t1, 0($sp)
+	addi $sp, $sp, 4
+	lw $t0, 0($sp)
+	addi $sp, $sp, 4
+	lw $fp, 0($sp)
+	addi $sp, $sp, 4
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+	jr $ra
+Label_2_prolog_main:
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+	addi $sp, $sp, -4
+	sw $fp, 0($sp)
+	move $fp, $sp 
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	addi $sp, $sp, -4
+	sw $t1, 0($sp)
+	addi $sp, $sp, -4
+	sw $t2, 0($sp)
+	addi $sp, $sp, -4
+	sw $t3, 0($sp)
+	addi $sp, $sp, -4
+	sw $t4, 0($sp)
+	addi $sp, $sp, -4
+	sw $t5, 0($sp)
+	addi $sp, $sp, -4
+	sw $t6, 0($sp)
+	addi $sp, $sp, -4
+	sw $t7, 0($sp)
+	addi $sp, $sp, -4
+	sw $t8, 0($sp)
+	addi $sp, $sp, -4
+	sw $t9, 0($sp)
+	addi $sp, $sp, -12
+	li $s0,16
+	li $v0, 9
+	move $a0, $s0
+	syscall
+	move $t1, $v0
+	la $s0, Label_4_vt_Tree
+	sw $s0, 0($t1)
+	li $t0,0
+	beq $t1, $zero, Label_26_abort_null_pointer
+	sw $t0, 4($t1)
+	j Label_27_next_instruction
+Label_26_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_27_next_instruction:
+	li $t0,0
+	beq $t1, $zero, Label_28_abort_null_pointer
+	sw $t0, 8($t1)
+	j Label_29_next_instruction
+Label_28_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_29_next_instruction:
+	li $t0,0
+	beq $t1, $zero, Label_30_abort_null_pointer
+	sw $t0, 12($t1)
+	j Label_31_next_instruction
+Label_30_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_31_next_instruction:
+	sw $t1, -44($fp)
+	li $t0,17
+	move $s1, $t0
+	move $s0, $s1 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	li $v0, 9
+	move $a0, $s0
+	syscall
+	move $t0, $v0
+	sw $s1, 0($t0)
+	sw $t0, -48($fp)
+	li $t0,0
+	sw $t0, -52($fp)
+Label_10_start:
+	lw $t0, -52($fp)
+	li $t2,17
+	li $t1,1
+	blt $t0, $t2, Label_11_end
+	li $t1,0
+Label_11_end:
+	beq $t1, $zero, Label_9_end
+	lw $t3, -48($fp)
+	lw $t0, -52($fp)
+	li $s0,16
+	li $v0, 9
+	move $a0, $s0
+	syscall
+	move $t2, $v0
+	la $s0, Label_4_vt_Tree
+	sw $s0, 0($t2)
+	li $t1,0
+	beq $t2, $zero, Label_32_abort_null_pointer
+	sw $t1, 4($t2)
+	j Label_33_next_instruction
+Label_32_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_33_next_instruction:
+	li $t1,0
+	beq $t2, $zero, Label_34_abort_null_pointer
+	sw $t1, 8($t2)
+	j Label_35_next_instruction
+Label_34_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_35_next_instruction:
+	li $t1,0
+	beq $t2, $zero, Label_36_abort_null_pointer
+	sw $t1, 12($t2)
+	j Label_37_next_instruction
+Label_36_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_37_next_instruction:
+	beq $t3, $zero, Label_39_abort_invalid_array_index
+	blt $t0, $zero, Label_38_abort_access_violation
+	lw $s0, 0($t3)
+	bge $t0, $s0, Label_38_abort_access_violation
+	move $s0, $t0 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t3, $s0 
+	sw $t2, 0($s0)
+	j Label_40_next_instruction
+Label_39_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_38_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_40_next_instruction:
+	lw $t1, -48($fp)
+	lw $t0, -52($fp)
+	beq $t1, $zero, Label_42_abort_invalid_array_index
+	blt $t0, $zero, Label_41_abort_access_violation
+	lw $s0, 0($t1)
+	bge $t0, $s0, Label_41_abort_access_violation
+	move $s0, $t0 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t1, $s0 
+	lw $t2, 0($s0)
+	j Label_43_next_instruction
+Label_42_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_41_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_43_next_instruction:
+	li $t1,19
+	lw $t0, -52($fp)
+	mul $t0, $t1, $t0
+	li $s0,-32768
+	bge $t0, $s0, Label_44_end
+	li $t0,-32768
+	j Label_45_end
+Label_44_end:
+	li $s0,32767
+	ble $t0, $s0, Label_45_end
+	li $t0,32767
+Label_45_end:
+	beq $t2, $zero, Label_46_abort_null_pointer
+	sw $t0, 12($t2)
+	j Label_47_next_instruction
+Label_46_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_47_next_instruction:
+	lw $t1, -52($fp)
+	li $t0,1
+	add $t0, $t1, $t0
+	li $s0,-32768
+	bge $t0, $s0, Label_48_end
+	li $t0,-32768
+	j Label_49_end
+Label_48_end:
+	li $s0,32767
+	ble $t0, $s0, Label_49_end
+	li $t0,32767
+Label_49_end:
+	sw $t0, -52($fp)
+	j Label_10_start
+Label_9_end:
+	lw $t0, -44($fp)
+	lw $t1, -48($fp)
+	li $t2,0
+	beq $t1, $zero, Label_51_abort_invalid_array_index
+	blt $t2, $zero, Label_50_abort_access_violation
+	lw $s0, 0($t1)
+	bge $t2, $s0, Label_50_abort_access_violation
+	move $s0, $t2 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t1, $s0 
+	lw $t1, 0($s0)
+	j Label_52_next_instruction
+Label_51_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_50_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_52_next_instruction:
+	beq $t0, $zero, Label_53_abort_null_pointer
+	sw $t1, 4($t0)
+	j Label_54_next_instruction
+Label_53_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_54_next_instruction:
+	lw $t1, -44($fp)
+	lw $t0, -48($fp)
+	li $t2,1
+	beq $t0, $zero, Label_56_abort_invalid_array_index
+	blt $t2, $zero, Label_55_abort_access_violation
+	lw $s0, 0($t0)
+	bge $t2, $s0, Label_55_abort_access_violation
+	move $s0, $t2 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t0, $s0 
+	lw $t0, 0($s0)
+	j Label_57_next_instruction
+Label_56_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_55_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_57_next_instruction:
+	beq $t1, $zero, Label_58_abort_null_pointer
+	sw $t0, 8($t1)
+	j Label_59_next_instruction
+Label_58_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_59_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_60_abort_null_pointer
+	lw $t1, 4($t0)
+	j Label_61_next_instruction
+Label_60_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_61_next_instruction:
+	lw $t0, -48($fp)
+	li $t2,2
+	beq $t0, $zero, Label_63_abort_invalid_array_index
+	blt $t2, $zero, Label_62_abort_access_violation
+	lw $s0, 0($t0)
+	bge $t2, $s0, Label_62_abort_access_violation
+	move $s0, $t2 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t0, $s0 
+	lw $t0, 0($s0)
+	j Label_64_next_instruction
+Label_63_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_62_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_64_next_instruction:
+	beq $t1, $zero, Label_65_abort_null_pointer
+	sw $t0, 4($t1)
+	j Label_66_next_instruction
+Label_65_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_66_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_67_abort_null_pointer
+	lw $t1, 4($t0)
+	j Label_68_next_instruction
+Label_67_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_68_next_instruction:
+	lw $t0, -48($fp)
+	li $t2,3
+	beq $t0, $zero, Label_70_abort_invalid_array_index
+	blt $t2, $zero, Label_69_abort_access_violation
+	lw $s0, 0($t0)
+	bge $t2, $s0, Label_69_abort_access_violation
+	move $s0, $t2 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t0, $s0 
+	lw $t0, 0($s0)
+	j Label_71_next_instruction
+Label_70_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_69_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_71_next_instruction:
+	beq $t1, $zero, Label_72_abort_null_pointer
+	sw $t0, 8($t1)
+	j Label_73_next_instruction
+Label_72_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_73_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_74_abort_null_pointer
+	lw $t1, 8($t0)
+	j Label_75_next_instruction
+Label_74_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_75_next_instruction:
+	lw $t2, -48($fp)
+	li $t0,4
+	beq $t2, $zero, Label_77_abort_invalid_array_index
+	blt $t0, $zero, Label_76_abort_access_violation
+	lw $s0, 0($t2)
+	bge $t0, $s0, Label_76_abort_access_violation
+	move $s0, $t0 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t2, $s0 
+	lw $t0, 0($s0)
+	j Label_78_next_instruction
+Label_77_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_76_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_78_next_instruction:
+	beq $t1, $zero, Label_79_abort_null_pointer
+	sw $t0, 4($t1)
+	j Label_80_next_instruction
+Label_79_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_80_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_81_abort_null_pointer
+	lw $t2, 8($t0)
+	j Label_82_next_instruction
+Label_81_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_82_next_instruction:
+	lw $t0, -48($fp)
+	li $t1,5
+	beq $t0, $zero, Label_84_abort_invalid_array_index
+	blt $t1, $zero, Label_83_abort_access_violation
+	lw $s0, 0($t0)
+	bge $t1, $s0, Label_83_abort_access_violation
+	move $s0, $t1 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t0, $s0 
+	lw $t0, 0($s0)
+	j Label_85_next_instruction
+Label_84_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_83_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_85_next_instruction:
+	beq $t2, $zero, Label_86_abort_null_pointer
+	sw $t0, 8($t2)
+	j Label_87_next_instruction
+Label_86_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_87_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_88_abort_null_pointer
+	lw $t0, 4($t0)
+	j Label_89_next_instruction
+Label_88_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_89_next_instruction:
+	beq $t0, $zero, Label_90_abort_null_pointer
+	lw $t0, 4($t0)
+	j Label_91_next_instruction
+Label_90_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_91_next_instruction:
+	lw $t1, -48($fp)
+	li $t2,6
+	beq $t1, $zero, Label_93_abort_invalid_array_index
+	blt $t2, $zero, Label_92_abort_access_violation
+	lw $s0, 0($t1)
+	bge $t2, $s0, Label_92_abort_access_violation
+	move $s0, $t2 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t1, $s0 
+	lw $t1, 0($s0)
+	j Label_94_next_instruction
+Label_93_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_92_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_94_next_instruction:
+	beq $t0, $zero, Label_95_abort_null_pointer
+	sw $t1, 4($t0)
+	j Label_96_next_instruction
+Label_95_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_96_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_97_abort_null_pointer
+	lw $t0, 4($t0)
+	j Label_98_next_instruction
+Label_97_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_98_next_instruction:
+	beq $t0, $zero, Label_99_abort_null_pointer
+	lw $t2, 4($t0)
+	j Label_100_next_instruction
+Label_99_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_100_next_instruction:
+	lw $t0, -48($fp)
+	li $t1,7
+	beq $t0, $zero, Label_102_abort_invalid_array_index
+	blt $t1, $zero, Label_101_abort_access_violation
+	lw $s0, 0($t0)
+	bge $t1, $s0, Label_101_abort_access_violation
+	move $s0, $t1 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t0, $s0 
+	lw $t0, 0($s0)
+	j Label_103_next_instruction
+Label_102_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_101_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_103_next_instruction:
+	beq $t2, $zero, Label_104_abort_null_pointer
+	sw $t0, 8($t2)
+	j Label_105_next_instruction
+Label_104_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_105_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_106_abort_null_pointer
+	lw $t0, 4($t0)
+	j Label_107_next_instruction
+Label_106_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_107_next_instruction:
+	beq $t0, $zero, Label_108_abort_null_pointer
+	lw $t2, 8($t0)
+	j Label_109_next_instruction
+Label_108_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_109_next_instruction:
+	lw $t0, -48($fp)
+	li $t1,8
+	beq $t0, $zero, Label_111_abort_invalid_array_index
+	blt $t1, $zero, Label_110_abort_access_violation
+	lw $s0, 0($t0)
+	bge $t1, $s0, Label_110_abort_access_violation
+	move $s0, $t1 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t0, $s0 
+	lw $t0, 0($s0)
+	j Label_112_next_instruction
+Label_111_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_110_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_112_next_instruction:
+	beq $t2, $zero, Label_113_abort_null_pointer
+	sw $t0, 4($t2)
+	j Label_114_next_instruction
+Label_113_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_114_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_115_abort_null_pointer
+	lw $t0, 4($t0)
+	j Label_116_next_instruction
+Label_115_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_116_next_instruction:
+	beq $t0, $zero, Label_117_abort_null_pointer
+	lw $t0, 8($t0)
+	j Label_118_next_instruction
+Label_117_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_118_next_instruction:
+	lw $t1, -48($fp)
+	li $t2,9
+	beq $t1, $zero, Label_120_abort_invalid_array_index
+	blt $t2, $zero, Label_119_abort_access_violation
+	lw $s0, 0($t1)
+	bge $t2, $s0, Label_119_abort_access_violation
+	move $s0, $t2 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t1, $s0 
+	lw $t1, 0($s0)
+	j Label_121_next_instruction
+Label_120_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_119_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_121_next_instruction:
+	beq $t0, $zero, Label_122_abort_null_pointer
+	sw $t1, 8($t0)
+	j Label_123_next_instruction
+Label_122_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_123_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_124_abort_null_pointer
+	lw $t0, 8($t0)
+	j Label_125_next_instruction
+Label_124_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_125_next_instruction:
+	beq $t0, $zero, Label_126_abort_null_pointer
+	lw $t0, 4($t0)
+	j Label_127_next_instruction
+Label_126_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_127_next_instruction:
+	lw $t2, -48($fp)
+	li $t1,10
+	beq $t2, $zero, Label_129_abort_invalid_array_index
+	blt $t1, $zero, Label_128_abort_access_violation
+	lw $s0, 0($t2)
+	bge $t1, $s0, Label_128_abort_access_violation
+	move $s0, $t1 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t2, $s0 
+	lw $t1, 0($s0)
+	j Label_130_next_instruction
+Label_129_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_128_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_130_next_instruction:
+	beq $t0, $zero, Label_131_abort_null_pointer
+	sw $t1, 4($t0)
+	j Label_132_next_instruction
+Label_131_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_132_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_133_abort_null_pointer
+	lw $t0, 8($t0)
+	j Label_134_next_instruction
+Label_133_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_134_next_instruction:
+	beq $t0, $zero, Label_135_abort_null_pointer
+	lw $t1, 4($t0)
+	j Label_136_next_instruction
+Label_135_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_136_next_instruction:
+	lw $t2, -48($fp)
+	li $t0,11
+	beq $t2, $zero, Label_138_abort_invalid_array_index
+	blt $t0, $zero, Label_137_abort_access_violation
+	lw $s0, 0($t2)
+	bge $t0, $s0, Label_137_abort_access_violation
+	move $s0, $t0 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t2, $s0 
+	lw $t0, 0($s0)
+	j Label_139_next_instruction
+Label_138_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_137_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_139_next_instruction:
+	beq $t1, $zero, Label_140_abort_null_pointer
+	sw $t0, 8($t1)
+	j Label_141_next_instruction
+Label_140_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_141_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_142_abort_null_pointer
+	lw $t0, 8($t0)
+	j Label_143_next_instruction
+Label_142_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_143_next_instruction:
+	beq $t0, $zero, Label_144_abort_null_pointer
+	lw $t1, 8($t0)
+	j Label_145_next_instruction
+Label_144_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_145_next_instruction:
+	lw $t0, -48($fp)
+	li $t2,12
+	beq $t0, $zero, Label_147_abort_invalid_array_index
+	blt $t2, $zero, Label_146_abort_access_violation
+	lw $s0, 0($t0)
+	bge $t2, $s0, Label_146_abort_access_violation
+	move $s0, $t2 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t0, $s0 
+	lw $t0, 0($s0)
+	j Label_148_next_instruction
+Label_147_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_146_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_148_next_instruction:
+	beq $t1, $zero, Label_149_abort_null_pointer
+	sw $t0, 4($t1)
+	j Label_150_next_instruction
+Label_149_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_150_next_instruction:
+	lw $t0, -44($fp)
+	beq $t0, $zero, Label_151_abort_null_pointer
+	lw $t0, 8($t0)
+	j Label_152_next_instruction
+Label_151_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_152_next_instruction:
+	beq $t0, $zero, Label_153_abort_null_pointer
+	lw $t0, 8($t0)
+	j Label_154_next_instruction
+Label_153_abort_null_pointer:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_154_next_instruction:
+	lw $t1, -48($fp)
+	li $t2,13
+	beq $t1, $zero, Label_156_abort_invalid_array_index
+	blt $t2, $zero, Label_155_abort_access_violation
+	lw $s0, 0($t1)
+	bge $t2, $s0, Label_155_abort_access_violation
+	move $s0, $t2 
+	addi $s0, $s0, 1
+	mul $s0, $s0, 4
+	add $s0, $t1, $s0 
+	lw $t1, 0($s0)
+	j Label_157_next_instruction
+Label_156_abort_invalid_array_index:
+	la $a0, string_invalid_ptr_dref
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_155_abort_access_violation:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_157_next_instruction:
+	beq $t0, $zero, Label_158_abort_null_pointer
+	sw $t1, 8($t0)
+	j Label_159_next_instruction
+Label_158_abort_null_pointer:
+	la $a0, string_access_violation
+	li $v0,4
+	syscall
+	li $v0,10
+	syscall
+Label_159_next_instruction:
+	lw $t0, -44($fp)
+	addi $sp, $sp, -4
+	sw $t0, 0($sp)
+	jal Label_0_prolog_sum
+	addi $sp, $sp, 4
+	move $t0, $v0 
+	move $a0, $t0
+	li $v0,1
+	syscall
+	li $a0,32
+	li $v0,11
+	syscall
+	j Label_3_epilog_main
+Label_3_epilog_main:
+	addi $sp, $sp, 12
+	lw $t9, 0($sp)
+	addi $sp, $sp, 4
+	lw $t8, 0($sp)
+	addi $sp, $sp, 4
+	lw $t7, 0($sp)
+	addi $sp, $sp, 4
+	lw $t6, 0($sp)
+	addi $sp, $sp, 4
+	lw $t5, 0($sp)
+	addi $sp, $sp, 4
+	lw $t4, 0($sp)
+	addi $sp, $sp, 4
+	lw $t3, 0($sp)
+	addi $sp, $sp, 4
+	lw $t2, 0($sp)
+	addi $sp, $sp, 4
+	lw $t1, 0($sp)
+	addi $sp, $sp, 4
+	lw $t0, 0($sp)
+	addi $sp, $sp, 4
+	lw $fp, 0($sp)
+	addi $sp, $sp, 4
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+	jr $ra
+	li $v0,10
+	syscall
