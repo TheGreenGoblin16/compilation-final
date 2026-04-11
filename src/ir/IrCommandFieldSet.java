@@ -49,7 +49,7 @@ public class IrCommandFieldSet extends IrCommand
 		MipsGenerator.getInstance().jump(next);
 	
 		MipsGenerator.getInstance().label(abort);
-		MipsGenerator.getInstance().printString("string_access_violation");
+		MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
 		MipsGenerator.getInstance().ExitAsm();
 		MipsGenerator.getInstance().label(next);
 

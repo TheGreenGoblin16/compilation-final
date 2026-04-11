@@ -330,7 +330,7 @@ public class MipsGenerator
 	}
 	public void bnez(String oprnd1, String label)
 	{				
-		fileWriter.format("\tbne $t%d, $zero, %s\n",oprnd1,label);
+		fileWriter.format("\tbne %s, $zero, %s\n",oprnd1,label);
 	}
 
 	public void move(Temp dst , Temp src){

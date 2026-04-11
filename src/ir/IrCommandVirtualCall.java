@@ -41,6 +41,18 @@ public class IrCommandVirtualCall extends IrCommand
 		// push args in reverse order
 		int argCount = 1;
 		TempList reversed_args = null;
+
+		String abort = IrCommand.getFreshLabel("abort_null_pointer");
+		String next = IrCommand.getFreshLabel("next_instruction");
+
+		MipsGenerator.getInstance().beqz(inst, abort);
+		MipsGenerator.getInstance().jump(next);
+
+		MipsGenerator.getInstance().label(abort);
+		MipsGenerator.getInstance().printString("string_invalid_ptr_dref");
+		MipsGenerator.getInstance().ExitAsm();
+		MipsGenerator.getInstance().label(next);
+
 		for (TempList it = args; it != null; it = it.tail) {
 			reversed_args = new TempList(it.head, reversed_args); // it is the right order?
 			argCount++;

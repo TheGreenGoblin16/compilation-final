@@ -36,6 +36,9 @@ public class IrCommandReturn extends IrCommand
 		if (src != null) {
 			MipsGenerator.getInstance().move("$v0", src);
 		}
+		else {
+			MipsGenerator.getInstance().move("$v0", "$zero"); // return 0 for void functions
+		}
 		MipsGenerator.getInstance().jump(function.labelEpilog);
 	}
 }
